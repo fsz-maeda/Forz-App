@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ホーム</title>
 </head>
 <body>
-	<h1>helllo</h1>
+	<h1>ホーム</h1>
+	<a href="login">ログイン</a>
+	<a href="UserRegister">ユーザー登録</a>
 </body>
 </html>
