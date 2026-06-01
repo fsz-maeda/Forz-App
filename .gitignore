@@ -26,4 +26,5 @@ Thumbs.db
 *.env
 *.key
 application-local.properties
-.project と .classpath はコ
+
+/src/main/java/model/PortNo.java
