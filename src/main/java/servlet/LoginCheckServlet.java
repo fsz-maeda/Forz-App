@@ -7,8 +7,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.UserRegisterDAO;
+import model.User;
 
 @WebServlet("/LoginCheck")
 public class LoginCheckServlet extends HttpServlet {
@@ -26,6 +28,11 @@ public class LoginCheckServlet extends HttpServlet {
 		boolean result = dao.login(name, pass);
 		
 		if(result) {
+			User loginUser = dao.findByNameAndPass(name, pass);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", loginUser);
+			
 			response.sendRedirect("Main");
 		}else {
 			response.sendRedirect("Home");
