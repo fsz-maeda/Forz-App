@@ -30,7 +30,6 @@ public class UserRegisterDAO {
                     + "VALUES (?, ?, ?)";
 
             PreparedStatement pStmt = conn.prepareStatement(sql);
-
             pStmt.setString(1, name);
             pStmt.setString(2, hashedPass);
             pStmt.setString(3, mail);
