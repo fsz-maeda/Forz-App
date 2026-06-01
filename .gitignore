@@ -26,3 +26,5 @@ Thumbs.db
 *.env
 *.key
 application-local.properties
+
+/src/main/java/model/PortNo.java
