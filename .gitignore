@@ -25,4 +25,7 @@ Thumbs.db
 # 機密情報
 *.env
 *.key
+
 application-local.properties
+
+/src/main/java/model/PortNo.java

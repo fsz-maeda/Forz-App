@@ -6,16 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.PortNo;
 import util.PasswordUtil;
 
 public class UserRegisterDAO {
 
-    private final String JDBC_URL =
-            "jdbc:sqlserver://localhost\\\\SQLEXPRESS:64433;"
-            + "databaseName=master;"
-            + "integratedSecurity=true;"
-            + "encrypt=true;"
-            + "trustServerCertificate=true;";
+    String JDBC_URL = PortNo.JDBC_URL;
 
     public boolean registerUser(String name, String pass, String mail) {
         try {
