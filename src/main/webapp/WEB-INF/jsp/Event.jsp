@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +8,21 @@
 <title>Event Page</title>
 </head>
 <body>
-  <h1>Event Page</h1>
-  <p>All Event Show</p>
-  <hr>
-  <p>
-   <a href="Home">Home</a>
+
+	<h1>All Event Show</h1>
+	<a href="eventAdd"> イベント登録 </a>
+	<hr>
+	<c:forEach var="event" items="${eventList}">
+		<h3>${event.title}</h3>
+
+		<p>${event.content}</p>
+
+		<p>Area : ${event.area}</p>
+
+		<p>Date : ${event.eventDate}</p>
+
+		<hr>
+	</c:forEach>
+
 </body>
 </html>
