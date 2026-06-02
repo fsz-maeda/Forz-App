@@ -5,10 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>レポート</title>
+<title>日報</title>
 </head>
 <body>
-	<h1>レポート</h1>
+	<h1>日報</h1>
+
+<form action="DailyReportPostServlet" method="get">
+<input type="submit" value="新規記事作成">
+</form>
+
 	
 	<c:forEach var="report" items="${reportList}">
 	    <p>${report.date} : ${report.content}</p>
