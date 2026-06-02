@@ -7,13 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.UserDAO;
-import model.User;
 
-@WebServlet("/LoginCheck")
-public class LoginCheckServlet extends HttpServlet {
+@WebServlet("/updateUser")
+public class UpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -21,22 +19,19 @@ public class LoginCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		String name = request.getParameter("name");
-		String pass = request.getParameter("pass");
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		String positionName = request.getParameter("positionName");
 		
 		UserDAO dao = new UserDAO();
-		boolean result = dao.login(name, pass);
+		boolean result = dao.updateUserPosition(positionName, userId);
 		
 		if(result) {
-			User loginUser = dao.findByNameAndPass(name, pass);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", loginUser);
-			
-			response.sendRedirect("Main");
-		}else {
-			response.sendRedirect("Home");
+		    request.getSession().setAttribute("updateUserMsg", "更新成功");
+		} else {
+		    request.getSession().setAttribute("updateUserMsg", "更新失敗");
 		}
+
+		response.sendRedirect("manageUser");
 	}
 
 }

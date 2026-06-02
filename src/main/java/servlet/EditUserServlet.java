@@ -2,18 +2,18 @@ package servlet;
 
 import java.io.IOException;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.UserDAO;
 import model.User;
 
-@WebServlet("/LoginCheck")
-public class LoginCheckServlet extends HttpServlet {
+@WebServlet("/editUser")
+public class EditUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -21,22 +21,15 @@ public class LoginCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		String name = request.getParameter("name");
-		String pass = request.getParameter("pass");
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		UserDAO dao = new UserDAO();
-		boolean result = dao.login(name, pass);
+		User user = dao.findByUserId(userId);
 		
-		if(result) {
-			User loginUser = dao.findByNameAndPass(name, pass);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", loginUser);
-			
-			response.sendRedirect("Main");
-		}else {
-			response.sendRedirect("Home");
-		}
+		request.setAttribute("user", user);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/editUser.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

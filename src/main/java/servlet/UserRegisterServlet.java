@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.UserRegisterDAO;
+import dao.UserDAO;
 
 @WebServlet("/UserRegister")
 public class UserRegisterServlet extends HttpServlet {
@@ -33,7 +33,7 @@ public class UserRegisterServlet extends HttpServlet {
 		String pass = request.getParameter("pass");
 		String mail = request.getParameter("mail");
 		
-		UserRegisterDAO dao = new UserRegisterDAO();
+		UserDAO dao = new UserDAO();
 		
 		boolean result = dao.registerUser(name, pass, mail);
 		

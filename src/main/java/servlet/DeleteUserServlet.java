@@ -7,13 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.UserDAO;
-import model.User;
 
-@WebServlet("/LoginCheck")
-public class LoginCheckServlet extends HttpServlet {
+@WebServlet("/deleteUser")
+public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -21,22 +19,18 @@ public class LoginCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		String name = request.getParameter("name");
-		String pass = request.getParameter("pass");
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		UserDAO dao = new UserDAO();
-		boolean result = dao.login(name, pass);
+		boolean result = dao.deleteUser(userId);
 		
 		if(result) {
-			User loginUser = dao.findByNameAndPass(name, pass);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", loginUser);
-			
-			response.sendRedirect("Main");
+			request.getSession().setAttribute("deleteUserMsg", "削除成功");
 		}else {
-			response.sendRedirect("Home");
+			request.getSession().setAttribute("deleteUserMsg", "削除失敗");
 		}
+		
+		response.sendRedirect("manageUser");
 	}
 
 }
