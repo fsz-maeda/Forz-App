@@ -28,4 +28,5 @@ Thumbs.db
 
 application-local.properties
 
-/src/main/java/model/Port.java
+#データベースのポート番号
+src/main/java/model/Port.java
