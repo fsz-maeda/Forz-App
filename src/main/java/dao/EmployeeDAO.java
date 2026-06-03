@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Employee;
-import model.PortNo;
+import model.Port;
 
 public class EmployeeDAO {
-	String JDBC_URL = PortNo.JDBC_URL;
+	String JDBC_URL = Port.JDBC_URL;
 	
 	public List<Employee> findAll(){
 		List<Employee> employeeList = new ArrayList<>();
