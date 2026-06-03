@@ -8,14 +8,14 @@ List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>メディア</title>
+<title>media</title>
 </head>
 <body>
-<h1>メディア</h1>
+<h1>media</h1>
 <table border="1">
 <tr>
 <th>カテゴリ</th>
-<th>日付</th>
+<th>投稿日時</th>
 <th>タイトル</th>
 <th>内容</th>
 </tr>
@@ -23,7 +23,7 @@ List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
 <td><%= media.getMediaType()%></td><td><%= media.getMediaDate()%></td><td><%= media.getTitle()%></td><td><%= media.getContent()%></td><tr>
 <%} %>
 </table><br>
-<a href="Post">新規投稿</a><br>
+<a href="MediaPostServlet">新規投稿</a><br>
 <a href="Main">メイン画面へ</a>
 </body>
 </html>
