@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.Date;
-
+import java.util.List;
 public class Event {
 
     private int eventId;
@@ -10,6 +10,17 @@ public class Event {
     private String content;
     private String area;
     private Date eventDate;
+    private int likes;
+    private List<Comment> commentList;
+    
+
+    public List<Comment> getCommentList() {
+    	return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+    	this.commentList = commentList;
+    }
 
     public int getEventId() {
         return eventId;
@@ -57,5 +68,11 @@ public class Event {
 
     public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
+    }
+    public int getLikes() {
+        return likes;
+    }
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

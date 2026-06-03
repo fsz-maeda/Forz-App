@@ -9,9 +9,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.EventDAO;
 import model.Event;
+import model.User;
 
 @WebServlet("/eventAdd")
 public class EventAddServlet extends HttpServlet {
@@ -35,9 +37,12 @@ public class EventAddServlet extends HttpServlet {
 		String area = request.getParameter("area");
 		String eventDate = request.getParameter("eventDate");
 
+		HttpSession session = request.getSession();
+		User loginUser = (User) session.getAttribute("loginUser");
 		Event event = new Event();
 
-		event.setUserId(1); // 仮
+		event.setUserId(loginUser.getUserId());
+
 		event.setTitle(title);
 		event.setContent(content);
 		event.setArea(area);
