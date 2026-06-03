@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Notice;
-import model.PortNo;
+import model.Port;
 
 public class NoticeDAO {
-	String JDBC_URL = PortNo.JDBC_URL;
+	String JDBC_URL = Port.JDBC_URL;
 	public List<Notice> findAll(){
 		List<Notice> noticeList = new ArrayList<>();
 		try {
