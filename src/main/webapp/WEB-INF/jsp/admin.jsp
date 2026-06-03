@@ -8,8 +8,10 @@
 </head>
 <body>
 	<h1>管理者ページ</h1>
-		<a href="manageUser">ユーザー管理</a>
-		<a href="manageSalary">給料管理</a>
+		<a href="manageUser">ユーザー管理</a><br>
+		<a href="manageSalary">給料管理</a><br>
+		<a href="managePosition">役職管理</a><br>
+		<a href="manageDepartment">部署管理</a><br>
 		
 		<a href="main">メインへ</a>
 </body>
