@@ -112,13 +112,15 @@ public class UserDAO {
             pStmt.setString(3, mail);
 
             int result = pStmt.executeUpdate();
-
-            return result == 1;
-
+			if (result != 1) {
+				return false;
+			}
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+        
+        return true;
     }
     
     public boolean login(String name, String pass) {
