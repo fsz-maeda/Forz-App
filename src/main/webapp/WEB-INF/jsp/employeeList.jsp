@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ page import="java.util.List" %>
-   <%@ page import="model.Employe" %>
+   <%@ page import="model.Employee" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,13 @@
 </head>
 <body>
 <h2>社員一覧</h2>
+<form action="EmployeeListServlet" method="get">
+	<input type="text"name="keyword"placeholder="社員名検索">
+
+	<input type="submit"value="Search">
+</form>
+
+<hr>
 <%
 List<Employee> employeeList = (List<Employee>)request.getAttribute("employeeList");
 for(Employee emp : employeeList){
@@ -23,7 +30,7 @@ for(Employee emp : employeeList){
 写真 :<%=emp.getPhotoPath() %><br><br>
 
 <a href="#">Profile</a>
-<a href="#">Chat</a>
+<a href="ChatServlet?receiverId=<%= emp.getEmployeeId() %>">Chat</a>
 <br>
 <%
 }

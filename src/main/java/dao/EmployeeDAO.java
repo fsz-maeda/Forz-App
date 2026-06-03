@@ -18,9 +18,13 @@ public class EmployeeDAO {
 		
 	try {
 		Class.forName( "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		
 		Connection conn = DriverManager.getConnection(JDBC_URL);
-	String sql = "SELECT * FROM EMPLOYEE ORDER BY EMPLLOYEE_ID";
+		
+	String sql = "SELECT * FROM EMPLOYEE ORDER BY EMPLOYEE_ID";
+	
 	 PreparedStatement pStmt = conn.prepareStatement(sql);
+	 
 	ResultSet rs = pStmt.executeQuery();
 	
 	while(rs.next()) {
@@ -45,5 +49,62 @@ public class EmployeeDAO {
 	return employeeList;
 		
 	}
+	 public List<Employee> search(String keyword){
+
+	        List<Employee> employeeList =
+	                new ArrayList<>();
+
+	        try {
+
+	            Class.forName(
+	            "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+	            Connection conn =
+	            DriverManager.getConnection(JDBC_URL);
+
+	            String sql =
+	            "SELECT * FROM EMPLOYEE WHERE NAME LIKE ?";
+
+	            PreparedStatement pStmt =
+	            conn.prepareStatement(sql);
+
+	            pStmt.setString(
+	            1,
+	            "%" + keyword + "%");
+
+	            ResultSet rs =
+	            pStmt.executeQuery();
+
+	            while(rs.next()) {
+
+	                Employee emp =
+	                new Employee();
+
+	                emp.setEmployeeId(
+	                rs.getInt("EMPLOYEE_ID"));
+
+	                emp.setName(
+	                rs.getString("NAME"));
+
+	                emp.setDepartment(
+	                rs.getString("DEPARTMENT"));
+
+	                emp.setPosition(
+	                rs.getString("POSITION"));
+
+	                emp.setPhotoPath(
+	                rs.getString("PHOTO_PATH"));
+
+	                employeeList.add(emp);
+	            }
+
+	            conn.close();
+
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return employeeList;
+	    }
 
 }

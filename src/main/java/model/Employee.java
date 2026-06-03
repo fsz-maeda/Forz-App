@@ -11,7 +11,7 @@ public class Employee {
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
-	public String getname() {return name;}
+	public String getName() {return name;}
 	public void setName(String name) {
 		this.name = name;
 	}
