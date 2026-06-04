@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import dao.CommentDAO;
 import dao.EventDAO;
 import model.Event;
 
@@ -24,7 +25,15 @@ public class EventServlet extends HttpServlet {
 		EventDAO dao = new EventDAO();
 
 		List<Event> eventList = dao.findAll();
+		
 
+		CommentDAO commentDAO = new CommentDAO();
+
+		for (Event event : eventList) {
+
+			event.setCommentList(
+					commentDAO.findByEventId(event.getEventId()));
+		}
 		request.setAttribute("eventList", eventList);
 
 		RequestDispatcher dispatcher =

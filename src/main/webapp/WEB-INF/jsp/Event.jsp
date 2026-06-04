@@ -10,9 +10,13 @@
 <body>
 
 	<h1>All Event Show</h1>
-	<a href="eventAdd"> イベント登録 </a>
+
+	<a href="eventAdd">イベント登録</a>
+
 	<hr>
+
 	<c:forEach var="event" items="${eventList}">
+
 		<h3>${event.title}</h3>
 
 		<p>${event.content}</p>
@@ -21,7 +25,28 @@
 
 		<p>Date : ${event.eventDate}</p>
 
+		<p>👍 ${event.likes}</p>
+
+		<!-- いいねボタン -->
+		<form action="eventLike" method="post">
+			<input type="hidden" name="eventId" value="${event.eventId}">
+			<input type="submit" value="いいね">
+		</form>
+
+		<br>
+
+		<!-- コメント投稿 -->
+		<form action="commentAdd" method="post">
+
+			<input type="hidden" name="eventId" value="${event.eventId}">
+
+			<input type="text" name="comment" placeholder="コメントを入力"> <input
+				type="submit" value="コメント">
+
+		</form>
+
 		<hr>
+
 	</c:forEach>
 
 </body>
