@@ -8,29 +8,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.SalaryDAO;
+import dao.DepartmentDAO;
 
-@WebServlet("/deleteSalaryCheck")
-public class DeleteSalaryCheckServlet extends HttpServlet {
+@WebServlet("/insertDepartmentCheck")
+public class InsertDepartmentCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+
+		String departmentName = request.getParameter("departmentName");
 		
-		int salaryId = Integer.parseInt(request.getParameter("salaryId"));
-		
-		SalaryDAO dao = new SalaryDAO();
-		boolean result = dao.deleteSalary(salaryId);
+		DepartmentDAO dao = new DepartmentDAO();
+		boolean result = dao.insertDepartment(departmentName);
 		
 		if(result) {
-			request.getSession().setAttribute("deleteSalaryMsg", "削除成功");
+			request.getSession().setAttribute("insertDepartmentMsg", "入力完了");
 		}else {
-			request.getSession().setAttribute("deleteSalaryMsg", "削除失敗");
+			request.getSession().setAttribute("insertDepartmentMsg", "入力失敗");
 		}
 		
-		response.sendRedirect("manageSalary");
+		response.sendRedirect("manageDepartment");
 	}
 
 }

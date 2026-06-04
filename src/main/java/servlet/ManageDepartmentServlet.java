@@ -10,24 +10,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.SalaryDAO;
-import model.Salary;
+import dao.DepartmentDAO;
+import model.Department;
 
-@WebServlet("/deleteSalary")
-public class DeleteSalary extends HttpServlet {
+@WebServlet("/manageDepartment")
+public class ManageDepartmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		SalaryDAO dao = new SalaryDAO();
-		List<Salary> salaryList = dao.findAll();
+		DepartmentDAO dao = new DepartmentDAO();
+		List<Department> departmentList = dao.findAll();
+
+		request.setAttribute("departmentList", departmentList);
 		
-		request.setAttribute("salaryList", salaryList);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/deleteSalary.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageDepartment.jsp");
 		dispatcher.forward(request, response);
 	}
+
 }
