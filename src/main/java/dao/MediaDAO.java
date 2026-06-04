@@ -25,7 +25,7 @@ public class MediaDAO {
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-        String sql ="SELECT media_type,title,content,media_date FROM FORZMEDIA ORDER BY media_date ";
+        String sql ="SELECT media_type,title,content,created_at FROM FORZMEDIA where USER_ID = 2 ORDER BY media_date DESC";
 
             PreparedStatement pStmt = conn.prepareStatement(sql);
 
@@ -34,7 +34,7 @@ public class MediaDAO {
             String mediaType = rs.getString("media_type");
             String title = rs.getString("title");
             String content = rs.getString("content");
-            String media_date = rs.getString("media_date");
+            String media_date = rs.getString("created_at");
             Media media = new Media(mediaType,title,content,media_date);
             mediaList.add(media);
             }
@@ -47,5 +47,39 @@ public class MediaDAO {
         }
         return mediaList;
     }
+    
+    public boolean mediaRegist(Media media, int id) {
+    	 try {
+             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+         } catch (ClassNotFoundException e) {
+             throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+         }
 
+         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+         String sql ="INSERT INTO FORZMEDIA(USER_ID,MEDIA_TYPE,TITLE,CONTENT) VALUES(?,?,?,?)";
+         PreparedStatement pStmt = conn.prepareStatement(sql);
+         
+         pStmt.setInt(1,id);
+         pStmt.setString(2,media.getMediaType());
+         pStmt.setString(3,media.getTitle());
+         pStmt.setString(4,media.getContent());
+         
+         int result = pStmt.executeUpdate();
+         if(result != 1) {
+        	 return false;
+         }
+        }catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+return true;
 }
+    
+}
+
+
+
+
+
+

@@ -14,6 +14,12 @@ public class Media implements Serializable{
 		this.content = content;
 		this.mediaDate = mediaDate;
 	}
+	
+	public Media(String mediaType,String title,String content) {
+		this.mediaType = mediaType;
+		this.title = title;
+		this.content = content;
+	}
 	public String getMediaType() {return mediaType;}
 	public String getTitle() {return title;}
 	public String getContent() {return content;}

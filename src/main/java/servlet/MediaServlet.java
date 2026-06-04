@@ -23,11 +23,12 @@ public class MediaServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
+        HttpSession session = request.getSession();
+        
         MediaLogic ml = new MediaLogic();
         List<Media> mediaList = ml.execute();
-        HttpSession session = request.getSession();
         session.setAttribute("mediaList",mediaList);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/media.jsp");
