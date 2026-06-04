@@ -16,6 +16,7 @@
 	<c:remove var="dailyReportErrorMsg" scope="session"/>
 	
 	<form action="DailyReportPostServlet" method="post">
+	<input type="hidden" name="action" value="post">
 
 	タイトル<input type="text" name="title" placeholder="タイトルを入力してください">
 	
@@ -25,8 +26,11 @@
 	</select>
 	
 	<textarea name="content" rows="50" cols="100" placeholder="日報または週間レポートを入力してください"></textarea>
-	<input type="submit" value="投稿">
+	<input type="submit" value="投稿" action="post">
 	
 	</form>
+	
+
+	
 </body>
 </html>

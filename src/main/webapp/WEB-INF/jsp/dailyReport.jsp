@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,7 @@
 	<h1>日報</h1>
 	<div class="new-post">
 		<form action="DailyReportPostServlet" method="get">
+			<input type="hidden" name="action" value="post">
 			<input type="submit" value="新規記事作成">
 		</form>
 	</div>
@@ -22,25 +24,79 @@
         <p>種別：${r.reportType}</p>
         <p>タイトル：${r.title}</p>
         <p>内容：${r.content}</p>
-        <p>投稿日：${r.createdAt}</p>
+        <c:if test="${not empty r.createdAt}">
+		    <fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+		</c:if>
         <p>いいね：${r.likes}</p>
         
-	<form action="DailyReportLikeServlet" method="post">
-	    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
-	    <c:choose>
-	        <c:when test="${r.liked}">
-	            <button type="button" disabled>いいね済み</button>
-	        </c:when>
-	
-	        <c:otherwise>
-	            <button type="submit">いいね</button>
-	        </c:otherwise>
-	    </c:choose>
-	</form>
+		<form action="DailyReportLikeServlet" method="post">
+		    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
+		    <c:choose>
+		        <c:when test="${r.liked}">
+		            <button type="button" disabled>いいね済み</button>
+		        </c:when>
+		
+		        <c:otherwise>
+		            <button type="submit" class="action-btn">いいね</button>
+		        </c:otherwise>
+		    </c:choose>
+		</form>
+		
+	        <c:forEach var="c" items="${r.commentList}">
+	           <div style="margin-left:20px;">
+	               <p>${c.userName}：${c.commentText}</p>
+	           </div>
+	        </c:forEach>
+	        
+		<form action="DailyReportCommentServlet" method="post">
+		
+		    <input type="hidden" name="reportId" value="${r.dailyReportId}">
+		    <input type="text" name="comment">
+		
+		    <input type="submit" value="コメント投稿" class="action-btn">
+		
+		</form>
+		
+			<c:if test="${not empty sessionScope.deleteErrorMsg }">
+				<p>${sessionScope.deleteErrorMsg}</p>
+			</c:if>
+			
+			
+		<c:if test="${sessionScope.loginUser.userId == r.userId}">
+		    <form action="DailyReportPostServlet" method="post">
+		        <input type="hidden" name="action" value="dailyReportDelete">
+		        <input type="hidden" name="reportId" value="${r.dailyReportId}">
+		        <input type="submit" value="削除" class="action-btn">
+		    </form>
+		</c:if>
+	</div>
+		
+<script>
+	document.addEventListener('click', function (event) {
+	    if (event.target.classList.contains('action-btn')) {
+	        sessionStorage.setItem('OffsetTop', window.pageYOffset);
+	    }
+	});
+</script>
 
-    </div>
+<script>
+	window.addEventListener('load', function () {
+	
+	    const offsetTop = sessionStorage.getItem('OffsetTop');
+	
+	    if (offsetTop !== null) {
+	        window.scrollTo({
+	            top: parseInt(offsetTop),
+	            behavior: 'smooth'
+	        });
+	
+	        sessionStorage.removeItem('OffsetTop');
+	    }
+	});
+</script>
 
 </c:forEach>
+
 	
 	<a href="Main">メイン画面へ</a>
 	<a href="Home">ホーム画面へ</a>
