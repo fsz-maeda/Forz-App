@@ -29,7 +29,8 @@ for(Employee emp : employeeList){
 役職 :<%= emp.getPosition() %><br>
 写真 :<%=emp.getPhotoPath() %><br><br>
 
-<a href="#">Profile</a>
+<a href="ProfileServlet?employeeId=<%= emp.getEmployeeId() %>">Profile
+</a><br>
 <a href="ChatServlet?receiverId=<%= emp.getEmployeeId() %>">Chat</a>
 <br>
 <%

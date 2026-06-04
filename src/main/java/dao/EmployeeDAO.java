@@ -51,49 +51,35 @@ public class EmployeeDAO {
 	}
 	 public List<Employee> search(String keyword){
 
-	        List<Employee> employeeList =
-	                new ArrayList<>();
+	        List<Employee> employeeList = new ArrayList<>();
 
 	        try {
 
-	            Class.forName(
-	            "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-	            Connection conn =
-	            DriverManager.getConnection(JDBC_URL);
+	            Connection conn =DriverManager.getConnection(JDBC_URL);
 
-	            String sql =
-	            "SELECT * FROM EMPLOYEE WHERE NAME LIKE ?";
+	            String sql ="SELECT * FROM EMPLOYEE WHERE NAME LIKE ?";
 
-	            PreparedStatement pStmt =
-	            conn.prepareStatement(sql);
+	            PreparedStatement pStmt =conn.prepareStatement(sql);
 
-	            pStmt.setString(
-	            1,
-	            "%" + keyword + "%");
+	            pStmt.setString(1,"%" + keyword + "%");
 
-	            ResultSet rs =
-	            pStmt.executeQuery();
+	            ResultSet rs =pStmt.executeQuery();
 
 	            while(rs.next()) {
 
-	                Employee emp =
-	                new Employee();
+	                Employee emp =new Employee();
 
-	                emp.setEmployeeId(
-	                rs.getInt("EMPLOYEE_ID"));
+	                emp.setEmployeeId(rs.getInt("EMPLOYEE_ID"));
 
-	                emp.setName(
-	                rs.getString("NAME"));
+	                emp.setName(rs.getString("NAME"));
 
-	                emp.setDepartment(
-	                rs.getString("DEPARTMENT"));
+	                emp.setDepartment(rs.getString("DEPARTMENT"));
 
-	                emp.setPosition(
-	                rs.getString("POSITION"));
+	                emp.setPosition(rs.getString("POSITION"));
 
-	                emp.setPhotoPath(
-	                rs.getString("PHOTO_PATH"));
+	                emp.setPhotoPath(rs.getString("PHOTO_PATH"));
 
 	                employeeList.add(emp);
 	            }
@@ -106,5 +92,36 @@ public class EmployeeDAO {
 
 	        return employeeList;
 	    }
-
+public Employee findById(int employeeId) {
+	Employee emp = null;
+	try {
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		Connection conn = DriverManager.getConnection(JDBC_URL);
+		String sql = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID=?";
+		
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+		
+		pStmt.setInt(1, employeeId);
+		
+		ResultSet rs = pStmt.executeQuery();
+		
+	if(rs.next()) {
+		emp = new Employee();
+		emp.setEmployeeId(rs.getInt("EMPLOYEE_ID"));
+		
+		emp.setName(rs.getString("NAME"));
+		
+		emp.setDepartment(rs.getString("DEPARTMENT"));
+		
+		emp.setPosition(rs.getString("POSITION"));
+		
+		emp.setPhotoPath(rs.getString("PHOTO_PATH"));
+	}
+	conn.close();
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+	return emp;
+	
+}
 }

@@ -28,7 +28,7 @@
 
     <li><a href="ChatServlet">💬 Chat</a></li>
 
-    <li><a href="ProfileServlet">👤 プロフィール</a></li>
+    <li><a href="MyProfileServlet">👤 プロフィール</a></li>
 </ul>
 <hr>
 <h2>🔔 Notifications</h2>
@@ -44,7 +44,7 @@
 
 <br><br>
 
-<a href="ProfileServlet">プロフィールを見る</a>
+<a href="MyProfileServlet">プロフィールを見る</a>
 <hr>
 <p>© Forz-App</p>
 </body>
