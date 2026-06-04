@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 public class DailyReport {
 
@@ -13,9 +14,10 @@ public class DailyReport {
     private int likes;
 
     private boolean liked; 
-    private String userName;   // ⭐追加
+    private String userName;
+    private List<DailyReportComment> commentList;
+    
     public DailyReport() {}
-
     public DailyReport(int dailyReportId, int userId, String reportType,String title, String content, Date createdAt,int likes) {
         this.dailyReportId = dailyReportId;
         this.userId = userId;
@@ -98,4 +100,12 @@ public class DailyReport {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
+    public List<DailyReportComment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<DailyReportComment> commentList) {
+        this.commentList = commentList;
+    }
 }
