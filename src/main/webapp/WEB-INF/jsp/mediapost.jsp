@@ -28,7 +28,7 @@
 内容<br>
 <textarea name="content" rows="10" cols="30"></textarea><br>
 <%= s3%><br><br>
-<input type="hidden" name="a"value="<%= loginUser.getUserId()%>">
+<input type="hidden" name="departmentId"value="<%= loginUser.getDepartmentId()%>">
 <input type="submit" value="投稿する">
 </form><br>
 <a href="media">メディアページへ</a>

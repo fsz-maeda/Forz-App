@@ -17,10 +17,9 @@ List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
 <th>カテゴリ</th>
 <th>投稿日時</th>
 <th>タイトル</th>
-<th>内容</th>
 </tr>
 <%for (Media media : mediaList){%>
-<td><%= media.getMediaType()%></td><td><%= media.getMediaDate()%></td><td><%= media.getTitle()%></td><td><%= media.getContent()%></td><tr>
+<td><%= media.getMediaType()%></td><td><%= media.getMediaDate()%></td><td><a href="ArticleContentServlet?id=<%= media.getId()%>"><%= media.getTitle()%></a></td><tr>
 <%} %>
 </table><br>
 <a href="MediaPostServlet">新規投稿</a><br>

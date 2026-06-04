@@ -3,12 +3,14 @@ import java.io.Serializable;
 
 public class Media implements Serializable{
 
+	private int ID;
 	private String mediaType;
 	private String title;
 	private String content;
 	private String mediaDate;
 	
-	public Media(String mediaType,String title,String content,String mediaDate) {
+	public Media(int ID,String mediaType,String title,String content,String mediaDate) {
+		this.ID = ID;
 		this.mediaType = mediaType;
 		this.title = title;
 		this.content = content;
@@ -20,6 +22,12 @@ public class Media implements Serializable{
 		this.title = title;
 		this.content = content;
 	}
+	public Media(String content, String title) {
+		this.content = content;
+		this.title = title;
+	}
+
+	public int getId() {return ID;}
 	public String getMediaType() {return mediaType;}
 	public String getTitle() {return title;}
 	public String getContent() {return content;}

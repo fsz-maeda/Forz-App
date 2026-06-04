@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,36 +8,27 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
-import model.Media;
-import model.MediaLogic;
-import model.User;
 
 /**
- * Servlet implementation class MediaServlet
+ * Servlet implementation class MediaCommentServlet
  */
-@WebServlet("/media")
-public class MediaServlet extends HttpServlet {
+@WebServlet("/MediaCommentServlet")
+public class MediaCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-
-        HttpSession session = request.getSession();
-        User loginUser = (User)session.getAttribute("loginUser");
-        MediaLogic ml = new MediaLogic();
-        List<Media> mediaList = ml.execute(loginUser);
-        session.setAttribute("mediaList",mediaList);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/media.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
 		dispatcher.forward(request, response);
 	}
 
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");
+		
+		String name = request.getParameter("name");
+		String comment = request.getParameter("comment");
 	}
 
 }

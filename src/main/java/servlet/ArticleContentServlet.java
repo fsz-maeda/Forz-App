@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -11,34 +10,35 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.MediaDAO;
 import model.Media;
-import model.MediaLogic;
-import model.User;
 
 /**
- * Servlet implementation class MediaServlet
+ * Servlet implementation class MediaArticleServlet
  */
-@WebServlet("/media")
-public class MediaServlet extends HttpServlet {
+@WebServlet("/ArticleContentServlet")
+public class ArticleContentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-
-        HttpSession session = request.getSession();
-        User loginUser = (User)session.getAttribute("loginUser");
-        MediaLogic ml = new MediaLogic();
-        List<Media> mediaList = ml.execute(loginUser);
-        session.setAttribute("mediaList",mediaList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/media.jsp");
+		String ID = request.getParameter("id");
+		int id =Integer.parseInt(ID);
+		
+		MediaDAO dao = new MediaDAO();
+		Media media = dao.articleFind(id);
+		
+		 HttpSession session = request.getSession();
+		 session.setAttribute("media",media);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
 		dispatcher.forward(request, response);
+	
 	}
 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 	}
 
 }
