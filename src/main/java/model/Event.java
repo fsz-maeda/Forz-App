@@ -12,8 +12,16 @@ public class Event {
     private Date eventDate;
     private int likes;
     private List<Comment> commentList;
+    private boolean liked;
     
+    
+    public boolean isLiked() {
+        return liked;
+    }
 
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
     public List<Comment> getCommentList() {
     	return commentList;
     }
