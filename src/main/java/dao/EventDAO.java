@@ -37,7 +37,6 @@ public class EventDAO {
 				event.setContent(rs.getString("content"));
 				event.setArea(rs.getString("area"));
 				event.setEventDate(rs.getDate("event_date"));
-				event.setLikes(rs.getInt("likes"));
 				eventList.add(event);
 			}
 
@@ -78,27 +77,4 @@ public class EventDAO {
 		return false;
 	}
 
-	// いいね追加
-	public boolean addLike(int eventId) {
-
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-
-			String sql = "UPDATE FORZEVENTS "
-					+ "SET likes = likes + 1 "
-					+ "WHERE event_id = ?";
-
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-
-			pStmt.setInt(1, eventId);
-
-			int result = pStmt.executeUpdate();
-
-			return result == 1;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
 }
