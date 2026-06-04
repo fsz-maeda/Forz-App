@@ -5,9 +5,9 @@ import java.util.List;
 import dao.MediaDAO;
 
 public class MediaLogic {
-	public List<Media> execute(){
+	public List<Media> execute(User loginUser){
 	MediaDAO dao = new MediaDAO();	
-	List<Media> mediaList = dao.findAll();
+	List<Media> mediaList = dao.findAll(loginUser);
 	return mediaList;
 	}
 }

@@ -8,6 +8,7 @@ public class User implements Serializable{
 	private String pass;
 	private String mail;
 	private int positionId;
+	private int departmentId;
 	
 	public User(int userId, String name, String pass, String mail, int positionId) {
 		this.userId = userId;
@@ -15,6 +16,15 @@ public class User implements Serializable{
 		this.pass = pass;
 		this.mail = mail;
 		this.positionId = positionId;
+	}
+	
+	public User(int userId, String name, String pass, String mail, int positionId, int departmentId) {
+		this.userId = userId;
+		this.name = name;
+		this.pass = pass;
+		this.mail = mail;
+		this.positionId = positionId;
+		this.departmentId = departmentId;
 	}
 
 	public int getUserId() {
@@ -35,6 +45,9 @@ public class User implements Serializable{
 
 	public int getPositionId() {
 		return positionId;
+	}
+	public int getDepartmentId() {
+		return departmentId;
 	}
 	
 }

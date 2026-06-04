@@ -43,8 +43,8 @@ public class MediaPostServlet extends HttpServlet {
 		String category = request.getParameter("category");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		String a = request.getParameter("a");
-		int id =Integer.parseInt(a);
+		String a = request.getParameter("departmentId");
+		int departmentId =Integer.parseInt(a);
 		
 		if(category.equals("news")) {category="ニュース";}
 		if(category.equals("notice")) {category="お知らせ";}
@@ -66,7 +66,7 @@ public class MediaPostServlet extends HttpServlet {
 		if(title.length()!=0&&content.length()!=0&&category.length()!=0) {
 			Media media = new Media(category,title,content);
 			MediaRegistLogic mrl = new MediaRegistLogic();
-			boolean result = mrl.execute(media,id);
+			boolean result = mrl.execute(media,departmentId);
 			if(result) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaPostOK.jsp");
 				dispatcher.forward(request, response);

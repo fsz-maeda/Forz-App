@@ -174,7 +174,8 @@ public class UserDAO {
             	String p = rs.getString("PASS");
             	String mail = rs.getString("MAIL");
             	int positionId = rs.getInt("position_id");
-            	user = new User(id, n, p, mail, positionId);
+            	int departmentId = rs.getInt("DEPARTMENT_ID");
+            	user = new User(id, n, p, mail, positionId,departmentId);
             }
         }catch (SQLException e) {
             e.printStackTrace();
