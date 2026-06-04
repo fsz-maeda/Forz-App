@@ -29,6 +29,10 @@
     <li><a href="ChatServlet">💬 Chat</a></li>
 
     <li><a href="MyProfileServlet">👤 プロフィール</a></li>
+    
+    <c:if test="${loginUser.getPositionId() >= 5}">
+		<li><a href="admin">⚙ 管理者ページ</a></li>
+	</c:if>
 </ul>
 <hr>
 <h2>🔔 Notifications</h2>
