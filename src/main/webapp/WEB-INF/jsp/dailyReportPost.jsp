@@ -18,14 +18,14 @@
 	<form action="DailyReportPostServlet" method="post">
 	<input type="hidden" name="action" value="post">
 
-	タイトル<input type="text" name="title" placeholder="タイトルを入力してください">
+	タイトル<input type="text" name="title" placeholder="タイトルを入力してください"required>
 	
 	<select name="dailyType">
 		<option value="日報">日報</option>
 		<option value="週間レポート">週間レポート</option>
 	</select>
 	
-	<textarea name="content" rows="50" cols="100" placeholder="日報または週間レポートを入力してください"></textarea>
+	<textarea name="content" rows="50" cols="100" placeholder="日報または週間レポートを入力してください"required></textarea>
 	<input type="submit" value="投稿" action="post">
 	
 	</form>

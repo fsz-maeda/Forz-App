@@ -16,6 +16,7 @@ import dao.DailyReportDAO;
 import dao.DailyReportLikeDAO;
 import model.DailyReport;
 import model.User;
+import service.DailyReportService;
 
 
 @WebServlet("/dailyReportPage")
@@ -33,17 +34,45 @@ public class DailyReportServlet extends HttpServlet {
 	        response.sendRedirect("Home");
 	        return;
 	    }
-	    
+
 	    
 	    DailyReportLikeDAO likeDao = new DailyReportLikeDAO();
-//	    いいね数の取得
+	    
+//	    いいねした日報のID一覧取得
 	    Set<Integer> likedSet = likeDao.findLikedReportIds(loginUser.getUserId());
 
 	    DailyReportDAO dao = new DailyReportDAO();
 	    
-	    List<DailyReport> list = dao.findAllWithComments(likedSet);
+//	    ページネーション１ページ１０件表示
+	    int page = 1;
+	    int limit = 10;
+	    String pageStr = request.getParameter("page");
+	    if (pageStr != null) {
+	        page = Integer.parseInt(pageStr);
+	    }
+	    int offset = (page - 1) * limit;
+	    
+//	    全部の日報の件数取得で１ページ１０件になるようにしている
+	    int totalCount = dao.countAllReports();
+	    int totalPage = (int) Math.ceil((double) totalCount / limit);
+	    
+//	    前後ボタンの制御
+	    boolean hasNext = page < totalPage;
+	    boolean hasPrev = page > 1;
+	    
+	    request.setAttribute("currentPage", page);
+	    request.setAttribute("totalPage", totalPage);
+	    request.setAttribute("hasNext", hasNext);
+	    request.setAttribute("hasPrev", hasPrev);
+	    
+	    
+	    DailyReportService service = new DailyReportService();
+
+	    List<DailyReport> list =
+	        service.getPagedReports(offset, limit, likedSet);
 
 	    request.setAttribute("reportList", list);
+
 	    request.setAttribute("loginUser", loginUser);
 
 	    RequestDispatcher dispatcher =

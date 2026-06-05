@@ -51,9 +51,9 @@
 		<form action="DailyReportCommentServlet" method="post">
 		
 		    <input type="hidden" name="reportId" value="${r.dailyReportId}">
-		    <input type="text" name="comment">
+		    <input type="text" name="comment" required>
 		
-		    <input type="submit" value="コメント投稿" class="action-btn">
+		    <input type="submit" value="コメント投稿" class="action-btn" >
 		
 		</form>
 		
@@ -96,6 +96,31 @@
 </script>
 
 </c:forEach>
+<div style="margin-top:20px; text-align:center;">
+
+    <!-- 前へ -->
+    <c:if test="${hasPrev}">
+        <a href="dailyReportPage?page=${currentPage - 1}">← 前へ</a>
+    </c:if>
+
+    <!-- ページ番号 -->
+    <c:forEach var="i" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${i == currentPage}">
+                <strong style="margin:0 5px;">${i}</strong>
+            </c:when>
+            <c:otherwise>
+                <a href="dailyReportPage?page=${i}" style="margin:0 5px;">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <!-- 次へ -->
+    <c:if test="${hasNext}">
+        <a href="dailyReportPage?page=${currentPage + 1}">次へ →</a>
+    </c:if>
+
+</div>
 
 	
 	<a href="Main">メイン画面へ</a>
