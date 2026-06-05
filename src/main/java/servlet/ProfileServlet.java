@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import dao.EmployeeDAO;
 import model.Employee;
 
+
 /**
  * Servlet implementation class ProfileServlet
  */
@@ -31,7 +32,7 @@ public class ProfileServlet extends HttpServlet {
 		Employee employee =dao.findById(employeeId);
 		request.setAttribute("employee", employee);
 		
-	RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
+	RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/profile.jsp");
 	
 	dispatcher.forward(request, response);
 	}

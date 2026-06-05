@@ -32,7 +32,7 @@ public class MediaServlet extends HttpServlet {
         List<Media> mediaList = ml.execute(loginUser);
         session.setAttribute("mediaList",mediaList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/media.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/media.jsp");
 		dispatcher.forward(request, response);
 	}
 

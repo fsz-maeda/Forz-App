@@ -32,7 +32,7 @@ public class ArticleContentServlet extends HttpServlet {
 		 HttpSession session = request.getSession();
 		 session.setAttribute("media",media);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/articleContent.jsp");
 		dispatcher.forward(request, response);
 	
 	}

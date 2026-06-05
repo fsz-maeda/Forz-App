@@ -27,7 +27,7 @@ public class ManageDepartmentServlet extends HttpServlet {
 
 		request.setAttribute("departmentList", departmentList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageDepartment.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageDepartment.jsp");
 		dispatcher.forward(request, response);
 	}
 

@@ -28,7 +28,7 @@ public class UpdateDepartmentSerlet extends HttpServlet {
 		
 		request.setAttribute("department", department);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/updateDepartment.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateDepartment.jsp");
 		dispatcher.forward(request, response);
 	}
 

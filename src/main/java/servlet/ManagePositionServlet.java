@@ -27,7 +27,7 @@ public class ManagePositionServlet extends HttpServlet {
 
 		request.setAttribute("positionList", positionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/managePosition.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/managePosition.jsp");
 		dispatcher.forward(request, response);
 	}
 

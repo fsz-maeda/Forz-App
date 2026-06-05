@@ -38,7 +38,7 @@ public class MyProfileServlet extends HttpServlet {
 		request.setAttribute("employee",employee);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(
-				"/WEB-INF/jsp/profile.jsp");
+				"//WEB-INF/jsp/profile.jsp");
 
 		dispatcher.forward(request,response);
 	}

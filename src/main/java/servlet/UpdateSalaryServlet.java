@@ -28,7 +28,7 @@ public class UpdateSalaryServlet extends HttpServlet {
 		
 		request.setAttribute("salary", salary);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/updateSalary.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateSalary.jsp");
 		dispatcher.forward(request, response);
 	}
 

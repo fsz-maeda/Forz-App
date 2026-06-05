@@ -46,7 +46,7 @@ public class ChatServlet extends HttpServlet {
 
 	    request.setAttribute("employeeList", employeeList);
 	    request.setAttribute("receiverId", receiverId);
-	    RequestDispatcher dispatcher =request.getRequestDispatcher("WEB-INF/jsp/chat.jsp");
+	    RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp");
 
 	    dispatcher.forward(request,response);
 	}

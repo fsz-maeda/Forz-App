@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request, response);
 	}
 }

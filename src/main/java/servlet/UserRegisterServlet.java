@@ -20,7 +20,7 @@ public class UserRegisterServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/userRegister.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userRegister.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -43,7 +43,7 @@ public class UserRegisterServlet extends HttpServlet {
 			request.setAttribute("registerMsg", "登録失敗");
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/home.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
 		dispatcher.forward(request, response);
 		
 	}
