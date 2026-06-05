@@ -49,6 +49,69 @@ public class EventDAO {
 		return eventList;
 	}
 
+	// ページごと取得
+	public List<Event> findPage(int offset, int pageSize) {
+
+		List<Event> eventList = new ArrayList<>();
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "SELECT * " +
+					"FROM FORZEVENTS " +
+					"ORDER BY event_date DESC " +
+					"OFFSET ? ROWS " +
+					"FETCH NEXT ? ROWS ONLY";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, offset);
+			pStmt.setInt(2, pageSize);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+
+				Event event = new Event();
+
+				event.setEventId(rs.getInt("event_id"));
+				event.setUserId(rs.getInt("user_id"));
+				event.setTitle(rs.getString("title"));
+				event.setContent(rs.getString("content"));
+				event.setArea(rs.getString("area"));
+				event.setEventDate(rs.getDate("event_date"));
+
+				eventList.add(event);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return eventList;
+	}
+
+	// 総件数取得
+	public int countAll() {
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "SELECT COUNT(*) FROM FORZEVENTS";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
 	// イベント登録
 	public boolean insert(Event event) {
 
