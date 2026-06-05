@@ -124,4 +124,55 @@ public Employee findById(int employeeId) {
 	return emp;
 	
 }
+public Employee findByUserId(int userId){
+
+    Employee emp = null;
+
+    try {
+
+        Class.forName(
+        "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+        Connection conn =
+        DriverManager.getConnection(JDBC_URL);
+
+        String sql =
+        "SELECT * FROM EMPLOYEE WHERE USER_ID = ?";
+
+        PreparedStatement pStmt =
+        conn.prepareStatement(sql);
+
+        pStmt.setInt(1, userId);
+
+        ResultSet rs =
+        pStmt.executeQuery();
+
+        if(rs.next()){
+
+            emp = new Employee();
+
+            emp.setEmployeeId(
+            rs.getInt("EMPLOYEE_ID"));
+
+            emp.setName(
+            rs.getString("NAME"));
+
+            emp.setDepartment(
+            rs.getString("DEPARTMENT"));
+
+            emp.setPosition(
+            rs.getString("POSITION"));
+
+            emp.setPhotoPath(
+            rs.getString("PHOTO_PATH"));
+        }
+
+        conn.close();
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+
+    return emp;
+}
 }
