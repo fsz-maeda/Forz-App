@@ -73,7 +73,7 @@ public class ChatServlet extends HttpServlet {
 
 		dao.insert(chat);
 
-		response.sendRedirect("ChatServlet");
+		response.sendRedirect("ChatServlet?receiverId=" + receiverId);
 	}
 
 

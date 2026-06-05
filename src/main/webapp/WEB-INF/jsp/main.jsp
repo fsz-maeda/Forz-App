@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.List" %>
+<%@ page import="model.Event" %>
+<%@ page import="model.DailyReport" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +18,7 @@
 <p>
     ${motivation}
 </p>
+
 <hr>
 <h2>📋 Menu</h2>
 <ul>
@@ -36,11 +40,64 @@
 </ul>
 <hr>
 <h2>🔔 Notifications</h2>
-<ul>
-    <li>誕生日のお知らせ</li>
-    <li>イベントのお知らせ</li>
-    <li>システム通知</li>
-</ul>
+<%
+List<Event> eventList =(List<Event>)request.getAttribute("eventList");
+
+if(eventList != null){int count = 0;
+
+    for(Event event : eventList){
+        if(count >= 3) break;
+%>
+<p>
+🎉 Event :
+<b><%= event.getTitle() %></b>
+<br>
+📅 <%= event.getEventDate() %>
+</p>
+<hr>
+<%
+        count++;
+    }
+}
+%>
+
+
+<%
+List<DailyReport> reportList =
+(List<DailyReport>)request.getAttribute("reportList");
+
+if(reportList != null){
+
+    int count = 0;
+
+    for(DailyReport report : reportList){
+
+        if(count >= 3) break;
+%>
+
+<p>
+
+📝 Daily Report :
+
+<b><%= report.getUserName() %></b>
+
+submitted
+
+"<%= report.getTitle() %>"
+
+<br>
+
+📅 <%= report.getCreatedAt() %>
+
+</p>
+
+<hr>
+
+<%
+        count++;
+    }
+}
+%>
 <hr>
 <h2>My Profile</h2>
 
