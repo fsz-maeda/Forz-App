@@ -29,7 +29,7 @@ public class InsertSalaryServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("userPositionList", userPositionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/insertSalary.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertSalary.jsp");
 		dispatcher.forward(request, response);
 	}
 

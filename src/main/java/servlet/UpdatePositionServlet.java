@@ -28,7 +28,7 @@ public class UpdatePositionServlet extends HttpServlet {
 		
 		request.setAttribute("position", position);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/updatePosition.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updatePosition.jsp");
 		dispatcher.forward(request, response);
 	}
 

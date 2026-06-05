@@ -32,7 +32,7 @@ public class MediaPostServlet extends HttpServlet {
 		 session.setAttribute("errorMsg3", errorMsg3);
 		 
 		 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediapost.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -68,7 +68,7 @@ public class MediaPostServlet extends HttpServlet {
 			MediaRegistLogic mrl = new MediaRegistLogic();
 			boolean result = mrl.execute(media,departmentId);
 			if(result) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaPostOK.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediaPostOK.jsp");
 				dispatcher.forward(request, response);
 			}
 		}
@@ -78,7 +78,7 @@ public class MediaPostServlet extends HttpServlet {
 		 session.setAttribute("errorMsg2", errorMsg2);
 		 session.setAttribute("errorMsg3", errorMsg3);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediapost.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp");
 		dispatcher.forward(request, response);
 
 	}

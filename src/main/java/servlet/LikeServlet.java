@@ -32,11 +32,12 @@ public class LikeServlet extends HttpServlet {
 
 		LikeDAO likeDAO = new LikeDAO();
 
-		if (!likeDAO.exists(userId, eventId)) {
+		if (likeDAO.exists(userId, eventId)) {
 
-			likeDAO.insert(userId, eventId);
-		}
-
+			likeDAO.delete(userId, eventId);
+	} else {
+		likeDAO.insert(userId, eventId);
+	}
 		response.sendRedirect("event");
 	}
 }

@@ -32,7 +32,7 @@ public class DailyReportPostServlet extends HttpServlet {
 		
 		
 	    RequestDispatcher dispatcher =
-		        request.getRequestDispatcher("/WEB-INF/jsp/dailyReportPost.jsp");
+		        request.getRequestDispatcher("//WEB-INF/jsp/dailyReportPost.jsp");
 
 		    dispatcher.forward(request, response);
 	}

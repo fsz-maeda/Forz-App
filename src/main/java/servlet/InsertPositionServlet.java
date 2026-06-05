@@ -18,7 +18,7 @@ public class InsertPositionServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/insertPosition.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertPosition.jsp");
 		dispatcher.forward(request, response);
 	}
 

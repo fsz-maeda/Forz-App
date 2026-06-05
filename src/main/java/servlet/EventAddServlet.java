@@ -22,7 +22,7 @@ public class EventAddServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/EventAdd.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/EventAdd.jsp");
 		dispatcher.forward(request, response);
 
 	}

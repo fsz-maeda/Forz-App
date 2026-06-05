@@ -47,7 +47,7 @@ public class DailyReportServlet extends HttpServlet {
 	    request.setAttribute("loginUser", loginUser);
 
 	    RequestDispatcher dispatcher =
-	        request.getRequestDispatcher("/WEB-INF/jsp/dailyReport.jsp");
+	        request.getRequestDispatcher("//WEB-INF/jsp/dailyReport.jsp");
 
 	    dispatcher.forward(request, response);
 	}

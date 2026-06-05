@@ -32,7 +32,7 @@ public class MainServlet extends HttpServlet {
 request.setAttribute("motivation", message);
 
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
 		dispatcher.forward(request, response);
 	}
 

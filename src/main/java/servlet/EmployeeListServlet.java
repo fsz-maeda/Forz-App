@@ -31,7 +31,7 @@ public class EmployeeListServlet extends HttpServlet {
 	
 request.setAttribute("employeeList", employeeList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/employeeList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/employeeList.jsp");
 		dispatcher.forward(request, response);
 		
 		

@@ -27,7 +27,7 @@ public class SelectUpdateSalaryServlet extends HttpServlet {
 		
 		request.setAttribute("salaryList", salaryList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/selectUpdateSalary.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/selectUpdateSalary.jsp");
 		dispatcher.forward(request, response);
 	}
 

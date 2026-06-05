@@ -69,19 +69,16 @@ public class LikeDAO {
 
 		return false;
 	}
-	
+
 	public int countByEventId(int eventId) {
 
-		try (Connection conn =
-				DriverManager.getConnection(JDBC_URL)) {
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-			String sql =
-					"SELECT COUNT(*) " +
+			String sql = "SELECT COUNT(*) " +
 					"FROM FORZEVENTSLIKE " +
 					"WHERE event_id = ?";
 
-			PreparedStatement pStmt =
-					conn.prepareStatement(sql);
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			pStmt.setInt(1, eventId);
 
@@ -98,4 +95,25 @@ public class LikeDAO {
 		return 0;
 	}
 
+	public boolean delete(int userId, int eventId) {
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "DELETE FROM FORZEVENTSLIKE " +
+					"WHERE user_id = ? " +
+					"AND event_id = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, userId);
+			pStmt.setInt(2, eventId);
+
+			return pStmt.executeUpdate() == 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }

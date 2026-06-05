@@ -29,7 +29,7 @@ public class ManageUserServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("userPositionList", userPositionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageUser.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageUser.jsp");
 		dispatcher.forward(request, response);
 	}
 

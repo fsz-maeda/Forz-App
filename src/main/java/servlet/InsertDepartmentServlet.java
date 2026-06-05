@@ -18,7 +18,7 @@ public class InsertDepartmentServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/insertDepartment.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertDepartment.jsp");
 		dispatcher.forward(request, response);
 	}
 

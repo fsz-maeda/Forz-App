@@ -27,7 +27,7 @@ public class ManageSalaryServlet extends HttpServlet {
 		
 		request.setAttribute("salaryList", salaryList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageSalary.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageSalary.jsp");
 		dispatcher.forward(request, response);
 	}
 

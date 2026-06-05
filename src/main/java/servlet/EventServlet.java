@@ -54,7 +54,7 @@ public class EventServlet extends HttpServlet {
 		request.setAttribute("eventList", eventList);
 
 		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("/WEB-INF/jsp/Event.jsp");
+				request.getRequestDispatcher("//WEB-INF/jsp/Event.jsp");
 
 		dispatcher.forward(request, response); 
 	}
