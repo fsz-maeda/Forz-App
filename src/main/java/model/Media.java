@@ -22,10 +22,13 @@ public class Media implements Serializable{
 		this.title = title;
 		this.content = content;
 	}
-	public Media(String content, String title) {
+	public Media(int ID,String content, String title) {
+		this.ID = ID;
 		this.content = content;
 		this.title = title;
 	}
+	
+
 
 	public int getId() {return ID;}
 	public String getMediaType() {return mediaType;}

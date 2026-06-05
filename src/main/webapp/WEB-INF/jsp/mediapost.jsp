@@ -21,12 +21,13 @@
   <option value="news">ニュース</option>
   <option value="notice">お知らせ</option>
   <option value="others">その他</option>
- </select><br>
+ </select><br><br>
 タイトル<br>
-<input type="text" name="title"><br>
+<input type="text" name="title"value="<%= request.getParameter("title") != null ? request.getParameter("title") : "" %>"><br>
 <%= s2%><br>
 内容<br>
-<textarea name="content" rows="10" cols="30"></textarea><br>
+<textarea name="content" rows="10" cols="30"><%= request.getParameter("content") != null ? request.getParameter("content") : "" %></textarea>
+<br>
 <%= s3%><br><br>
 <input type="hidden" name="departmentId"value="<%= loginUser.getDepartmentId()%>">
 <input type="submit" value="投稿する">

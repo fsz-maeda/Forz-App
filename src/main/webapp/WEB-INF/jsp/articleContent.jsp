@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="model.Media"%>
+<%@ page import="model.MediaComment"%>
+<%@ page import="java.util.List" %>
 <%
 Media media = (Media)session.getAttribute("media");
+List<MediaComment> commentlist = (List<MediaComment>)session.getAttribute("commentlist");
 %>
 <!DOCTYPE html>
 <html>
@@ -13,9 +16,19 @@ Media media = (Media)session.getAttribute("media");
 <body>
 <h1><%= media.getTitle()%></h1><br>
 <hr><br>
-<%= media.getContent()%>
+<%= media.getContent()%><br>
 <footer><a href="media">メディア画面へ</a>
 <a href="MediaCommentServlet">コメントを書く</a>
-</footer>
+</footer><br>
+<h2>コメント一覧</h2>
+<table border="1"style="border-collapse: collapse">
+<tr>
+<th>名前</th>
+<th>コメント</th>
+</tr>
+<% for (MediaComment mc : commentlist){ %>
+<td><%= mc.getName()%></td><td><%= mc.getComment()%></td><tr>
+<%} %>
+</table>
 </body>
 </html>

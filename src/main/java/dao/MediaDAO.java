@@ -102,7 +102,7 @@ return true;
            String content = rs.getString("CONTENT");
            String title = rs.getString("TITLE");
            
-           media = new Media(content,title);
+           media = new Media(id,content,title);
            
            }
            
