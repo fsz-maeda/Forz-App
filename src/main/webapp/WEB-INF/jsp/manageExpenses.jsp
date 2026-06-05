@@ -10,6 +10,11 @@
 <body>
 	<h1>経費管理</h1>
 	
+	<c:if test="${updateExpensesMSg != null}">
+		${updateExpensesMsg}
+		<c:remove  var="updateExpensesMsg" scope="session"/>
+	</c:if>
+	
 	<h2>未承認経費</h2>
 	
 	<table>

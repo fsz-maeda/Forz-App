@@ -27,6 +27,11 @@ public class ExpensesServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
 		
+		if(user == null) {
+			response.sendRedirect("home");
+			return;
+		}
+		
 		ExpensesDAO dao = new ExpensesDAO();
 		List<Expenses> expensesList = dao.expensesOK(user.getUserId(), "承認");
 		

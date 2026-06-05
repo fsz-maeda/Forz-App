@@ -173,4 +173,30 @@ public class ExpensesDAO {
         
         return true;
     }
+    
+    public boolean updateExpenses(int expensesId, String approval) {
+    	try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+        	String sql ="UPDATE EXPENSES SET APPROVAL = ? WHERE EXPENSES_ID = ?";
+        	
+        	PreparedStatement pStmt = conn.prepareStatement(sql);
+        	pStmt.setString(1, approval);
+        	pStmt.setInt(2, expensesId);
+        	
+        	int result = pStmt.executeUpdate();
+        	if(result != 1) {
+        		return false;
+        	}
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
+    }
 }

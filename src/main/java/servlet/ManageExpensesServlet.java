@@ -10,9 +10,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
 import model.Expenses;
+import model.User;
 
 @WebServlet("/manageExpenses")
 public class ManageExpensesServlet extends HttpServlet {
@@ -22,6 +24,14 @@ public class ManageExpensesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		
+		if(user == null) {
+			response.sendRedirect("home");
+			return;
+		}
 		
 		ExpensesDAO dao = new ExpensesDAO();
 		List<Expenses> expensesList = dao.findAll();
