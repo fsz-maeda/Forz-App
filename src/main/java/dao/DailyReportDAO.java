@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DailyReport;
-import model.DailyReportComment;
 import model.Port;
 
 public class DailyReportDAO {
@@ -168,41 +167,6 @@ public class DailyReportDAO {
     
     
     
-//  コメント取得
-    public List<DailyReportComment> findCommentsByReportId(int reportId) {
-
-        List<DailyReportComment> list = new ArrayList<>();
-
-        String sql =
-            "SELECT c.comment_id, c.comment_text, u.name " +
-            "FROM FORZDAILYREPORTCOMMENT c " +
-            "LEFT JOIN FORZUSERS u ON c.user_id = u.id " +
-            "WHERE c.daily_report_id = ? " +
-            "ORDER BY c.created_at ASC";
-
-        try (Connection conn = DriverManager.getConnection(JDBC_URL);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, reportId);
-
-            try (ResultSet rs = ps.executeQuery()) {
-
-                while (rs.next()) {
-                    DailyReportComment c = new DailyReportComment();
-                    c.setCommentId(rs.getInt("comment_id"));
-                    c.setCommentText(rs.getString("comment_text"));
-                    c.setUserName(rs.getString("name"));
-                    list.add(c);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-    
     public int countAllReports() {
 
         String sql = "SELECT COUNT(*) FROM FORZDAILYREPORTS";
@@ -221,6 +185,46 @@ public class DailyReportDAO {
 
         return 0;
     }
+    
+    
+    
+////  コメント取得
+//    public List<DailyReportComment> findCommentsByReportId(int reportId) {
+//
+//        List<DailyReportComment> list = new ArrayList<>();
+//
+//        String sql =
+//            "SELECT c.comment_id, c.comment_text,c.user_id, u.name " +
+//            "FROM FORZDAILYREPORTCOMMENT c " +
+//            "LEFT JOIN FORZUSERS u ON c.user_id = u.id " +
+//            "WHERE c.daily_report_id = ? " +
+//            "ORDER BY c.created_at ASC";
+//
+//        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+//             PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//            ps.setInt(1, reportId);
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//
+//                while (rs.next()) {
+//                    DailyReportComment c = new DailyReportComment();
+//                    c.setCommentId(rs.getInt("comment_id"));
+//                    c.setCommentText(rs.getString("comment_text"));
+//                    c.setUserId(rs.getInt("user_id"));
+//                    c.setUserName(rs.getString("name"));
+//                    list.add(c);
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return list;
+//    }
+//    
+
     
 //    public List<DailyReport> findAllWithComments(Set<Integer> likedSet) {
 //

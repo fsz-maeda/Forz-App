@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.Set;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,9 +34,14 @@ public class DailyReportLikeServlet extends HttpServlet {
         DailyReportLikeDAO dao = new DailyReportLikeDAO();
         
 //     	isLikedはuserがいいねしてるかどうかの確認処理していなかったらinsertLikeUserでいいねを押した登録処理
-        if (!dao.isLiked(user.getUserId(), dailyReportId)) {
-            dao.insertLikeUser(user.getUserId(), dailyReportId);
-        }
+        Set<Integer> likedSet =
+        	    dao.findLikedReportIds(user.getUserId());
+
+        	if (likedSet.contains(dailyReportId)) {
+        	    dao.deleteLikeUser(user.getUserId(), dailyReportId);
+        	} else {
+        	    dao.insertLikeUser(user.getUserId(), dailyReportId);
+        	}
 
         response.sendRedirect("dailyReportPage");
     }
