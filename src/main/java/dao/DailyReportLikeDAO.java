@@ -13,6 +13,7 @@ import model.Port;
 public class DailyReportLikeDAO {
 	String JDBC_URL = Port.JDBC_URL;
 	
+//	いいねを押した人とレポ－トIDの保存
 	public boolean insertLikeUser(int userId, int dailyReportId) {
 		
 	    try {
@@ -42,6 +43,7 @@ public class DailyReportLikeDAO {
 
 	}
 	
+//	いいねが押されているかの判定
 	public boolean isLiked(int userId, int reportId) {
 	    try {
 	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -70,6 +72,8 @@ public class DailyReportLikeDAO {
 	    return false;
 	}
 	
+	
+//	そのユーザーがいいねを押している日報一覧を取得
 	public Set<Integer> findLikedReportIds(int userId) {
 
 	    Set<Integer> set = new HashSet<>();
