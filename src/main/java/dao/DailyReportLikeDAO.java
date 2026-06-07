@@ -43,35 +43,6 @@ public class DailyReportLikeDAO {
 
 	}
 	
-//	いいねが押されているかの判定
-	public boolean isLiked(int userId, int reportId) {
-	    try {
-	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	    } catch (ClassNotFoundException e) {
-	        throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-	    }
-		
-		
-	    String sql = "SELECT COUNT(*) FROM FORZDAILYREPORTLIKE WHERE user_id=? AND daily_report_id=?";
-
-	    try (Connection conn = DriverManager.getConnection(JDBC_URL);
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-	        ps.setInt(1, userId);
-	        ps.setInt(2, reportId);
-
-	        ResultSet rs = ps.executeQuery();
-	        if (rs.next()) {
-	            return rs.getInt(1) > 0;
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return false;
-	}
-	
 	
 //	そのユーザーがいいねを押している日報一覧を取得
 	public Set<Integer> findLikedReportIds(int userId) {
@@ -105,5 +76,24 @@ public class DailyReportLikeDAO {
 	    }
 
 	    return set;
+	}
+	
+	public boolean deleteLikeUser(int userId, int dailyReportId) {
+
+	    String sql =
+	        "DELETE FROM FORZDAILYREPORTLIKE WHERE user_id=? AND daily_report_id=?";
+
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL);
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, userId);
+	        ps.setInt(2, dailyReportId);
+
+	        return ps.executeUpdate() == 1;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 }
