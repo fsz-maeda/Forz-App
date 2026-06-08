@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class DailyReportLike {
 	private int likeId;
-	private int userId;
+	private int employeeId;
 	private int dailyReportId;
 	private Date createdAt;
 	
 	
 	public DailyReportLike() {}
 	
-	public DailyReportLike(int likeId, int userId, int dailyReportId,Date createdAt) {
+	public DailyReportLike(int likeId, int employeeId, int dailyReportId,Date createdAt) {
 		this.likeId = likeId;
-		this.userId = userId;
+		this.employeeId = employeeId;
 		this.dailyReportId = dailyReportId;
 		this.createdAt = createdAt;
 	}
@@ -26,12 +26,12 @@ public class DailyReportLike {
 		this.likeId = likeId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public int getDailyReportId() {

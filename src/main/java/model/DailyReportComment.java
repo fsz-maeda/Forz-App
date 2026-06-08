@@ -5,18 +5,19 @@ import java.util.Date;
 public class DailyReportComment {
     private int commentId;
     private int dailyReportId;
-    private int userId;
-    private String userName;
+    private int employeeId;
+	private String employeeName;
     private String commentText;
     private Date createdAt;
+
     
     public DailyReportComment() {}
     
-    public DailyReportComment(int commentId, int dailyReportId, int userId, String userName, String commentText,Date createdAt) {
+    public DailyReportComment(int commentId, int dailyReportId, int employeeId, String employeeName, String commentText,Date createdAt) {
     	this.commentId = commentId;
     	this.dailyReportId = dailyReportId;
-    	this.userId = userId;
-    	this.userName = userName;
+    	this.employeeId = employeeId;
+    	this.employeeName = employeeName;
     	this.commentText = commentText;
     	this.createdAt = createdAt;
     }
@@ -33,17 +34,17 @@ public class DailyReportComment {
 	public void setDailyReportId(int dailyReportId) {
 		this.dailyReportId = dailyReportId;
 	}
-	public int getUserId() {
-		return userId;
+	public int getEmployeeId() {
+		return employeeId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getEmployeeName() {
+		return employeeName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 	public String getCommentText() {
 		return commentText;
