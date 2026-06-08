@@ -10,73 +10,116 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.ChatDAO;
 import dao.EmployeeDAO;
 import model.Chat;
 import model.Employee;
 
-/**
- * Servlet implementation class ChatServlet
- */
 @WebServlet("/ChatServlet")
 public class ChatServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
-	protected void doGet(HttpServletRequest request,HttpServletResponse response)
-	        throws ServletException, IOException {
+private static final long serialVersionUID = 1L;
+protected void doGet(HttpServletRequest request,HttpServletResponse response)
+        throws ServletException, IOException {
 
-	    String receiverId =request.getParameter("receiverId");
-	    
-	    String keyword = request.getParameter("keyword");
-	    
-	    EmployeeDAO dao = new EmployeeDAO();
+    request.setCharacterEncoding("UTF-8");
 
-	    List<Employee> employeeList = new ArrayList<>();
+    String keyword = request.getParameter("keyword");
+    String receiverId = request.getParameter("receiverId");
 
-	    try {
-	        if(keyword != null && !keyword.trim().isEmpty()) {
-	            employeeList = dao.search(keyword);
-	        } else {
-	            employeeList = dao.findAll();
-	        }
-	    } catch(Exception e) {
-	        e.printStackTrace();
-	    }
+    EmployeeDAO employeeDao = new EmployeeDAO();
 
-	    request.setAttribute("employeeList", employeeList);
-	    request.setAttribute("receiverId", receiverId);
-	    RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp");
+    List<Employee> employeeList = new ArrayList<>();
 
-	    dispatcher.forward(request,response);
-	}
+    if(keyword != null && !keyword.trim().isEmpty()) {
+        employeeList = employeeDao.search(keyword);
+    } else {
+        employeeList = employeeDao.findAll();
+    }
 
+    request.setAttribute("employeeList", employeeList);
+    request.setAttribute("receiverId", receiverId);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		int senderId = 1;
+    if(receiverId != null && !receiverId.isEmpty()) {
 
-		int receiverId =Integer.parseInt(
-			request.getParameter("receiverId"));
+        Employee receiver =employeeDao.findById(
+                Integer.parseInt(receiverId));
 
-		String message =request.getParameter("message");
+        request.setAttribute("receiver", receiver);
 
-		Chat chat = new Chat();
+        HttpSession session = request.getSession(false);
 
-		chat.setSenderId(senderId);
-		chat.setReceiverId(receiverId);
-		chat.setMessage(message);
+        if(session != null &&
+           session.getAttribute("loginUser") != null) {
 
-		ChatDAO dao = new ChatDAO();
+            Employee loginUser =(Employee)session.getAttribute("loginUser");
 
-		dao.insert(chat);
+            ChatDAO chatDao = new ChatDAO();
 
-		response.sendRedirect("ChatServlet?receiverId=" + receiverId);
-	}
+            List<Chat> chatList =chatDao.findChat(
+                            loginUser.getEmployeeId(),
+                            Integer.parseInt(receiverId));
 
+            request.setAttribute("chatList",chatList);
+        }
+    }
 
-	}
+    RequestDispatcher dispatcher =request.getRequestDispatcher(
+                    "/WEB-INF/jsp/chat.jsp");
 
+    dispatcher.forward(request,response);
+}
 
+protected void doPost(HttpServletRequest request,
+        HttpServletResponse response)
+        throws ServletException, IOException {
+
+    request.setCharacterEncoding("UTF-8");
+
+    HttpSession session =
+request.getSession(false);
+
+    if(session == null ||
+       session.getAttribute("loginUser") == null) {
+
+        response.sendRedirect("Home");
+        return;
+    }
+
+    Employee loginUser =
+            (Employee)session.getAttribute(
+                    "loginUser");
+
+    int senderId =
+            loginUser.getEmployeeId();
+
+    int receiverId =
+            Integer.parseInt(
+                    request.getParameter(
+                            "receiverId"));
+
+    String message =
+            request.getParameter(
+                    "message");
+
+    if(message != null &&
+       !message.trim().isEmpty()) {
+
+        Chat chat = new Chat();
+
+        chat.setSenderId(senderId);
+        chat.setReceiverId(receiverId);
+        chat.setMessage(message);
+
+        ChatDAO dao = new ChatDAO();
+
+        dao.insert(chat);
+    }
+
+    response.sendRedirect(
+            "ChatServlet?receiverId="
+            + receiverId);
+}
+
+}
