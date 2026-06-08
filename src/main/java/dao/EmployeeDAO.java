@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Employee;
+import model.EmployeePosition;
 import model.Port;
+import util.PasswordUtil;
 
 public class EmployeeDAO {
 	String JDBC_URL = Port.JDBC_URL;
 
-	public Employee login(String name, String pass) {
-		Employee employee = null;
-
+	public boolean login(String name, String pass) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e) {
@@ -31,26 +31,16 @@ public class EmployeeDAO {
 			pStmt.setString(1, name);
 			pStmt.setString(2, pass);
 
-			ResultSet rs = pStmt.executeQuery();
-
-			if (rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
-				String mail = rs.getString("MAIL");
-				int positionId = rs.getInt("POSITION_ID");
-				int departmentId = rs.getInt("DEPARTMENT_ID");
-				String photoPath = rs.getString("PHOTO_PATH");
-				Date enter = rs.getDate("ENTER");
-				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
-				employee = new Employee(employeeId, name, pass, mail, positionId, departmentId,
-						photoPath, enter, intro, management);
+			int result = pStmt.executeUpdate();
+			if (result != 1) {
+				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		}
 
-		return employee;
+		return true;
 	}
 
 	public List<Employee> findAll() {
@@ -72,16 +62,16 @@ public class EmployeeDAO {
 				int employeeId = rs.getInt("EMPLOYEE_ID");
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PATH");
-        		String mail = rs.getString("MAIL");
-        		int positionId = rs.getInt("POSITION_ID");
-        		int departmentId = rs.getInt("DEPARTMENT_ID");
-        		String photoPath = rs.getString("PHOTO_PATH");
-        		Date enter = rs.getDate("ENTER");
-        		String intro = rs.getString("INTRO");
-        		int management = rs.getInt("MANAGEMENT");
-        		
-        		emp = new Employee(employeeId, name, pass, mail, positionId, departmentId, 
-        				photoPath, enter, intro, management);
+				String mail = rs.getString("MAIL");
+				int positionId = rs.getInt("POSITION_ID");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				String photoPath = rs.getString("PHOTO_PATH");
+				Date enter = rs.getDate("ENTER");
+				String intro = rs.getString("INTRO");
+				int management = rs.getInt("MANAGEMENT");
+
+				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
+						photoPath, enter, intro, management);
 				employeeList.add(emp);
 			}
 			conn.close();
@@ -116,16 +106,16 @@ public class EmployeeDAO {
 				int employeeId = rs.getInt("EMPLOYEE_ID");
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PATH");
-        		String mail = rs.getString("MAIL");
-        		int positionId = rs.getInt("POSITION_ID");
-        		int departmentId = rs.getInt("DEPARTMENT_ID");
-        		String photoPath = rs.getString("PHOTO_PATH");
-        		Date enter = rs.getDate("ENTER");
-        		String intro = rs.getString("INTRO");
-        		int management = rs.getInt("MANAGEMENT");
-        		
-        		emp = new Employee(employeeId, name, pass, mail, positionId, departmentId, 
-        				photoPath, enter, intro, management);
+				String mail = rs.getString("MAIL");
+				int positionId = rs.getInt("POSITION_ID");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				String photoPath = rs.getString("PHOTO_PATH");
+				Date enter = rs.getDate("ENTER");
+				String intro = rs.getString("INTRO");
+				int management = rs.getInt("MANAGEMENT");
+
+				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
+						photoPath, enter, intro, management);
 				employeeList.add(emp);
 			}
 
@@ -141,7 +131,7 @@ public class EmployeeDAO {
 	public Employee findById(int employeeId) {
 		List<Employee> employeeList = new ArrayList<>();
 		Employee emp = null;
-		
+
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = DriverManager.getConnection(JDBC_URL);
@@ -156,16 +146,16 @@ public class EmployeeDAO {
 			if (rs.next()) {
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PASS");
-        		String mail = rs.getString("MAIL");
-        		int positionId = rs.getInt("POSITION_ID");
-        		int departmentId = rs.getInt("DEPARTMENT_ID");
-        		String photoPath = rs.getString("PHOTO_PATH");
-        		Date enter = rs.getDate("ENTER");
-        		String intro = rs.getString("INTRO");
-        		int management = rs.getInt("MANAGEMENT");
-        		
-        		emp = new Employee(employeeId, name, pass, mail, positionId, departmentId, 
-        				photoPath, enter, intro, management);
+				String mail = rs.getString("MAIL");
+				int positionId = rs.getInt("POSITION_ID");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				String photoPath = rs.getString("PHOTO_PATH");
+				Date enter = rs.getDate("ENTER");
+				String intro = rs.getString("INTRO");
+				int management = rs.getInt("MANAGEMENT");
+
+				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
+						photoPath, enter, intro, management);
 				employeeList.add(emp);
 			}
 			conn.close();
@@ -198,16 +188,16 @@ public class EmployeeDAO {
 			if (rs.next()) {
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PASS");
-        		String mail = rs.getString("MAIL");
-        		int positionId = rs.getInt("POSITION_ID");
-        		int departmentId = rs.getInt("DEPARTMENT_ID");
-        		String photoPath = rs.getString("PHOTO_PATH");
-        		Date enter = rs.getDate("ENTER");
-        		String intro = rs.getString("INTRO");
-        		int management = rs.getInt("MANAGEMENT");
-        		
-        		emp = new Employee(employeeId, name, pass, mail, positionId, departmentId, 
-        				photoPath, enter, intro, management);
+				String mail = rs.getString("MAIL");
+				int positionId = rs.getInt("POSITION_ID");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				String photoPath = rs.getString("PHOTO_PATH");
+				Date enter = rs.getDate("ENTER");
+				String intro = rs.getString("INTRO");
+				int management = rs.getInt("MANAGEMENT");
+
+				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
+						photoPath, enter, intro, management);
 			}
 
 			conn.close();
@@ -217,5 +207,169 @@ public class EmployeeDAO {
 		}
 
 		return emp;
+	}
+
+	public boolean deleteEmployee(int employeeId) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "DELETE FROM EMPLOYEE WHERE = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, employeeId);
+
+			int result = pStmt.executeUpdate();
+			if (result != 1) {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	public List<EmployeePosition> findPositionName() {
+		EmployeePosition userPosition = null;
+		List<EmployeePosition> userPositionList = new ArrayList<>();
+
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "SELECT FORZUSERS.ID, "
+					+ "FORZUSERS.NAME, "
+					+ "FORZUSERS.PASS, "
+					+ "FORZUSERS.MAIL, "
+					+ "POSITION.POSITION_NAME "
+					+ "FROM FORZUSERS "
+					+ "JOIN POSITION ON FORZUSERS.position_id = POSITION.POSITION_ID";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				String name = rs.getString("NAME");
+				String pass = rs.getString("PASS");
+				String mail = rs.getString("MAIL");
+				String positionName = rs.getString("POSITION_NAME");
+				userPosition = new EmployeePosition(id, name, pass, mail, positionName);
+				userPositionList.add(userPosition);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return userPositionList;
+	}
+
+	public Employee findByNameAndPass(String name, String pass) {
+		Employee employee = null;
+
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String hashedPass = PasswordUtil.hashPassword(pass);
+
+			String sql = "SELECT * FROM FORZUSERS WHERE NAME = ? AND PASS = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, name);
+			pStmt.setString(2, hashedPass);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			if (rs.next()) {
+				int employeeId = rs.getInt("EMPLOYEE_ID");
+				String mail = rs.getString("MAIL");
+				int positionId = rs.getInt("POSITION_ID");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				String photoPath = rs.getString("PHOTO_PATH");
+				Date enter = rs.getDate("ENTER");
+				String intro = rs.getString("INTRO");
+				int management = rs.getInt("MANAGEMENT");
+
+				employee = new Employee(employeeId, name, pass, mail, positionId, departmentId,
+						photoPath, enter, intro, management);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return employee;
+	}
+
+	public boolean updateEmployeePosition(String positionName, int employeeId) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "UPDATE EMPLOYEE "
+					+ "SET POSITION_ID = POSITION.POSITION_ID "
+					+ "FROM EMPLOYEE "
+					+ "JOIN POSITION ON POSITION.POSITION_NAME = ? "
+					+ "WHERE EMPLOYEE.ID = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, positionName);
+			pStmt.setInt(2, employeeId);
+
+			int result = pStmt.executeUpdate();
+			return result == 1;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean registerEmployee(String name, String pass, String mail) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			// パスワードをハッシュ化
+			String hashedPass = PasswordUtil.hashPassword(pass);
+
+			String sql = "INSERT INTO EMPLOYEE(NAME, PASS, MAIL) "
+					+ "VALUES (?, ?, ?)";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, name);
+			pStmt.setString(2, hashedPass);
+			pStmt.setString(3, mail);
+
+			int result = pStmt.executeUpdate();
+			if (result != 1) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 }

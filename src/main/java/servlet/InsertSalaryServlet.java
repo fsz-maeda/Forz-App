@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
-import model.UserPosition;
+import model.EmployeePosition;
 
 @WebServlet("/insertSalary")
 public class InsertSalaryServlet extends HttpServlet {
@@ -24,10 +24,10 @@ public class InsertSalaryServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		List<UserPosition> userPositionList = dao.findPositionName();
+		List<EmployeePosition> employeePositionList = dao.findPositionName();
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("userPositionList", userPositionList);
+		session.setAttribute("employeePositionList", employeePositionList);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertSalary.jsp");
 		dispatcher.forward(request, response);

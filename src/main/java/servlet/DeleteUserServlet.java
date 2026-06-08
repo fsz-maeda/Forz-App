@@ -19,10 +19,10 @@ public class DeleteUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		boolean result = dao.deleteUser(userId);
+		boolean result = dao.deleteEmployee(employeeId);
 		
 		if(result) {
 			request.getSession().setAttribute("deleteUserMsg", "削除成功");

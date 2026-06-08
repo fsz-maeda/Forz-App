@@ -35,7 +35,7 @@ public class UserRegisterServlet extends HttpServlet {
 		
 		EmployeeDAO dao = new EmployeeDAO();
 		
-		boolean result = dao.registerUser(name, pass, mail);
+		boolean result = dao.registerEmployee(name, pass, mail);
 		
 		if(result) {
 			request.setAttribute("registerMsg", "登録完了");

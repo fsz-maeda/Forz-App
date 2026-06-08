@@ -37,7 +37,6 @@ public class LoginServlet extends HttpServlet {
 
 	    EmployeeDAO dao = new EmployeeDAO();
 	    Employee employee = dao.findByNameAndPass(name, pass);
-	    Employee user = dao.login(name, pass);
 
 	    if(employee != null) {
 

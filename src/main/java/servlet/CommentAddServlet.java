@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.CommentDAO;
 import model.Comment;
-import model.User;
+import model.Employee;
 
 @WebServlet("/commentAdd")
 public class CommentAddServlet extends HttpServlet {
@@ -35,14 +35,14 @@ public class CommentAddServlet extends HttpServlet {
 		HttpSession session =
 				request.getSession();
 
-		User loginUser =
-				(User) session.getAttribute("loginUser");
+		Employee loginUser =
+				(Employee) session.getAttribute("loginUser");
 
 		// Commentオブジェクト作成
 		Comment comment = new Comment();
 
 		comment.setEventId(eventId);
-		comment.setUserId(loginUser.getUserId());
+		comment.setUserId(loginUser.getEmployeeId());
 		comment.setComment(text);
 
 		// DB登録

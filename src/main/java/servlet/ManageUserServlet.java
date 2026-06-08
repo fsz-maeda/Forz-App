@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
 import model.Employee;
-import model.UserPosition;
+import model.EmployeePosition;
 
 @WebServlet("/manageUser")
 public class ManageUserServlet extends HttpServlet {
@@ -33,7 +33,7 @@ public class ManageUserServlet extends HttpServlet {
 		}
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		List<UserPosition> userPositionList = dao.findPositionName();
+		List<EmployeePosition> userPositionList = dao.findPositionName();
 		
 		session.setAttribute("userPositionList", userPositionList);
 		

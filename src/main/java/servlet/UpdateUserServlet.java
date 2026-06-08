@@ -23,7 +23,7 @@ public class UpdateUserServlet extends HttpServlet {
 		String positionName = request.getParameter("positionName");
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		boolean result = dao.updateUserPosition(positionName, userId);
+		boolean result = dao.updateEmployeePosition(positionName, userId);
 		
 		if(result) {
 		    request.getSession().setAttribute("updateUserMsg", "更新成功");
