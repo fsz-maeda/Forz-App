@@ -2,10 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import="model.Media"%>
 <%@ page import="model.MediaComment"%>
+<%@ page import="model.Employee"%>
 <%@ page import="java.util.List" %>
 <%
 Media media = (Media)session.getAttribute("media");
 List<MediaComment> commentlist = (List<MediaComment>)session.getAttribute("commentlist");
+Employee loginUser = (Employee)session.getAttribute("loginUser");
 %>
 <!DOCTYPE html>
 <html>
@@ -15,6 +17,17 @@ List<MediaComment> commentlist = (List<MediaComment>)session.getAttribute("comme
 </head>
 <body>
 <h1><%= media.getTitle()%></h1><br>
+<% if (loginUser != null && loginUser.getEmployeeId() == media.getUserId()) { %>
+    <form action="MediaEditServlet" method="get" style="display:inline;">
+        <input type="hidden" name="id" value="<%= media.getId() %>">
+        <button type="submit">この記事を編集する</button>
+    </form>
+    <form action="MediaDeleteServlet" method="post" style="display:inline;" onsubmit="return confirm('本当にこの記事を削除しますか？');">
+        <input type="hidden" name="id" value="<%= media.getId() %>">
+        <button type="submit" style="color: red;">この記事を削除する</button>
+    </form>
+<% } %>
+    <br><br>
 <hr><br>
 <%= media.getContent()%><br>
 <footer><a href="media">メディア画面へ</a>
@@ -27,7 +40,7 @@ List<MediaComment> commentlist = (List<MediaComment>)session.getAttribute("comme
 <th>コメント</th>
 </tr>
 <% for (MediaComment mc : commentlist){ %>
-<td><%= mc.getName()%></td><td><%= mc.getComment()%></td><tr>
+<td><%= loginUser.getName()%></td><td><%= mc.getComment()%></td><tr>
 <%} %>
 </table>
 </body>

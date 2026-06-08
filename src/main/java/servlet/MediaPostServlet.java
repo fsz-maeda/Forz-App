@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import model.Employee;
 import model.Media;
 import model.MediaRegistLogic;
 
@@ -46,8 +47,9 @@ public class MediaPostServlet extends HttpServlet {
 		String a = request.getParameter("departmentId");
 		int departmentId =Integer.parseInt(a);
 		
-		if(category.equals("news")) {category="ニュース";}
-		if(category.equals("notice")) {category="お知らせ";}
+		if(category.equals("businessknowledge")) {category="業務ナレッジ";}
+		if(category.equals("contact")) {category="部署内連絡・進歩共有";}
+		if(category.equals("membership")) {category="メンバーシップ・相互理解";}
 		if(category.equals("others")) {category="その他";}
 		
 		String errorMsg="";
@@ -64,9 +66,11 @@ public class MediaPostServlet extends HttpServlet {
 			errorMsg3 += "内容が入力されていません";
 		}
 		if(title.length()!=0&&content.length()!=0&&category.length()!=0) {
+			HttpSession session = request.getSession();
+			Employee em = (Employee)session.getAttribute("loginUser");
 			Media media = new Media(category,title,content);
 			MediaRegistLogic mrl = new MediaRegistLogic();
-			boolean result = mrl.execute(media,departmentId);
+			boolean result = mrl.execute(media,departmentId,em);
 			if(result) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediaPostOK.jsp");
 				dispatcher.forward(request, response);

@@ -53,7 +53,7 @@ public class MediaDAO {
         return mediaList;
     }
     
-    public boolean mediaRegist(Media media, int departmentId) {
+    public boolean mediaRegist(Media media, int departmentId,Employee em) {
     	 try {
              Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
          } catch (ClassNotFoundException e) {
@@ -62,13 +62,14 @@ public class MediaDAO {
 
          try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-         String sql ="INSERT INTO FORZMEDIA(MEDIA_TYPE,TITLE,CONTENT,DEPARTMENT_ID) VALUES(?,?,?,?)";
+         String sql ="INSERT INTO FORZMEDIA(USER_ID,MEDIA_TYPE,TITLE,CONTENT,DEPARTMENT_ID) VALUES(?,?,?,?,?)";
          PreparedStatement pStmt = conn.prepareStatement(sql);
          
-         pStmt.setString(1,media.getMediaType());
-         pStmt.setString(2,media.getTitle());
-         pStmt.setString(3,media.getContent());
-         pStmt.setInt(4,departmentId);
+         pStmt.setInt(1,em.getEmployeeId());
+         pStmt.setString(2,media.getMediaType());
+         pStmt.setString(3,media.getTitle());
+         pStmt.setString(4,media.getContent());
+         pStmt.setInt(5,departmentId);
          
          int result = pStmt.executeUpdate();
          if(result != 1) {
@@ -91,7 +92,7 @@ return true;
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-        String sql ="SELECT CONTENT,TITLE FROM FORZMEDIA WHERE ID =?";
+        String sql ="SELECT CONTENT,TITLE,USER_ID FROM FORZMEDIA WHERE ID =?";
         PreparedStatement pStmt = conn.prepareStatement(sql);
            pStmt.setInt(1,id); 
         
@@ -101,8 +102,9 @@ return true;
            if(rs.next()) {
            String content = rs.getString("CONTENT");
            String title = rs.getString("TITLE");
+           int userId = rs.getInt("USER_ID"); 
            
-           media = new Media(id,content,title);
+           media = new Media(id,content,title,userId);
            
            }
            
@@ -111,7 +113,60 @@ return true;
         return null;
     }
        return media;
-        }    
+        }
+    
+    public boolean mediaUpdate(Media media) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+        	
+            String sql = "UPDATE FORZMEDIA SET TITLE = ?, CONTENT = ? WHERE ID = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            
+            pStmt.setString(1, media.getTitle());
+            pStmt.setString(2, media.getContent());
+            pStmt.setInt(3, media.getId());
+            
+            int result = pStmt.executeUpdate();
+            if (result != 1) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean mediaDelete(int id) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            
+            String sql = "DELETE FROM FORZMEDIA WHERE ID = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            
+            pStmt.setInt(1, id);
+            
+            int result = pStmt.executeUpdate();
+            if (result != 1) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     
 }
 

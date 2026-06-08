@@ -27,6 +27,8 @@
     <li><a href="NoticeServlet">📢 お知らせ</a></li>
 
     <li><a href="dailyReportPage">📝 日報</a></li>
+    
+    <li><a href="media">メディア</a></li>
 
     <li><a href="EmployeeListServlet">👥 社員一覧</a></li>
 

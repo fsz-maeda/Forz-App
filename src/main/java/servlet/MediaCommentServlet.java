@@ -48,24 +48,22 @@ public class MediaCommentServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		String name = request.getParameter("name");
+		
 		String comment = request.getParameter("comment");
 		String a = request.getParameter("IID");
 		int id =Integer.parseInt(a);
 		String esg1="";
 		String esg2="";
 		
-		if(name.length()!=0&&comment.length()!=0) {
-		MediaComment mc = new MediaComment(id,name,comment);
+		if(comment.length()!=0) {
+		MediaComment mc = new MediaComment(id,comment);
 		MediaCommentDAO dao = new MediaCommentDAO();
 		
 		dao.postComment(mc);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaCommentOK.jsp");
 		dispatcher.forward(request, response);}
 		
-		if(name.length()==0) {
-			esg1="名前が入力されていません";
-		}
+		
 		if(comment.length()==0) {
 			esg2="コメントが入力されていません";
 		}	
