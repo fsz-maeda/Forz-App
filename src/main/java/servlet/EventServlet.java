@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpSession;
 import dao.CommentDAO;
 import dao.EventDAO;
 import dao.LikeDAO;
+import model.Employee;
 import model.Event;
-import model.User;
 
 @WebServlet("/event")
 public class EventServlet extends HttpServlet {
@@ -42,7 +42,7 @@ public class EventServlet extends HttpServlet {
 						/ pageSize);
 		HttpSession session = request.getSession();
 
-		User loginUser = (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		CommentDAO commentDAO = new CommentDAO();
 		LikeDAO likeDAO = new LikeDAO();
@@ -58,7 +58,7 @@ public class EventServlet extends HttpServlet {
 
 				event.setLiked(
 						likeDAO.exists(
-							loginUser.getUserId(),
+							loginUser.getEmployeeId(),
 								event.getEventId()));
 			}
 		}

@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.EventDAO;
+import model.Employee;
 import model.Event;
-import model.User;
 
 @WebServlet("/eventAdd")
 public class EventAddServlet extends HttpServlet {
@@ -38,10 +38,10 @@ public class EventAddServlet extends HttpServlet {
 		String eventDate = request.getParameter("eventDate");
 
 		HttpSession session = request.getSession();
-		User loginUser = (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 		Event event = new Event();
 
-		event.setUserId(loginUser.getUserId());
+		event.setUserId(loginUser.getEmployeeId());
 
 		event.setTitle(title);
 		event.setContent(content);
