@@ -7,10 +7,10 @@
 <title>ログイン</title>
 </head>
 <body>
-	<h1>ログイン</h1>
+	<h1>ログイン　ページ</h1>
 	<form action="LoginCheck" method="post">
-		名前<input type="text" name="name">
-		パスワード<Input type="password" name="pass">
+		名前<input type="text" name="name"><br>
+		パスワード<Input type="password" name="pass"><br>
 		<input type="submit">送信
 	</form>
 </body>
