@@ -22,15 +22,15 @@ public class AdminServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		Employee user = (Employee)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
 		//if(!(user != null || user.getManagement() == 1)){
 		//		response.sendRedirect("home");
 		//		return;
 		//}
 		
-		if(user == null) {
-			response.sendRedirect("home");
+		if(employee == null) {
+			response.sendRedirect("Home");
 			return;
 		}
 		

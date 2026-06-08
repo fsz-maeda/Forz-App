@@ -13,10 +13,10 @@ public class Employee implements Serializable{
 	private String photoPath;
 	private Date enter;
 	private String intro;
-	private int management;
+	private boolean management;
 	
 	public Employee(int id, String name, String pass, String mail, int department, int position,
-			String photoPath, Date enter, String intro, int management) {
+			String photoPath, Date enter, String intro, boolean management) {
 		this.employeeId = id;
 		this.name = name;
 		this.pass = pass;
@@ -45,7 +45,7 @@ public class Employee implements Serializable{
 		return intro;
 	}
 
-	public int getManagement() {
+	public boolean getManagement() {
 		return management;
 	}
 

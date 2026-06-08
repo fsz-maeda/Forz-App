@@ -18,30 +18,30 @@ public class EmployeeDAO {
 	String JDBC_URL = Port.JDBC_URL;
 
 	public boolean login(String name, String pass) {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+    	try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT * FROM EMPLOYEE WHERE NAME = ? AND PASS = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+        	String hashedPass = PasswordUtil.hashPassword(pass);
+        	
+        	String sql = "SELECT * FROM EMPLOYEE WHERE NAME = ? AND PASS = ?";
+        	
+        	PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, name);
+            pStmt.setString(2, hashedPass);
+            
+            ResultSet rs = pStmt.executeQuery();
 
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, name);
-			pStmt.setString(2, pass);
-
-			int result = pStmt.executeUpdate();
-			if (result != 1) {
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
-	}
+            return rs.next();
+            
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 	public List<Employee> findAll() {
 		List<Employee> employeeList = new ArrayList<>();
@@ -59,16 +59,16 @@ public class EmployeeDAO {
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
+				int employeeId = rs.getInt("ID");
 				String name = rs.getString("NAME");
-				String pass = rs.getString("PATH");
+				String pass = rs.getString("PASS");
 				String mail = rs.getString("MAIL");
 				int positionId = rs.getInt("POSITION_ID");
 				int departmentId = rs.getInt("DEPARTMENT_ID");
 				String photoPath = rs.getString("PHOTO_PATH");
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
+				boolean management = rs.getBoolean("MANAGEMENT");
 
 				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
 						photoPath, enter, intro, management);
@@ -103,7 +103,7 @@ public class EmployeeDAO {
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
+				int employeeId = rs.getInt("ID");
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PATH");
 				String mail = rs.getString("MAIL");
@@ -112,7 +112,7 @@ public class EmployeeDAO {
 				String photoPath = rs.getString("PHOTO_PATH");
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
+				boolean management = rs.getBoolean("MANAGEMENT");
 
 				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
 						photoPath, enter, intro, management);
@@ -152,7 +152,7 @@ public class EmployeeDAO {
 				String photoPath = rs.getString("PHOTO_PATH");
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
+				boolean management = rs.getBoolean("MANAGEMENT");
 
 				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
 						photoPath, enter, intro, management);
@@ -194,7 +194,7 @@ public class EmployeeDAO {
 				String photoPath = rs.getString("PHOTO_PATH");
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
+				boolean management = rs.getBoolean("MANAGEMENT");
 
 				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
 						photoPath, enter, intro, management);
@@ -285,7 +285,7 @@ public class EmployeeDAO {
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 			String hashedPass = PasswordUtil.hashPassword(pass);
 
-			String sql = "SELECT * FROM FORZUSERS WHERE NAME = ? AND PASS = ?";
+			String sql = "SELECT * FROM EMPLOYEE WHERE NAME = ? AND PASS = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, name);
@@ -294,14 +294,14 @@ public class EmployeeDAO {
 			ResultSet rs = pStmt.executeQuery();
 
 			if (rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
+				int employeeId = rs.getInt("ID");
 				String mail = rs.getString("MAIL");
 				int positionId = rs.getInt("POSITION_ID");
 				int departmentId = rs.getInt("DEPARTMENT_ID");
 				String photoPath = rs.getString("PHOTO_PATH");
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
-				int management = rs.getInt("MANAGEMENT");
+				boolean management = rs.getBoolean("MANAGEMENT");
 
 				employee = new Employee(employeeId, name, pass, mail, positionId, departmentId,
 						photoPath, enter, intro, management);
