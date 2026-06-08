@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.LikeDAO;
-import model.User;
+import model.Employee;
 
 @WebServlet("/like")
 public class LikeServlet extends HttpServlet {
@@ -25,10 +25,10 @@ public class LikeServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		User loginUser =
-				(User) session.getAttribute("loginUser");
+		Employee loginUser =
+				(Employee) session.getAttribute("loginUser");
 
-		int userId = loginUser.getUserId();
+		int userId = loginUser.getEmployeeId();
 
 		LikeDAO likeDAO = new LikeDAO();
 

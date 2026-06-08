@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpSession;
 import dao.CommentDAO;
 import dao.EventDAO;
 import dao.LikeDAO;
+import model.Employee;
 import model.Event;
-import model.User;
 
 @WebServlet("/event")
 public class EventServlet extends HttpServlet {
@@ -24,14 +24,25 @@ public class EventServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		EventDAO dao = new EventDAO();
 
-		List<Event> eventList = dao.findAll();
+		EventDAO dao = new EventDAO();
+		String pageStr = request.getParameter("page");
+
+		int page = 1;
+
+		if (pageStr != null) {
+			page = Integer.parseInt(pageStr);
+		}
+		int pageSize = 5;
+		int offset = (page - 1) * pageSize;
+		List<Event> eventList = dao.findPage(offset, pageSize);
+		int totalCount = dao.countAll();
+		int totalPages = (int) Math.ceil(
+				(double) totalCount
+						/ pageSize);
 		HttpSession session = request.getSession();
 
-		User loginUser =
-		        (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		CommentDAO commentDAO = new CommentDAO();
 		LikeDAO likeDAO = new LikeDAO();
@@ -40,22 +51,27 @@ public class EventServlet extends HttpServlet {
 
 			event.setCommentList(
 					commentDAO.findByEventId(event.getEventId()));
-			
+
 			event.setLikes(
 					likeDAO.countByEventId(event.getEventId()));
 			if (loginUser != null) {
 
 				event.setLiked(
 						likeDAO.exists(
-								loginUser.getUserId(),
+							loginUser.getEmployeeId(),
 								event.getEventId()));
 			}
 		}
 		request.setAttribute("eventList", eventList);
+		request.setAttribute(
+				"currentPage",
+				page);
 
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("//WEB-INF/jsp/Event.jsp");
+		request.setAttribute(
+				"totalPages",
+				totalPages);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/Event.jsp");
 
-		dispatcher.forward(request, response); 
+		dispatcher.forward(request, response);
 	}
 }
