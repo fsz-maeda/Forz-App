@@ -58,8 +58,18 @@ public class DailyReportEditServlet extends HttpServlet {
         DailyReportDAO dao = new DailyReportDAO();
 
         boolean result = dao.updateReport(reportId, loginUser.getEmployeeId(), title, content, reportType);
+        
+        if(result) {
+        	response.sendRedirect("dailyReportPage");
+        	return;
+        }else {
+        	session.setAttribute("dailyReportUpdateReportErrorMsg", "更新できません。");
+        	response.sendRedirect("DailyReportEditServlet");
+        	return;
 
-        response.sendRedirect("dailyReportPage");
+        }
+
+        
     }
 
 }

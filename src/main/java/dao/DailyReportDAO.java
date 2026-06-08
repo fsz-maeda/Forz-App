@@ -336,5 +336,50 @@ return false;
         return result;
     }
     
+    
+    public List<DailyReport> searchReports(String keyword, int offset, int limit) {
+
+        List<DailyReport> list = new ArrayList<>();
+
+        String sql =
+            "SELECT dr.*, e.name AS employee_name, " +
+            "(SELECT COUNT(*) FROM FORZDAILYREPORTLIKE l WHERE l.daily_report_id = dr.daily_report_id) AS like_count " +
+            "FROM FORZDAILYREPORTS dr " +
+            "LEFT JOIN EMPLOYEE e ON dr.employee_id = e.id " +
+            "WHERE dr.title LIKE ? OR dr.report_type LIKE ? " +
+            "ORDER BY dr.created_at DESC " +
+            "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            String likeKeyword = "%" + keyword + "%";
+
+            ps.setString(1, likeKeyword);
+            ps.setString(2, likeKeyword);
+            ps.setInt(3, offset);
+            ps.setInt(4, limit);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                DailyReport r = new DailyReport();
+                r.setDailyReportId(rs.getInt("daily_report_id"));
+                r.setEmployeeId(rs.getInt("employee_id"));
+                r.setReportType(rs.getString("report_type"));
+                r.setTitle(rs.getString("title"));
+                r.setContent(rs.getString("content"));
+                r.setUserName(rs.getString("employee_name"));
+                r.setLikes(rs.getInt("like_count"));
+
+                list.add(r);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }

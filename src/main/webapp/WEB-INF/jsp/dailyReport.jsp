@@ -20,6 +20,11 @@
 			<a href="Main">メイン画面へ</a>
 			<a href="Home">ホーム画面へ</a>
 		</div>
+		
+		<form action="dailyReportPage" method="get">
+		    <input type="text" name="keyword" placeholder="検索（タイトル or 種別）">
+		    <input type="submit" value="検索">
+		</form>
 	</header>
 	
 	
