@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.EmployeeDAO;
 import model.Employee;
 
 @WebServlet("/MyProfileServlet")
@@ -29,16 +28,12 @@ public class MyProfileServlet extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-        
-        int employeeId = (Integer)session.getAttribute("employeeId");
+       Employee loginUser = (Employee) session.getAttribute("loginUser");
+       request.setAttribute("employee",loginUser);
 
-        EmployeeDAO dao = new EmployeeDAO();
-		Employee employee = dao.findById(employeeId);
-
-		request.setAttribute("employee",employee);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(
-				"//WEB-INF/jsp/profile.jsp");
+				"WEB-INF/jsp/MyProfile.jsp");
 
 		dispatcher.forward(request,response);
 	}

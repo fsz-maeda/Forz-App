@@ -105,7 +105,7 @@ public class EmployeeDAO {
 			while (rs.next()) {
 				int employeeId = rs.getInt("ID");
 				String name = rs.getString("NAME");
-				String pass = rs.getString("PATH");
+				String pass = rs.getString("PASS");
 				String mail = rs.getString("MAIL");
 				int positionId = rs.getInt("POSITION_ID");
 				int departmentId = rs.getInt("DEPARTMENT_ID");
