@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.EmployeeDAO;
+import model.Employee;
+
 @WebServlet("/MyProfileServlet")
 public class MyProfileServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -26,12 +29,10 @@ public class MyProfileServlet extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
+        
+        int employeeId = (Integer)session.getAttribute("employeeId");
 
-        RequestDispatcher dispatcher =
-                request.getRequestDispatcher(
-                        "/WEB-INF/jsp/myProfile.jsp");
-
-<<<<<<< HEAD
+        EmployeeDAO dao = new EmployeeDAO();
 		Employee employee = dao.findById(employeeId);
 
 		request.setAttribute("employee",employee);
@@ -41,8 +42,4 @@ public class MyProfileServlet extends HttpServlet {
 
 		dispatcher.forward(request,response);
 	}
-=======
-        dispatcher.forward(request, response);
-    }
->>>>>>> refs/remotes/origin/rahman
 }
