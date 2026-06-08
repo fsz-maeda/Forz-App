@@ -5,7 +5,7 @@ import java.util.List;
 public class Event {
 
     private int eventId;
-    private int userId;
+    private int employeeId;
     private String title;
     private String content;
     private String area;
@@ -39,11 +39,11 @@ public class Event {
     }
 
     public int getUserId() {
-        return userId;
+        return employeeId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getTitle() {
@@ -83,4 +83,12 @@ public class Event {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
 }

@@ -32,7 +32,7 @@ public class EventDAO {
 				Event event = new Event();
 
 				event.setEventId(rs.getInt("event_id"));
-				event.setUserId(rs.getInt("user_id"));
+				event.setEmployeeId(rs.getInt("employee_id"));
 				event.setTitle(rs.getString("title"));
 				event.setContent(rs.getString("content"));
 				event.setArea(rs.getString("area"));
@@ -74,7 +74,7 @@ public class EventDAO {
 				Event event = new Event();
 
 				event.setEventId(rs.getInt("event_id"));
-				event.setUserId(rs.getInt("user_id"));
+				event.setEmployeeId(rs.getInt("employee_id"));
 				event.setTitle(rs.getString("title"));
 				event.setContent(rs.getString("content"));
 				event.setArea(rs.getString("area"));
@@ -118,12 +118,12 @@ public class EventDAO {
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
 			String sql = "INSERT INTO FORZEVENTS " +
-					"(user_id, title, content, area, event_date) " +
+					"(employee_id, title, content, area, event_date) " +
 					"VALUES (?, ?, ?, ?, ?)";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, event.getUserId());
+			pStmt.setInt(1, event.getEmployeeId());
 			pStmt.setString(2, event.getTitle());
 			pStmt.setString(3, event.getContent());
 			pStmt.setString(4, event.getArea());
@@ -140,4 +140,56 @@ public class EventDAO {
 		return false;
 	}
 
+	public Event findById(int eventId) {
+
+		Event event = null;
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "SELECT * FROM FORZEVENTS WHERE event_id = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, eventId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			if (rs.next()) {
+
+				event = new Event();
+
+				event.setEventId(rs.getInt("event_id"));
+				event.setEmployeeId(rs.getInt("employee_id"));
+				event.setTitle(rs.getString("title"));
+				event.setContent(rs.getString("content"));
+				event.setArea(rs.getString("area"));
+				event.setEventDate(rs.getDate("event_date"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return event;
+	}
+
+	// イベント削除
+	public boolean delete(int eventId) {
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "DELETE FROM FORZEVENTS WHERE event_id = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, eventId);
+
+			return pStmt.executeUpdate() == 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }
