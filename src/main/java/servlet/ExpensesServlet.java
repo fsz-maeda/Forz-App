@@ -11,12 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.PositionDAO;
-import model.Position;
+import dao.ExpensesDAO;
+import model.Expenses;
 import model.User;
 
-@WebServlet("/managePosition")
-public class ManagePositionServlet extends HttpServlet {
+@WebServlet("/expenses")
+public class ExpensesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,13 +31,13 @@ public class ManagePositionServlet extends HttpServlet {
 			response.sendRedirect("home");
 			return;
 		}
-
-		PositionDAO dao = new PositionDAO();
-		List<Position> positionList = dao.findAll();
-
-		request.setAttribute("positionList", positionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/managePosition.jsp");
+		ExpensesDAO dao = new ExpensesDAO();
+		List<Expenses> expensesList = dao.expensesOK(user.getUserId(), "承認");
+		
+		request.setAttribute("expensesList", expensesList);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/expenses.jsp");
 		dispatcher.forward(request, response);
 	}
 

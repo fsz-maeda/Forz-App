@@ -20,14 +20,9 @@ import model.User;
 public class DailyReportCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dailyReport.jsp");
-			dispatcher.forward(request, response);
-		
-	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		ログイン確認
 		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");
@@ -37,21 +32,46 @@ public class DailyReportCommentServlet extends HttpServlet {
 			return;
 		}
 		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/dailyReport.jsp");
+		dispatcher.forward(request, response);
 		
-		int reportId = Integer.parseInt(request.getParameter("reportId"));
-		String comment = request.getParameter("comment");
-		
-		if(comment == null || comment.trim().isEmpty()) {
-			session.setAttribute("dailyReportCommentErrorMsg", "コメントを入力してください。");
-			
-			response.sendRedirect("dailyReportPage");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//		ログイン確認
+		HttpSession session = request.getSession();
+		User loginUser = (User) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			response.sendRedirect("Home");
 			return;
 		}
-		
+
+		String action = request.getParameter("action");
 		DailyReportCommentDAO dao = new DailyReportCommentDAO();
-		
-		dao.insertComment(loginUser.getUserId(), reportId, comment);
-		
+
+		int reportId = Integer.parseInt(request.getParameter("reportId"));
+
+		if ("insert".equals(action)) {
+
+			String comment = request.getParameter("comment");
+
+			if (comment == null || comment.trim().isEmpty()) {
+				session.setAttribute("dailyReportCommentErrorMsg", "コメントを入力してください。");
+				response.sendRedirect("dailyReportPage");
+				return;
+			}
+
+			dao.insertComment(loginUser.getUserId(), reportId, comment);
+
+		} else if ("delete".equals(action)) {
+
+			int commentId = Integer.parseInt(request.getParameter("commentId"));
+
+			dao.deleteComment(commentId, loginUser.getUserId());
+		}
+
 		response.sendRedirect("dailyReportPage");
 	}
 

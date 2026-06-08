@@ -7,15 +7,20 @@
 <head>
 <meta charset="UTF-8">
 <title>日報</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-	<h1>日報</h1>
-	<div class="new-post">
-		<form action="DailyReportPostServlet" method="get">
-			<input type="hidden" name="action" value="post">
-			<input type="submit" value="新規記事作成">
-		</form>
-	</div>
+	<header class="header-top">
+		<h1>日報</h1>
+		<div class="new-post">
+			<form action="DailyReportPostServlet" method="get">
+				<input type="hidden" name="action" value="post">
+				<input type="submit" value="新規記事作成">
+			</form>
+			<a href="Main">メイン画面へ</a>
+			<a href="Home">ホーム画面へ</a>
+		</div>
+	</header>
 	
 <c:forEach var="r" items="${reportList}">
 
@@ -27,13 +32,11 @@
         <c:if test="${not empty r.createdAt}">
 		    <fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
 		</c:if>
-        <p>いいね：${r.likes}</p>
-        
 		<form action="DailyReportLikeServlet" method="post">
 		    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
 		    <c:choose>
 		        <c:when test="${r.liked}">
-		            <button type="button" disabled>いいね済み</button>
+		            <button type="submit" class="action-btn">いいね解除</button>
 		        </c:when>
 		
 		        <c:otherwise>
@@ -42,23 +45,38 @@
 		    </c:choose>
 		</form>
 		
+		${r.likes}
+
+        
+
+		
 	        <c:forEach var="c" items="${r.commentList}">
 	           <div style="margin-left:20px;">
 	               <p>${c.userName}：${c.commentText}</p>
 	           </div>
+	           <c:if test="${sessionScope.loginUser.userId == c.userId}">
+				    <form action="DailyReportCommentServlet" method="post">
+				        <input type="hidden" name="action" value="delete">
+				        <input type="hidden" name="commentId" value="${c.commentId}">
+				        <input type="hidden" name="reportId" value="${r.dailyReportId}">
+				        <button type="submit" class="action-btn">コメント削除</button>
+				    </form>
+				</c:if>
 	        </c:forEach>
+
 	        
 		<form action="DailyReportCommentServlet" method="post">
-		
+			<input type="hidden" name="action" value="insert">
 		    <input type="hidden" name="reportId" value="${r.dailyReportId}">
-		    <input type="text" name="comment">
+		    <input type="text" name="comment" required>
 		
-		    <input type="submit" value="コメント投稿" class="action-btn">
+		    <input type="submit" value="コメント投稿" class="action-btn" >
 		
 		</form>
 		
 			<c:if test="${not empty sessionScope.deleteErrorMsg }">
 				<p>${sessionScope.deleteErrorMsg}</p>
+				<c:remove var="deleteErrorMsg" scope="session"/>
 			</c:if>
 			
 			
@@ -96,9 +114,33 @@
 </script>
 
 </c:forEach>
+<div style="margin-top:20px; text-align:center;">
+
+    <!-- 前へ -->
+    <c:if test="${hasPrev}">
+        <a href="dailyReportPage?page=${currentPage - 1}">← 前へ</a>
+    </c:if>
+
+    <!-- ページ番号 -->
+    <c:forEach var="i" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${i == currentPage}">
+                <strong style="margin:0 5px;">${i}</strong>
+            </c:when>
+            <c:otherwise>
+                <a href="dailyReportPage?page=${i}" style="margin:0 5px;">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <!-- 次へ -->
+    <c:if test="${hasNext}">
+        <a href="dailyReportPage?page=${currentPage + 1}">次へ →</a>
+    </c:if>
+
+</div>
 
 	
-	<a href="Main">メイン画面へ</a>
-	<a href="Home">ホーム画面へ</a>
+
 </body>
 </html>

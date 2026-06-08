@@ -15,24 +15,24 @@ import model.Employee;
 
 @WebServlet("/MyProfileServlet")
 public class MyProfileServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request,HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-		HttpSession session =
-				request.getSession(false);
-		if (session == null ||
-			session.getAttribute("employeeId") == null) {
+        HttpSession session = request.getSession(false);
 
-			response.sendRedirect("login.jsp");
-			return;
-		}
+        if(session == null ||
+           session.getAttribute("loginUser") == null) {
 
-		int employeeId =(Integer) session.getAttribute("employeeId");
+            response.sendRedirect("login");
+            return;
+        }
+        
+        int employeeId = (Integer)session.getAttribute("employeeId");
 
-		EmployeeDAO dao = new EmployeeDAO();
-
+        EmployeeDAO dao = new EmployeeDAO();
 		Employee employee = dao.findById(employeeId);
 
 		request.setAttribute("employee",employee);

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
@@ -11,12 +12,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.PositionDAO;
-import model.Position;
+import dao.ExpensesDAO;
+import model.Expenses;
 import model.User;
 
-@WebServlet("/managePosition")
-public class ManagePositionServlet extends HttpServlet {
+@WebServlet("/manageExpenses")
+public class ManageExpensesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,13 +32,25 @@ public class ManagePositionServlet extends HttpServlet {
 			response.sendRedirect("home");
 			return;
 		}
-
-		PositionDAO dao = new PositionDAO();
-		List<Position> positionList = dao.findAll();
-
-		request.setAttribute("positionList", positionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/managePosition.jsp");
+		ExpensesDAO dao = new ExpensesDAO();
+		List<Expenses> expensesList = dao.findAll();
+		
+		List<Expenses> approvaledList = new ArrayList<>();
+		List<Expenses> unapprovaledList = new ArrayList<>();
+		
+		for(Expenses expenses : expensesList) {
+			if(expenses.getApproval() != null) {
+				approvaledList.add(expenses);
+			}else {
+				unapprovaledList.add(expenses);
+			}
+		}
+		
+		request.setAttribute("approvaledList", approvaledList);
+		request.setAttribute("unapprovaledList", unapprovaledList);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageExpenses.jsp");
 		dispatcher.forward(request, response);
 	}
 

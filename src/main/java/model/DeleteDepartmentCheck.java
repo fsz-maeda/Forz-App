@@ -2,15 +2,15 @@ package model;
 
 import java.util.List;
 
-import dao.UserDAO;
+import dao.EmployeeDAO;
 
 public class DeleteDepartmentCheck {
 	public boolean deleteDepartmentCheck(int departmentId) {
-		UserDAO dao = new UserDAO();
-		List<User> userList = dao.findAll();
+		EmployeeDAO dao = new EmployeeDAO();
+		List<Employee> employeeList = dao.findAll();
 		
-		for(User user : userList) {
-			if(user.getDepartmentId() == departmentId) {
+		for(Employee employee : employeeList) {
+			if(employee.getDepartment() == departmentId) {
 				return false;
 			}
 		}
