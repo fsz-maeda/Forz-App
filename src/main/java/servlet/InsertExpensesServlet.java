@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
-import model.User;
+import model.Employee;
 
 @WebServlet("/InsertExpensesServlet")
 public class InsertExpensesServlet extends HttpServlet {
@@ -25,10 +25,10 @@ public class InsertExpensesServlet extends HttpServlet {
 		String detail = request.getParameter("detail");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
 		ExpensesDAO dao = new ExpensesDAO();
-		boolean result = dao.insertExpenses(user.getUserId(), amount, detail);
+		boolean result = dao.insertExpenses(employee.getEmployeeId(), amount, detail);
 		
 		if(result) {
 			request.getSession().setAttribute("insertExpensesMsg", "申請しました");

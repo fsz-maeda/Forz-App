@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.UserDAO;
-import model.User;
+import dao.EmployeeDAO;
+import model.Employee;
 
 @WebServlet("/editUser")
 public class EditUserServlet extends HttpServlet {
@@ -23,10 +23,10 @@ public class EditUserServlet extends HttpServlet {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		UserDAO dao = new UserDAO();
-		User user = dao.findByUserId(userId);
+		EmployeeDAO dao = new EmployeeDAO();
+		Employee employee = dao.findByUserId(userId);
 		
-		request.setAttribute("user", user);
+		request.setAttribute("employee", employee);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp");
 		dispatcher.forward(request, response);
