@@ -42,7 +42,7 @@ public class CommentAddServlet extends HttpServlet {
 		Comment comment = new Comment();
 
 		comment.setEventId(eventId);
-		comment.setUserId(loginUser.getEmployeeId());
+		comment.setEmployeeId(loginUser.getEmployeeId());
 		comment.setComment(text);
 
 		// DB登録

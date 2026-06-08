@@ -5,7 +5,7 @@ import java.security.Timestamp;
 public class Comment {
 	private int commentId;
     private int eventId;
-    private int userId;
+    private int employeeId;
     private String comment;
     private Timestamp createdAt;
 
@@ -25,12 +25,12 @@ public class Comment {
         this.eventId = eventId;
     }
     
-    public int getUserId() {
-        return userId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getComment() {

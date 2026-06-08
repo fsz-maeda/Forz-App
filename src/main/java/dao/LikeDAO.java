@@ -10,7 +10,7 @@ import model.Port;
 public class LikeDAO {
 	String JDBC_URL = Port.JDBC_URL;
 
-	public boolean exists(int userId, int eventId) {
+	public boolean exists(int employeeId, int eventId) {
 
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -22,11 +22,11 @@ public class LikeDAO {
 
 			String sql = "SELECT COUNT(*) " +
 					"FROM FORZEVENTSLIKE " +
-					"WHERE user_id = ? AND event_id = ?";
+					"WHERE employee_id = ? AND event_id = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, userId);
+			pStmt.setInt(1, employeeId);
 			pStmt.setInt(2, eventId);
 
 			ResultSet rs = pStmt.executeQuery();
@@ -42,7 +42,7 @@ public class LikeDAO {
 		return false;
 	}
 
-	public boolean insert(int userId, int eventId) {
+	public boolean insert(int employeeId, int eventId) {
 
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -54,11 +54,11 @@ public class LikeDAO {
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
 			String sql = "INSERT INTO FORZEVENTSLIKE " +
-					"(user_id,event_id) " +
+					"(employee_id,event_id) " +
 					"VALUES(?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, userId);
+			pStmt.setInt(1, employeeId);
 			pStmt.setInt(2, eventId);
 
 			return pStmt.executeUpdate() == 1;
@@ -95,17 +95,17 @@ public class LikeDAO {
 		return 0;
 	}
 
-	public boolean delete(int userId, int eventId) {
+	public boolean delete(int employeeId, int eventId) {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
 			String sql = "DELETE FROM FORZEVENTSLIKE " +
-					"WHERE user_id = ? " +
+					"WHERE employee_id = ? " +
 					"AND event_id = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, userId);
+			pStmt.setInt(1, employeeId);
 			pStmt.setInt(2, eventId);
 
 			return pStmt.executeUpdate() == 1;

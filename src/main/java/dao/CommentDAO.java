@@ -22,14 +22,14 @@ public class CommentDAO {
 		}
 
 		String sql = "INSERT INTO EVENT_COMMENTS " +
-				"(event_id,user_id,comment) " +
+				"(event_id,employee_id,comment) " +
 				"VALUES(?,?,?)";
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL);
 				PreparedStatement pStmt = conn.prepareStatement(sql)) {
 
 			pStmt.setInt(1, comment.getEventId());
-			pStmt.setInt(2, comment.getUserId());
+			pStmt.setInt(2, comment.getEmployeeId());
 			pStmt.setString(3, comment.getComment());
 
 			return pStmt.executeUpdate() == 1;
@@ -75,8 +75,8 @@ public class CommentDAO {
 				comment.setEventId(
 						rs.getInt("event_id"));
 
-				comment.setUserId(
-						rs.getInt("user_id"));
+				comment.setEmployeeId(
+						rs.getInt("employee_id"));
 
 				comment.setComment(
 						rs.getString("comment"));
