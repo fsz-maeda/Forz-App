@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.UserDAO;
+import dao.EmployeeDAO;
 
 @WebServlet("/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
@@ -21,7 +21,7 @@ public class DeleteUserServlet extends HttpServlet {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		UserDAO dao = new UserDAO();
+		EmployeeDAO dao = new EmployeeDAO();
 		boolean result = dao.deleteUser(userId);
 		
 		if(result) {

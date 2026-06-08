@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.DepartmentDAO;
 import model.Department;
-import model.User;
+import model.Employee;
 
 @WebServlet("/manageDepartment")
 public class ManageDepartmentServlet extends HttpServlet {
@@ -25,9 +25,9 @@ public class ManageDepartmentServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(user == null) {
+		if(employee == null) {
 			response.sendRedirect("home");
 			return;
 		}

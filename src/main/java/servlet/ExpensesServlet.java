@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
+import model.Employee;
 import model.Expenses;
-import model.User;
 
 @WebServlet("/expenses")
 public class ExpensesServlet extends HttpServlet {
@@ -25,15 +25,15 @@ public class ExpensesServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(user == null) {
+		if(employee == null) {
 			response.sendRedirect("home");
 			return;
 		}
 		
 		ExpensesDAO dao = new ExpensesDAO();
-		List<Expenses> expensesList = dao.expensesOK(user.getUserId(), "承認");
+		List<Expenses> expensesList = dao.expensesOK(employee.getEmployeeId(), "承認");
 		
 		request.setAttribute("expensesList", expensesList);
 		

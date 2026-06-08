@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import model.User;
+import model.Employee;
 
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
@@ -22,7 +22,7 @@ public class AdminServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee user = (Employee)session.getAttribute("loginUser");
 		
 		//if(!(user != null || user.getManagement() == 1)){
 		//		response.sendRedirect("home");

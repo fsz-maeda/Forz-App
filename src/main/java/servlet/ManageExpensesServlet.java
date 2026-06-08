@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
+import model.Employee;
 import model.Expenses;
-import model.User;
 
 @WebServlet("/manageExpenses")
 public class ManageExpensesServlet extends HttpServlet {
@@ -26,9 +26,9 @@ public class ManageExpensesServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(user == null) {
+		if(employee == null) {
 			response.sendRedirect("home");
 			return;
 		}

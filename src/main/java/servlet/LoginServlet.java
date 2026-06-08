@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.UserDAO;
-import model.User;
+import dao.EmployeeDAO;
+import model.Employee;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -34,15 +34,15 @@ public class LoginServlet extends HttpServlet {
 	    String name = request.getParameter("name");
 	    String pass = request.getParameter("pass");
 
-	    UserDAO dao = new UserDAO();
+	    EmployeeDAO dao = new EmployeeDAO();
 
-	    User user = dao.findByNameAndPass(name, pass);
+	    Employee employee = dao.findByNameAndPass(name, pass);
 
-	    if(user != null) {
+	    if(employee != null) {
 
 	        HttpSession session = request.getSession();
 
-	        session.setAttribute("loginUser", user);
+	        session.setAttribute("loginUser", employee);
 
 	        response.sendRedirect("MyProfileServlet");
 

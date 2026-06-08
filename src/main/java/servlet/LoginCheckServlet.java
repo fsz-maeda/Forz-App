@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.UserDAO;
-import model.User;
+import dao.EmployeeDAO;
+import model.Employee;
 
 @WebServlet("/LoginCheck")
 public class LoginCheckServlet extends HttpServlet {
@@ -24,11 +24,11 @@ public class LoginCheckServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
 		
-		UserDAO dao = new UserDAO();
+		EmployeeDAO dao = new EmployeeDAO();
 		boolean result = dao.login(name, pass);
 		
 		if(result) {
-			User loginUser = dao.findByNameAndPass(name, pass);
+			Employee loginUser = dao.findByNameAndPass(name, pass);
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);

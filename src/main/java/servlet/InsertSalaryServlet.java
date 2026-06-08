@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.UserDAO;
+import dao.EmployeeDAO;
 import model.UserPosition;
 
 @WebServlet("/insertSalary")
@@ -23,7 +23,7 @@ public class InsertSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		UserDAO dao = new UserDAO();
+		EmployeeDAO dao = new EmployeeDAO();
 		List<UserPosition> userPositionList = dao.findPositionName();
 		
 		HttpSession session = request.getSession();

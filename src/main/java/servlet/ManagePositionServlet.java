@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.PositionDAO;
+import model.Employee;
 import model.Position;
-import model.User;
 
 @WebServlet("/managePosition")
 public class ManagePositionServlet extends HttpServlet {
@@ -25,9 +25,9 @@ public class ManagePositionServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("loginUser");
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(user == null) {
+		if(employee == null) {
 			response.sendRedirect("home");
 			return;
 		}
