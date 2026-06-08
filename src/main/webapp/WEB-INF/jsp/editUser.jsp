@@ -12,15 +12,12 @@
 	<form action="updateUser" method="post">
 		<input type="hidden" name="employeeId" value="${employee.employeeId }">
 		
-		<label for="positionName">ポジション名</label> 
-		<select id="positionName" name="positionName" required>
-			<option value="">選んでください</option>
-			<option value="平社員">平社員</option>
-			<option value="リーダー">リーダー</option>
-			<option value="課長">課長</option>
-			<option value="マネージャー">マネージャー</option>
-			<option value="執行役員">執行役員</option>
-		</select>
+		役職名<input type="text" name="positionName" value"=${positionName }>
+		部署名<input type="text" name="departmentName" value="${departmentName }">
+		入社日<input type="date" name="enter" value="${enter }">
+		<p>管理者権限</p>
+			<input type="radio" name="management" value="true"> 許可
+    		<input type="radio" name="management" value="false"> 不許可
 		
 		<input type="submit" value="更新">
 	</form>

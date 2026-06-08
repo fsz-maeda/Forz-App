@@ -24,16 +24,11 @@ public class AdminServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		//if(!(user != null || user.getManagement() == 1)){
-		//		response.sendRedirect("home");
-		//		return;
-		//}
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
-			return;
+		if(!((employee != null || employee.getManagement() == true) && employee.getEmployeeId() == 1)){
+				response.sendRedirect("Home");
+				return;
 		}
-		
+	
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
 		dispatcher.forward(request, response);
 	}

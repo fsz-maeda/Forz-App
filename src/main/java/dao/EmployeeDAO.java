@@ -244,15 +244,13 @@ public class EmployeeDAO {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 			String sql = "SELECT EMPLOYEE.ID, "
-					+ "EMPLOYEE.NAME, "
-					+ "EMPLOYEE.PASS, "
-					+ "EMPLOYEE.MAIL, "
-					+ "POSITION.POSITION_NAME "
-					+ "DEPARTMENT.DEPARTMENT_NAME "
-					+ "EMPLOYEE.ENTER "
+					+ "EMPLOYEE.NAME, EMPLOYEE.PASS, "
+					+ "EMPLOYEE.MAIL, POSITION.POSITION_NAME, "
+					+ "DEPARTMENT.DEPARTMENT_NAME, "
+					+ "EMPLOYEE.ENTER, "
 					+ "EMPLOYEE.MANAGEMENT "
 					+ "FROM EMPLOYEE "
-					+ "JOIN POSITION ON EMPLOYEE.POSITION_ID = POSITION.POSITION_ID"
+					+ "JOIN POSITION ON EMPLOYEE.POSITION_ID = POSITION.POSITION_ID "
 					+ "JOIN DEPARTMENT ON EMPLOYEE.DEPARTMENT_ID = DEPARTMENT.DEPARTMENT_ID";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
@@ -267,7 +265,8 @@ public class EmployeeDAO {
 				String departmentName = rs.getString("DEPARTMENT_NAME");
 				String enter = rs.getString("ENTER");
 				boolean management = rs.getBoolean("MANAGEMENT");
-				emlployeePosition = new EmployeePosition(id, name, pass, mail, positionName);
+				emlployeePosition = new EmployeePosition(id, name, pass, mail, positionName,
+						departmentName, enter, management);
 				PositionList.add(emlployeePosition);
 			}
 		} catch (SQLException e) {

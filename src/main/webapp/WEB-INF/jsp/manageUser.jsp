@@ -14,7 +14,10 @@
 				<th>ID</th>
 				<th>名前</th>
 				<th>メールアドレス</th>
-				<th>ポジション名</th>
+				<th>役職名</th>
+				<th>部署名</th>
+				<th>入社日</th>
+				<th>管理者権限</th>
 				<th>修正</th>
 				<th>削除</th>
 			</tr>
@@ -25,6 +28,9 @@
 					<td>${employee.name }</td>
 					<td>${employee.mail }</td>
 					<td>${employee.positionName }</td>
+					<td>${employee.departmentName }</td>
+					<td>${employee.enter }</td>
+					<td>${employee.management }</td>
 					
 					<td>
 						<form action="editUser" method="post">
