@@ -8,15 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Employee;
 import model.Media;
 import model.Port;
-import model.User;
 
 public class MediaDAO {
 	
 	String JDBC_URL = Port.JDBC_URL;
 
-    public List<Media> findAll(User loginUser) {
+    public List<Media> findAll(Employee loginUser) {
     	List<Media> mediaList = new ArrayList<>();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -30,7 +30,7 @@ public class MediaDAO {
 
             PreparedStatement pStmt = conn.prepareStatement(sql);
             
-            pStmt.setInt(1,loginUser.getDepartmentId());;
+            pStmt.setInt(1,loginUser.getDepartment());;
             
 
             ResultSet rs = pStmt.executeQuery();
