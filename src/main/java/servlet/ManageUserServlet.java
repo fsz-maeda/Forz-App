@@ -33,9 +33,9 @@ public class ManageUserServlet extends HttpServlet {
 		}
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		List<EmployeePosition> userPositionList = dao.findPositionName();
+		List<EmployeePosition> employeePositionList = dao.findPositionName();
 		
-		session.setAttribute("userPositionList", userPositionList);
+		session.setAttribute("employeePositionList", employeePositionList);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageUser.jsp");
 		dispatcher.forward(request, response);

@@ -27,13 +27,13 @@
 				<th>役職</th>
 			<tr>
 			
-			<c:forEach var="user" items="${userPositionList }">
+			<c:forEach var="employee" items="${employeePositionList }">
 				<tr>
-					<td><input type="radio" name="userId" value="${user.userId }" required></td>
-				    <td>${user.userId}</td>
-				    <td>${user.name}</td>
-				    <td>${user.mail}</td>
-				    <td>${user.positionName}</td>
+					<td><input type="radio" name="userId" value="${employee.employeeId }" required></td>
+				    <td>${employee.employeeId}</td>
+				    <td>${employee.name}</td>
+				    <td>${employee.mail}</td>
+				    <td>${employee.positionName}</td>
 				</tr>
 			</c:forEach>
 		</table>

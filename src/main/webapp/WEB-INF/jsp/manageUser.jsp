@@ -19,23 +19,23 @@
 				<th>削除</th>
 			</tr>
 			
-			<c:forEach var="user" items="${userPositionList }">
+			<c:forEach var="employee" items="${employeePositionList }">
 				<tr>
-					<td>${user.userId}</td>
-					<td>${user.name }</td>
-					<td>${user.mail }</td>
-					<td>${user.positionName }</td>
+					<td>${employee.employeeId}</td>
+					<td>${employee.name }</td>
+					<td>${employee.mail }</td>
+					<td>${employee.positionName }</td>
 					
 					<td>
 						<form action="editUser" method="post">
-							<input type="hidden" name="userId" value="${user.userId}">
+							<input type="hidden" name="employeeId" value="${employee.employeeId}">
 							<input type="submit" value="修正">
 						</form>
 					</td>
 						
 					<td>
 						<form action="deleteUser" method="post" onsubmit="return confirm('削除しますか？')">
-							<input type="hidden" name="userId" value="${user.userId}">
+							<input type="hidden" name="employeeId" value="${employee.employeeId}">
 							<input type="submit" value="削除">
 						</form>
 					</td>
@@ -45,10 +45,12 @@
 		
 		<c:if test="${updateUserMsg != null}">
 			${updateUserMsg }
+			<c:remove  var="updateUserMsg" scope="session"/>
 		</c:if>
 		
 		<c:if test="${deleteUserMsg != null}">
 			${deleteUserMsg }
+			<c:remove  var="deleteUserMsg" scope="session"/>
 		</c:if>
 		
 		<a href="admin">戻る</a>

@@ -21,10 +21,10 @@ public class EditUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		Employee employee = dao.findByUserId(userId);
+		Employee employee = dao.findByUserId(employeeId);
 		
 		request.setAttribute("employee", employee);
 		

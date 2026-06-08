@@ -10,7 +10,7 @@
 <body>
 	<h1>ユーザー修正</h1>
 	<form action="updateUser" method="post">
-		<input type="hidden" name="userId" value="${user.userId }">
+		<input type="hidden" name="employeeId" value="${employee.employeeId }">
 		
 		<label for="positionName">ポジション名</label> 
 		<select id="positionName" name="positionName" required>

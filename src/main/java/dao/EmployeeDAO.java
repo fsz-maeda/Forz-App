@@ -52,7 +52,7 @@ public class EmployeeDAO {
 
 			Connection conn = DriverManager.getConnection(JDBC_URL);
 
-			String sql = "SELECT * FROM EMPLOYEE ORDER BY EMPLOYEE_ID";
+			String sql = "SELECT * FROM EMPLOYEE ORDER BY ID";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
@@ -135,7 +135,7 @@ public class EmployeeDAO {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = DriverManager.getConnection(JDBC_URL);
-			String sql = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID=?";
+			String sql = "SELECT * FROM EMPLOYEE WHERE ID=?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
@@ -167,20 +167,18 @@ public class EmployeeDAO {
 	}
 
 	public Employee findByUserId(int employeeId) {
-
 		Employee emp = null;
-
+		
 		try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
 
-			Class.forName(
-					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-			Connection conn = DriverManager.getConnection(JDBC_URL);
-
-			String sql = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID = ?";
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "SELECT * FROM EMPLOYEE WHERE ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-
 			pStmt.setInt(1, employeeId);
 
 			ResultSet rs = pStmt.executeQuery();
@@ -217,7 +215,7 @@ public class EmployeeDAO {
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "DELETE FROM EMPLOYEE WHERE = ?";
+			String sql = "DELETE FROM EMPLOYEE WHERE ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, employeeId);
@@ -235,8 +233,8 @@ public class EmployeeDAO {
 	}
 
 	public List<EmployeePosition> findPositionName() {
-		EmployeePosition userPosition = null;
-		List<EmployeePosition> userPositionList = new ArrayList<>();
+		EmployeePosition emlployeePosition = null;
+		List<EmployeePosition> PositionList = new ArrayList<>();
 
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -245,13 +243,17 @@ public class EmployeeDAO {
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT FORZUSERS.ID, "
-					+ "FORZUSERS.NAME, "
-					+ "FORZUSERS.PASS, "
-					+ "FORZUSERS.MAIL, "
+			String sql = "SELECT EMPLOYEE.ID, "
+					+ "EMPLOYEE.NAME, "
+					+ "EMPLOYEE.PASS, "
+					+ "EMPLOYEE.MAIL, "
 					+ "POSITION.POSITION_NAME "
-					+ "FROM FORZUSERS "
-					+ "JOIN POSITION ON FORZUSERS.position_id = POSITION.POSITION_ID";
+					+ "DEPARTMENT.DEPARTMENT_NAME "
+					+ "EMPLOYEE.ENTER "
+					+ "EMPLOYEE.MANAGEMENT "
+					+ "FROM EMPLOYEE "
+					+ "JOIN POSITION ON EMPLOYEE.POSITION_ID = POSITION.POSITION_ID"
+					+ "JOIN DEPARTMENT ON EMPLOYEE.DEPARTMENT_ID = DEPARTMENT.DEPARTMENT_ID";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			ResultSet rs = pStmt.executeQuery();
@@ -262,15 +264,18 @@ public class EmployeeDAO {
 				String pass = rs.getString("PASS");
 				String mail = rs.getString("MAIL");
 				String positionName = rs.getString("POSITION_NAME");
-				userPosition = new EmployeePosition(id, name, pass, mail, positionName);
-				userPositionList.add(userPosition);
+				String departmentName = rs.getString("DEPARTMENT_NAME");
+				String enter = rs.getString("ENTER");
+				boolean management = rs.getBoolean("MANAGEMENT");
+				emlployeePosition = new EmployeePosition(id, name, pass, mail, positionName);
+				PositionList.add(emlployeePosition);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 
-		return userPositionList;
+		return PositionList;
 	}
 
 	public Employee findByNameAndPass(String name, String pass) {
