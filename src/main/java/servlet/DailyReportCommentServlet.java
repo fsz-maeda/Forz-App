@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.DailyReportCommentDAO;
-import model.User;
+import model.Employee;
 
 /**
  * Servlet implementation class DailyReportCommentServlet
@@ -25,7 +25,7 @@ public class DailyReportCommentServlet extends HttpServlet {
 
 //		ログイン確認
 		HttpSession session = request.getSession();
-		User loginUser = (User)session.getAttribute("loginUser");
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
 		
 		if(loginUser == null) {
 			response.sendRedirect("Home");
@@ -41,7 +41,7 @@ public class DailyReportCommentServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//		ログイン確認
 		HttpSession session = request.getSession();
-		User loginUser = (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		if (loginUser == null) {
 			response.sendRedirect("Home");
@@ -63,13 +63,13 @@ public class DailyReportCommentServlet extends HttpServlet {
 				return;
 			}
 
-			dao.insertComment(loginUser.getUserId(), reportId, comment);
+			dao.insertComment(loginUser.getEmployeeId(), reportId, comment);
 
 		} else if ("delete".equals(action)) {
 
 			int commentId = Integer.parseInt(request.getParameter("commentId"));
 
-			dao.deleteComment(commentId, loginUser.getUserId());
+			dao.deleteComment(commentId, loginUser.getEmployeeId());
 		}
 
 		response.sendRedirect("dailyReportPage");

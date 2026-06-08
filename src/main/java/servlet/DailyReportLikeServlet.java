@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.DailyReportLikeDAO;
-import model.User;
+import model.Employee;
 
 @WebServlet("/DailyReportLikeServlet")
 public class DailyReportLikeServlet extends HttpServlet {
@@ -21,7 +21,7 @@ public class DailyReportLikeServlet extends HttpServlet {
     	
 //    	ログイン確認
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("loginUser");
+        Employee user = (Employee) session.getAttribute("loginUser");
 
         if (user == null) {
             response.sendRedirect("Home");
@@ -35,12 +35,12 @@ public class DailyReportLikeServlet extends HttpServlet {
         
 //     	isLikedはuserがいいねしてるかどうかの確認処理していなかったらinsertLikeUserでいいねを押した登録処理
         Set<Integer> likedSet =
-        	    dao.findLikedReportIds(user.getUserId());
+        	    dao.findLikedReportIds(user.getEmployeeId());
 
         	if (likedSet.contains(dailyReportId)) {
-        	    dao.deleteLikeUser(user.getUserId(), dailyReportId);
+        	    dao.deleteLikeUser(user.getEmployeeId(), dailyReportId);
         	} else {
-        	    dao.insertLikeUser(user.getUserId(), dailyReportId);
+        	    dao.insertLikeUser(user.getEmployeeId(), dailyReportId);
         	}
 
         response.sendRedirect("dailyReportPage");

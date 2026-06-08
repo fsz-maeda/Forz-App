@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import dao.DailyReportDAO;
 import dao.DailyReportLikeDAO;
 import model.DailyReport;
-import model.User;
+import model.Employee;
 import service.DailyReportService;
 
 
@@ -28,7 +28,7 @@ public class DailyReportServlet extends HttpServlet {
 		
 //		ログイン確認
 	    HttpSession session = request.getSession();
-	    User loginUser = (User) session.getAttribute("loginUser");
+	    Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 	    if (loginUser == null) {
 	        response.sendRedirect("Home");
@@ -39,7 +39,7 @@ public class DailyReportServlet extends HttpServlet {
 	    DailyReportLikeDAO likeDao = new DailyReportLikeDAO();
 	    
 //	    いいねした日報のID一覧取得
-	    Set<Integer> likedSet = likeDao.findLikedReportIds(loginUser.getUserId());
+	    Set<Integer> likedSet = likeDao.findLikedReportIds(loginUser.getEmployeeId());
 
 	    DailyReportDAO dao = new DailyReportDAO();
 	    

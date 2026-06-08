@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.DailyReportDAO;
-import model.User;
+import model.Employee;
 
 @WebServlet("/DailyReportPostServlet")
 public class DailyReportPostServlet extends HttpServlet {
@@ -23,7 +23,7 @@ public class DailyReportPostServlet extends HttpServlet {
 //		ログイン確認
 		HttpSession session = request.getSession();
 
-		User loginUser = (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		if (loginUser == null) {
 		    response.sendRedirect("Home");
@@ -42,7 +42,7 @@ public class DailyReportPostServlet extends HttpServlet {
 //		ログイン確認
 		HttpSession session = request.getSession();
 
-		User loginUser = (User) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		if (loginUser == null) {
 		    response.sendRedirect("Home");
@@ -65,7 +65,7 @@ public class DailyReportPostServlet extends HttpServlet {
 				return ;
 				
 			}
-		int userId = loginUser.getUserId();
+		int userId = loginUser.getEmployeeId();
 		
 //		日報のインサート処理
 		boolean result = dao.insertDaylyReport(
@@ -88,7 +88,7 @@ public class DailyReportPostServlet extends HttpServlet {
 		}else if ("dailyReportDelete".equals(action)) {
 
 		    int reportId = Integer.parseInt(request.getParameter("reportId"));
-		    int loginUserId = loginUser.getUserId();
+		    int loginUserId = loginUser.getEmployeeId();
 
 		    boolean result = dao.dailyReportDelete(loginUserId, reportId);
 
