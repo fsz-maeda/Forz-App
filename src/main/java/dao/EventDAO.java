@@ -192,4 +192,29 @@ public class EventDAO {
 
 		return false;
 	}
+
+	public boolean update(Event event) {
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "UPDATE FORZEVENTS " +
+					"SET title = ?, content = ?, area = ?, event_date = ? " +
+					"WHERE event_id = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setString(1, event.getTitle());
+			pStmt.setString(2, event.getContent());
+			pStmt.setString(3, event.getArea());
+			pStmt.setDate(4, event.getEventDate());
+			pStmt.setInt(5, event.getEventId());
+
+			return pStmt.executeUpdate() == 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }

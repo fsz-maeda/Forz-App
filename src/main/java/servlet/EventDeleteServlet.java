@@ -31,17 +31,17 @@ public class EventDeleteServlet extends HttpServlet {
                 Integer.parseInt(
                         request.getParameter("eventId"));
 
-        EventDAO dao = new EventDAO();
+        EventDAO eventdao = new EventDAO();
 
-        Event event = dao.findById(eventId);
+        Event event = eventdao.findById(eventId);
 
         if (event != null &&
             event.getEmployeeId() ==
             loginUser.getEmployeeId()) {
 
-            dao.delete(eventId);
+            eventdao.delete(eventId);
         }
 
-        response.sendRedirect("Event");
+        response.sendRedirect("event");
     }
 }
