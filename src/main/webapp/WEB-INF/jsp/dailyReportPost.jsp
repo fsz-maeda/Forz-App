@@ -26,7 +26,7 @@
 	</select>
 	
 	<textarea name="content" rows="50" cols="100" placeholder="日報または週間レポートを入力してください"required></textarea>
-	<input type="submit" value="投稿" action="post">
+	<input type="submit" value="投稿">
 	
 	</form>
 	

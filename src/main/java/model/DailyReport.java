@@ -6,7 +6,7 @@ import java.util.List;
 public class DailyReport {
 
     private int dailyReportId;
-    private int userId;
+    private int employeeId;
     private String reportType;
     private String title;
     private String content;
@@ -18,9 +18,9 @@ public class DailyReport {
     private List<DailyReportComment> commentList;
     
     public DailyReport() {}
-    public DailyReport(int dailyReportId, int userId, String reportType,String title, String content, Date createdAt,int likes) {
+    public DailyReport(int dailyReportId, int employeeId, String reportType,String title, String content, Date createdAt,int likes) {
         this.dailyReportId = dailyReportId;
-        this.userId = userId;
+        this.employeeId = employeeId;
         this.reportType = reportType;
         this.title = title;
         this.content = content;
@@ -37,12 +37,12 @@ public class DailyReport {
         this.dailyReportId = dailyReportId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getReportType() {

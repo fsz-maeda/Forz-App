@@ -38,9 +38,9 @@ public class DailyReportLikeServlet extends HttpServlet {
         	    dao.findLikedReportIds(user.getEmployeeId());
 
         	if (likedSet.contains(dailyReportId)) {
-        	    dao.deleteLikeUser(user.getEmployeeId(), dailyReportId);
+        	    dao.deleteLikeEmployee(user.getEmployeeId(), dailyReportId);
         	} else {
-        	    dao.insertLikeUser(user.getEmployeeId(), dailyReportId);
+        	    dao.insertLikeEmployee(user.getEmployeeId(), dailyReportId);
         	}
 
         response.sendRedirect("dailyReportPage");

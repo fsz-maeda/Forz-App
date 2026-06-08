@@ -19,7 +19,7 @@ public class DailyReportDAO {
     String JDBC_URL = Port.JDBC_URL;
 
 //  日報保存処理
-    public boolean insertDaylyReport(int userId, String reportType, String title, String content) {
+    public boolean insertDaylyReport(int employeeId, String reportType, String title, String content) {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -28,14 +28,14 @@ public class DailyReportDAO {
         }
 
         String sql =
-                "INSERT INTO FORZDAILYREPORTS (user_id, report_type, title, content) "
+                "INSERT INTO FORZDAILYREPORTS (employee_Id, report_type, title, content) "
               + "VALUES (?, ?, ?, ?)";
 
         
         try (Connection conn = DriverManager.getConnection(JDBC_URL);
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
 
-            pStmt.setInt(1, userId);
+            pStmt.setInt(1, employeeId);
             pStmt.setString(2, reportType);
             pStmt.setString(3, title);
             pStmt.setString(4, content);
@@ -52,7 +52,7 @@ public class DailyReportDAO {
     
     
 //  日報削除処理
-    public boolean dailyReportDelete(int userId, int reportId) {
+    public boolean dailyReportDelete(int employeeId, int reportId) {
     	
     	
         try {
@@ -88,11 +88,11 @@ public class DailyReportDAO {
 
 //              本体削除
                 String deleteReport =
-                    "DELETE FROM FORZDAILYREPORTS WHERE daily_report_id = ? AND user_id = ?";
+                    "DELETE FROM FORZDAILYREPORTS WHERE daily_report_id = ? AND employee_id = ?";
 
                 try (PreparedStatement ps = conn.prepareStatement(deleteReport)) {
                     ps.setInt(1, reportId);
-                    ps.setInt(2, userId);
+                    ps.setInt(2, employeeId);
 
                     int result = ps.executeUpdate();
 
@@ -123,17 +123,17 @@ public class DailyReportDAO {
         String sql =
             "SELECT " +
             " daily_report.daily_report_id, " +
-            " daily_report.user_id, " +
+            " daily_report.employee_id, " +
             " daily_report.report_type, " +
             " daily_report.title, " +
             " daily_report.content, " +
             " daily_report.created_at, " +
-            " user_table.name AS user_name, " +
+            " employee_table.name AS employee_name, " +
             " (SELECT COUNT(*) FROM FORZDAILYREPORTLIKE l " +
             "  WHERE l.daily_report_id = daily_report.daily_report_id) AS like_count " +
             "FROM FORZDAILYREPORTS daily_report " +
-            "LEFT JOIN FORZUSERS user_table " +
-            " ON daily_report.user_id = user_table.id " +
+            "LEFT JOIN EMPLOYEE employee_table " +
+            " ON daily_report.employee_id = employee_table.id " +
             "ORDER BY daily_report.created_at DESC " +
             "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -150,12 +150,12 @@ public class DailyReportDAO {
 
                     DailyReport r = new DailyReport();
                     r.setDailyReportId(rs.getInt("daily_report_id"));
-                    r.setUserId(rs.getInt("user_id"));
+                    r.setEmployeeId(rs.getInt("employee_id"));
                     r.setReportType(rs.getString("report_type"));
                     r.setTitle(rs.getString("title"));
                     r.setContent(rs.getString("content"));
                     r.setCreatedAt(rs.getTimestamp("created_at"));
-                    r.setUserName(rs.getString("user_name"));
+                    r.setUserName(rs.getString("employee_name"));
                     r.setLikes(rs.getInt("like_count"));
 
                     list.add(r);
@@ -169,6 +169,65 @@ public class DailyReportDAO {
         return list;
     }
     
+    public DailyReport findById(int reportId) {
+
+        String sql =
+            "SELECT dr.*, e.name AS employee_name " +
+            "FROM FORZDAILYREPORTS dr " +
+            "LEFT JOIN EMPLOYEE e ON dr.employee_id = e.id " +
+            "WHERE dr.daily_report_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, reportId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                DailyReport r = new DailyReport();
+                r.setDailyReportId(rs.getInt("daily_report_id"));
+                r.setEmployeeId(rs.getInt("employee_id"));
+                r.setReportType(rs.getString("report_type"));
+                r.setTitle(rs.getString("title"));
+                r.setContent(rs.getString("content"));
+                r.setUserName(rs.getString("employee_name"));
+                return r;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    
+    public boolean updateReport(int reportId, int employeeId,
+            String title, String content, String reportType) {
+
+String sql =
+"UPDATE FORZDAILYREPORTS " +
+"SET title = ?, content = ?, report_type = ? " +
+"WHERE daily_report_id = ? AND employee_id = ?";
+
+try (Connection conn = DriverManager.getConnection(JDBC_URL);
+PreparedStatement ps = conn.prepareStatement(sql)) {
+
+ps.setString(1, title);
+ps.setString(2, content);
+ps.setString(3, reportType);
+ps.setInt(4, reportId);
+ps.setInt(5, employeeId);
+
+return ps.executeUpdate() == 1;
+
+} catch (SQLException e) {
+e.printStackTrace();
+}
+
+return false;
+}
     
     
     public int countAllReports() {
@@ -191,43 +250,6 @@ public class DailyReportDAO {
     }
     
     
-    
-////  コメント取得
-//    public List<DailyReportComment> findCommentsByReportId(int reportId) {
-//
-//        List<DailyReportComment> list = new ArrayList<>();
-//
-//        String sql =
-//            "SELECT c.comment_id, c.comment_text,c.user_id, u.name " +
-//            "FROM FORZDAILYREPORTCOMMENT c " +
-//            "LEFT JOIN FORZUSERS u ON c.user_id = u.id " +
-//            "WHERE c.daily_report_id = ? " +
-//            "ORDER BY c.created_at ASC";
-//
-//        try (Connection conn = DriverManager.getConnection(JDBC_URL);
-//             PreparedStatement ps = conn.prepareStatement(sql)) {
-//
-//            ps.setInt(1, reportId);
-//
-//            try (ResultSet rs = ps.executeQuery()) {
-//
-//                while (rs.next()) {
-//                    DailyReportComment c = new DailyReportComment();
-//                    c.setCommentId(rs.getInt("comment_id"));
-//                    c.setCommentText(rs.getString("comment_text"));
-//                    c.setUserId(rs.getInt("user_id"));
-//                    c.setUserName(rs.getString("name"));
-//                    list.add(c);
-//                }
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return list;
-//    }
-//    
 
     
     public List<DailyReport> findAllWithComments(Set<Integer> likedSet) {
@@ -237,27 +259,27 @@ public class DailyReportDAO {
         String sql =
         	    "SELECT " +
         	    " daily_report.daily_report_id, " +
-        	    " daily_report.user_id, " +
+        	    " daily_report.employee_id, " +
         	    " daily_report.report_type, " +
         	    " daily_report.title, " +
         	    " daily_report.content, " +
         	    " daily_report.created_at, " +
-        	    " user_table.name AS user_name, " +
+        	    " employee_table.name AS employee_name, " +
 
         	    " (SELECT COUNT(*) FROM FORZDAILYREPORTLIKE l " +
         	    "   WHERE l.daily_report_id = daily_report.daily_report_id) AS like_count, " +
 
         	    " comment.comment_id, " +
         	    " comment.comment_text, " +
-        	    " comment_user.name AS comment_user_name " +
+        	    " comment_employee.name AS comment_employee_name " +
 
         	    "FROM FORZDAILYREPORTS daily_report " +
-        	    "LEFT JOIN FORZUSERS user_table " +
-        	    "    ON daily_report.user_id = user_table.id " +
+        	    "LEFT JOIN EMPLOYEE employee_table " +
+        	    "    ON daily_report.employee_id = employee_table.id " +
         	    "LEFT JOIN FORZDAILYREPORTCOMMENT comment " +
         	    "    ON daily_report.daily_report_id = comment.daily_report_id " +
-        	    "LEFT JOIN FORZUSERS comment_user " +
-        	    "    ON comment.user_id = comment_user.id " +
+        	    "LEFT JOIN EMPLOYEE comment_employee " +
+        	    "    ON comment.employee_id = comment_employee.id " +
 
         	    "ORDER BY daily_report.created_at DESC,\r\n"
         	    + "         comment.created_at ASC";
@@ -276,14 +298,14 @@ public class DailyReportDAO {
 
                     DailyReport dailyReport = new DailyReport();
                     dailyReport.setDailyReportId(dailyReportId);
-                    dailyReport.setUserId(rs.getInt("user_id"));
+                    dailyReport.setEmployeeId(rs.getInt("employee_id"));
                     dailyReport.setReportType(rs.getString("report_type"));
                     dailyReport.setTitle(rs.getString("title"));
                     dailyReport.setContent(rs.getString("content"));
                     dailyReport.setCreatedAt(rs.getTimestamp("created_at"));
 
                     
-                    dailyReport.setUserName(rs.getString("user_name"));
+                    dailyReport.setUserName(rs.getString("employee_name"));
 
                     dailyReport.setLiked(likedSet.contains(dailyReportId));
                     
@@ -299,7 +321,7 @@ public class DailyReportDAO {
                     DailyReportComment comment = new DailyReportComment();
                     comment.setCommentId(rs.getInt("comment_id"));
                     comment.setCommentText(rs.getString("comment_text"));
-                    comment.setUserName(rs.getString("comment_user_name"));
+                    comment.setEmployeeName(rs.getString("comment_employee_name"));
 
                     map.get(dailyReportId).getCommentList().add(comment);
                 }

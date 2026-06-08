@@ -22,6 +22,12 @@
 		</div>
 	</header>
 	
+	
+		<c:if test="${not empty sessionScope.deleteErrorMsg }">
+			<p>${sessionScope.deleteErrorMsg}</p>
+			<c:remove var="deleteErrorMsg" scope="session"/>
+		</c:if>
+	
 <c:forEach var="r" items="${reportList}">
 
     <div class="report-list" style="border:1px solid #ccc; margin:10px; padding:10px;">
@@ -29,9 +35,9 @@
         <p>種別：${r.reportType}</p>
         <p>タイトル：${r.title}</p>
         <p>内容：${r.content}</p>
-        <c:if test="${not empty r.createdAt}">
-		    <fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
-		</c:if>
+		<p>
+		<fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+		</p>
 		<form action="DailyReportLikeServlet" method="post">
 		    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
 		    <c:choose>
@@ -52,9 +58,9 @@
 		
 	        <c:forEach var="c" items="${r.commentList}">
 	           <div style="margin-left:20px;">
-	               <p>${c.userName}：${c.commentText}</p>
+	               <p>${c.employeeName}：${c.commentText}</p>
 	           </div>
-	           <c:if test="${sessionScope.loginUser.userId == c.userId}">
+	           <c:if test="${sessionScope.loginUser.employeeId == c.employeeId}">
 				    <form action="DailyReportCommentServlet" method="post">
 				        <input type="hidden" name="action" value="delete">
 				        <input type="hidden" name="commentId" value="${c.commentId}">
@@ -74,21 +80,32 @@
 		
 		</form>
 		
-			<c:if test="${not empty sessionScope.deleteErrorMsg }">
-				<p>${sessionScope.deleteErrorMsg}</p>
-				<c:remove var="deleteErrorMsg" scope="session"/>
-			</c:if>
+
 			
 			
-		<c:if test="${sessionScope.loginUser.userId == r.userId}">
+		<c:if test="${sessionScope.loginUser.employeeId == r.employeeId}">
 		    <form action="DailyReportPostServlet" method="post">
 		        <input type="hidden" name="action" value="dailyReportDelete">
 		        <input type="hidden" name="reportId" value="${r.dailyReportId}">
 		        <input type="submit" value="削除" class="action-btn">
 		    </form>
 		</c:if>
-	</div>
 		
+		
+		<c:if test="${sessionScope.loginUser.employeeId == r.employeeId}">
+		    <form action="DailyReportEditServlet" method="get">
+		        <input type="hidden" name="reportId" value="${r.dailyReportId}">
+		        <input type="submit" value="編集" class="action-btn">
+		    </form>
+		</c:if>
+	</div>
+	
+	
+		
+
+
+</c:forEach>
+
 <script>
 	document.addEventListener('click', function (event) {
 	    if (event.target.classList.contains('action-btn')) {
@@ -112,8 +129,7 @@
 	    }
 	});
 </script>
-
-</c:forEach>
+			
 <div style="margin-top:20px; text-align:center;">
 
     <!-- 前へ -->
