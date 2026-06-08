@@ -24,6 +24,7 @@ public class MediaCommentServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String esg1="";
 		String esg2="";
 		
@@ -37,6 +38,7 @@ public class MediaCommentServlet extends HttpServlet {
 		 session.setAttribute("commentlist",commentlist);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
+
 		dispatcher.forward(request, response);
 		
 	}

@@ -28,7 +28,7 @@ public class EditUserServlet extends HttpServlet {
 		
 		request.setAttribute("user", user);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/editUser.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp");
 		dispatcher.forward(request, response);
 	}
 

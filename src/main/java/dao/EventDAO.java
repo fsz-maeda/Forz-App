@@ -37,7 +37,6 @@ public class EventDAO {
 				event.setContent(rs.getString("content"));
 				event.setArea(rs.getString("area"));
 				event.setEventDate(rs.getDate("event_date"));
-
 				eventList.add(event);
 			}
 
@@ -77,4 +76,5 @@ public class EventDAO {
 
 		return false;
 	}
+
 }

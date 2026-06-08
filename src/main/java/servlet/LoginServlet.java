@@ -8,6 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import dao.EmployeeDAO;
+import model.Employee;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -18,7 +22,40 @@ public class LoginServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request, response);
 	}
+	protected void doPost(HttpServletRequest request,
+	        HttpServletResponse response)
+	        throws ServletException, IOException {
+
+	    request.setCharacterEncoding("UTF-8");
+
+	    String name = request.getParameter("name");
+	    String pass = request.getParameter("pass");
+
+	    EmployeeDAO dao = new EmployeeDAO();
+
+	    Employee user = dao.login(name, pass);
+
+	    if(user != null) {
+
+	        HttpSession session = request.getSession();
+
+	        session.setAttribute("loginUser", user);
+
+	        response.sendRedirect("MyProfileServlet");
+
+	    } else {
+
+	        request.setAttribute("errorMsg",
+	                "ユーザー名またはパスワードが違います");
+
+	        RequestDispatcher dispatcher =
+	                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+
+	        dispatcher.forward(request, response);
+	    }
+	
+	}	
 }

@@ -1,41 +1,92 @@
 package model;
 
-public class Employee {
+import java.io.Serializable;
+import java.sql.Date;
+
+public class Employee implements Serializable{
 	private int employeeId;
 	private String name;
-	private String department;
-	private String position;
+	private String pass;
+	private String mail;
+	private int department;
+	private int position;
 	private String photoPath;
+	private Date enter;
+	private String intro;
+	private int management;
 	
-	public int getEmployeeId() {return employeeId;}
+	public Employee(int id, String name, String pass, String mail, int department, int position,
+			String photoPath, Date enter, String intro, int management) {
+		this.employeeId = id;
+		this.name = name;
+		this.pass = pass;
+		this.mail = mail;
+		this.department = department;
+		this.position = position;
+		this.photoPath = photoPath;
+		this.enter = enter;
+		this.intro = intro;
+		this.management = management;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public Date getEnter() {
+		return enter;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public int getManagement() {
+		return management;
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
-	public String getname() {return name;}
+
+	public String getName() {
+		return name;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDepartment() {return department;}
-	public void setDepartment(String department) {
+
+	public int getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(int department) {
 		this.department = department;
 	}
-	public String getPosition() {return position;}
-	public void setPosition(String position) {
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
 		this.position = position;
 	}
-	 public String getPhotoPath() {return photoPath;}
-	 public void setPhotoPath(String photoPath) {
-		 this.photoPath = photoPath;
-	 }
-	
+
+	public String getPhotoPath() {
+		return photoPath;
+	}
+
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
 
 }
-
-
-
-
-
-
-
-
-

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.UserDAO;
+import model.User;
 import model.UserPosition;
 
 @WebServlet("/manageUser")
@@ -23,13 +24,20 @@ public class ManageUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		
+		if(user == null) {
+			response.sendRedirect("home");
+			return;
+		}
+		
 		UserDAO dao = new UserDAO();
 		List<UserPosition> userPositionList = dao.findPositionName();
 		
-		HttpSession session = request.getSession();
 		session.setAttribute("userPositionList", userPositionList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageUser.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageUser.jsp");
 		dispatcher.forward(request, response);
 	}
 

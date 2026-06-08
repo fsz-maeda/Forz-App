@@ -37,6 +37,7 @@ public class ArticleContentServlet extends HttpServlet {
 		Media media = dao.articleFind(id);
 		 session.setAttribute("media",media);
 		
+
 		 Media m = (Media)session.getAttribute("media");
 		 MediaCommentDAO daoo = new MediaCommentDAO();
 		 List<MediaComment>commentlist = new ArrayList();
@@ -44,6 +45,9 @@ public class ArticleContentServlet extends HttpServlet {
 		 session.setAttribute("commentlist",commentlist);
 		 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
+
+		
+
 		dispatcher.forward(request, response);
 	
 	}

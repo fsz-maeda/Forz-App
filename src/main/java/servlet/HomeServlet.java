@@ -18,7 +18,7 @@ public class HomeServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/home.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/home.jsp");
 		dispatcher.forward(request, response);
 	}
 

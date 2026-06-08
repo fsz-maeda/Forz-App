@@ -11,9 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import model.Employee;
 import model.Media;
 import model.MediaLogic;
-import model.User;
 
 /**
  * Servlet implementation class MediaServlet
@@ -27,12 +27,12 @@ public class MediaServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
-        User loginUser = (User)session.getAttribute("loginUser");
+        Employee loginUser = (Employee)session.getAttribute("loginUser");
         MediaLogic ml = new MediaLogic();
         List<Media> mediaList = ml.execute(loginUser);
         session.setAttribute("mediaList",mediaList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/media.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/media.jsp");
 		dispatcher.forward(request, response);
 	}
 

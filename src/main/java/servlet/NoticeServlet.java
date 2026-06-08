@@ -25,7 +25,7 @@ public class NoticeServlet extends HttpServlet {
 		
 		request.setAttribute("noticeList", noticeList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/notice.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/notice.jsp");
 		dispatcher.forward(request, response);
 	}
 
