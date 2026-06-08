@@ -12,7 +12,7 @@ List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
 </head>
 <body>
 <h1>media</h1>
-<table border="1">
+<table border="1"style="border-collapse: collapse">
 <tr>
 <th>カテゴリ</th>
 <th>投稿日時</th>

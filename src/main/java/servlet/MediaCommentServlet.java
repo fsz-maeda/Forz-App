@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -8,6 +9,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import dao.MediaCommentDAO;
+import model.Media;
+import model.MediaComment;
 
 /**
  * Servlet implementation class MediaCommentServlet
@@ -18,8 +24,23 @@ public class MediaCommentServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediaComment.jsp");
+
+		String esg1="";
+		String esg2="";
+		
+		 HttpSession session = request.getSession();
+		 session.setAttribute("esg1",esg1);
+		 session.setAttribute("esg2",esg2);
+		 
+		 Media media = (Media)session.getAttribute("media");
+		 MediaCommentDAO dao = new MediaCommentDAO();
+		 List<MediaComment>commentlist = dao.findComment(media);
+		 session.setAttribute("commentlist",commentlist);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
+
 		dispatcher.forward(request, response);
+		
 	}
 
 	
@@ -29,6 +50,32 @@ public class MediaCommentServlet extends HttpServlet {
 		
 		String name = request.getParameter("name");
 		String comment = request.getParameter("comment");
+		String a = request.getParameter("IID");
+		int id =Integer.parseInt(a);
+		String esg1="";
+		String esg2="";
+		
+		if(name.length()!=0&&comment.length()!=0) {
+		MediaComment mc = new MediaComment(id,name,comment);
+		MediaCommentDAO dao = new MediaCommentDAO();
+		
+		dao.postComment(mc);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaCommentOK.jsp");
+		dispatcher.forward(request, response);}
+		
+		if(name.length()==0) {
+			esg1="名前が入力されていません";
+		}
+		if(comment.length()==0) {
+			esg2="コメントが入力されていません";
+		}	
+			 HttpSession session = request.getSession();
+			 session.setAttribute("esg1",esg1);
+			 session.setAttribute("esg2",esg2);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
-}
+

@@ -19,12 +19,13 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("//WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response)
 	        throws ServletException, IOException {
@@ -35,8 +36,8 @@ public class LoginServlet extends HttpServlet {
 	    String pass = request.getParameter("pass");
 
 	    EmployeeDAO dao = new EmployeeDAO();
-
 	    Employee employee = dao.findByNameAndPass(name, pass);
+	    Employee user = dao.login(name, pass);
 
 	    if(employee != null) {
 
@@ -57,5 +58,5 @@ public class LoginServlet extends HttpServlet {
 	        dispatcher.forward(request, response);
 	    }
 	
-	}	
+	}
 }
