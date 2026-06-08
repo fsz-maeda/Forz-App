@@ -123,6 +123,14 @@ input[type="text"] {
 			<p>${comment.comment}</p>
 
 		</c:forEach>
+		<c:if test="${loginUser.employeeId == event.employeeId}">
+
+			<form action="eventEdit" method="get">
+				<input type="hidden" name="eventId" value="${event.eventId}">
+				<input type="submit" value="編集">
+			</form>
+
+		</c:if>
 		<c:if test="${loginUser.employeeId == event.userId}">
 			<form action="eventDelete" method="post"
 				onsubmit="return confirm('このイベントを削除しますか？');">
