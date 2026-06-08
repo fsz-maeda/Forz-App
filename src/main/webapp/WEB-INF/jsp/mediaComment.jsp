@@ -17,9 +17,6 @@
 <h1>コメント投稿</h1>
 </head>
 <form action="MediaCommentServlet" method="post">
-名前<br>
-<input type="text" name="name"value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>"><br>
-<%= s%><br>
 コメント<br>
 <textarea name="comment" rows="10" cols="30"><%= request.getParameter("comment") != null ? request.getParameter("comment") : "" %></textarea><br>
 <%= s2%><br>

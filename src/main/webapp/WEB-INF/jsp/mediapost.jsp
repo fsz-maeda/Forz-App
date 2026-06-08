@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ page import="model.User"%>
+ <%@ page import="model.Employee"%>
  <%
  String s = (String)session.getAttribute("errorMsg");
  String s2 = (String)session.getAttribute("errorMsg2");
  String s3 = (String)session.getAttribute("errorMsg3");
- User loginUser = (User)session.getAttribute("loginUser");
+ Employee loginUser = (Employee)session.getAttribute("loginUser");
  %>
 <!DOCTYPE html>
 <html>
@@ -18,8 +18,9 @@
 <form action="MediaPostServlet" method="post">
 カテゴリー<br>
 <select name="category">
-  <option value="news">ニュース</option>
-  <option value="notice">お知らせ</option>
+  <option value="businessknowledge">業務ナレッジ</option>
+  <option value="contact">部署内連絡・進歩共有</option>
+  <option value="membership">メンバーシップ・相互理解</option>
   <option value="others">その他</option>
  </select><br><br>
 タイトル<br>
@@ -29,7 +30,7 @@
 <textarea name="content" rows="10" cols="30"><%= request.getParameter("content") != null ? request.getParameter("content") : "" %></textarea>
 <br>
 <%= s3%><br><br>
-<input type="hidden" name="departmentId"value="<%= loginUser.getDepartmentId()%>">
+<input type="hidden" name="departmentId"value="<%= loginUser.getDepartment()%>">
 <input type="submit" value="投稿する">
 </form><br>
 <a href="media">メディアページへ</a>
