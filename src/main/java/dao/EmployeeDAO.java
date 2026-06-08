@@ -155,7 +155,7 @@ public class EmployeeDAO {
 
 			if (rs.next()) {
 				String name = rs.getString("NAME");
-				String pass = rs.getString("PATH");
+				String pass = rs.getString("PASS");
         		String mail = rs.getString("MAIL");
         		int positionId = rs.getInt("POSITION_ID");
         		int departmentId = rs.getInt("DEPARTMENT_ID");
@@ -176,7 +176,7 @@ public class EmployeeDAO {
 
 	}
 
-	public Employee findByUserId(int userId) {
+	public Employee findByUserId(int employeeId) {
 
 		Employee emp = null;
 
@@ -187,18 +187,17 @@ public class EmployeeDAO {
 
 			Connection conn = DriverManager.getConnection(JDBC_URL);
 
-			String sql = "SELECT * FROM EMPLOYEE WHERE USER_ID = ?";
+			String sql = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, userId);
+			pStmt.setInt(1, employeeId);
 
 			ResultSet rs = pStmt.executeQuery();
 
 			if (rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
 				String name = rs.getString("NAME");
-				String pass = rs.getString("PATH");
+				String pass = rs.getString("PASS");
         		String mail = rs.getString("MAIL");
         		int positionId = rs.getInt("POSITION_ID");
         		int departmentId = rs.getInt("DEPARTMENT_ID");
