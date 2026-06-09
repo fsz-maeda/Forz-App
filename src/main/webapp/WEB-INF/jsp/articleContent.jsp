@@ -40,7 +40,7 @@ Employee loginUser = (Employee)session.getAttribute("loginUser");
 <th>コメント</th>
 </tr>
 <% for (MediaComment mc : commentlist){ %>
-<td><%= loginUser.getName()%></td><td><%= mc.getComment()%></td><tr>
+<td><%= mc.getName()%></td><td><%= mc.getComment()%></td><tr>
 <%} %>
 </table>
 </body>

@@ -11,7 +11,18 @@ List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
 <title>media</title>
 </head>
 <body>
-<h1>media</h1>
+<h1>media</h1><br>
+<form action="SearchCategoryServlet" method="get">
+    <label for="searchType">記事のカテゴリーで絞り込み：</label>
+    <select name="searchCategory" id="searchCategory">
+        <option value="all" <%= "all".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>すべて表示</option>
+        <option value="業務ナレッジ" <%= "業務ナレッジ".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>業務ナレッジ</option>
+        <option value="部署内連絡・進歩共有" <%= "部署内連絡・進歩共有".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>部署内連絡・進歩共有</option>
+        <option value="メンバーシップ・相互理解" <%= "メンバーシップ・相互理解".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>メンバーシップ・相互理解</option>
+        <option value="その他" <%= "その他".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>その他</option>
+    </select>
+    <button type="submit">絞り込む</button>
+</form>
 <table border="1"style="border-collapse: collapse">
 <tr>
 <th>カテゴリ</th>

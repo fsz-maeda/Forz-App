@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Employee;
 import model.Media;
 import model.MediaComment;
 import model.Port;
@@ -16,7 +17,7 @@ public class MediaCommentDAO {
 
 	String JDBC_URL = Port.JDBC_URL;
 
-    public void postComment(MediaComment mc) {
+    public void postComment(MediaComment mc,Employee loginUser) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
@@ -29,7 +30,7 @@ public class MediaCommentDAO {
             PreparedStatement pStmt = conn.prepareStatement(sql);
             
             pStmt.setInt(1,mc.getId());
-            pStmt.setString(2,mc.getName());
+            pStmt.setString(2,loginUser.getName());
             pStmt.setString(3,mc.getComment());
             
             
