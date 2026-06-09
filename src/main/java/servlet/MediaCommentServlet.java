@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.MediaCommentDAO;
+import model.Employee;
 import model.Media;
 import model.MediaComment;
 
@@ -56,10 +57,13 @@ public class MediaCommentServlet extends HttpServlet {
 		String esg2="";
 		
 		if(comment.length()!=0) {
+        HttpSession session = request.getSession();
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
 		MediaComment mc = new MediaComment(id,comment);
 		MediaCommentDAO dao = new MediaCommentDAO();
 		
-		dao.postComment(mc);
+		
+		dao.postComment(mc,loginUser);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaCommentOK.jsp");
 		dispatcher.forward(request, response);}
 		

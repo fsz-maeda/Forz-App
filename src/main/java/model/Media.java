@@ -33,6 +33,15 @@ public class Media implements Serializable{
 	
 
 
+	public Media(int id, String mediaType, String title, String content, String created_at, int userId) {
+		this.ID = id;
+		this.mediaType = mediaType;
+		this.title = title;
+		this.content = content;
+		this.mediaDate = created_at;
+		this.userId = userId; 
+	}
+
 	public int getId() {return ID;}
 	public int getUserId() { return userId; }
 	public String getMediaType() {return mediaType;}

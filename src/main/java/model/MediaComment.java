@@ -15,8 +15,9 @@ public class MediaComment {
 		this.id=i;
 	}
 
-	public MediaComment(int id2, String comment2) {
-		// TODO 自動生成されたコンストラクター・スタブ
+	public MediaComment(int id, String comment) {
+		this.id = id;
+		this.comment = comment;
 	}
 
 	public int getId(){return id;}

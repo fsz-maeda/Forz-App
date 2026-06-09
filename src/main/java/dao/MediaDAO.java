@@ -166,6 +166,42 @@ return true;
         }
         return true;
     }
+    
+    public List<Media> findByCategory(Employee loginUser, String searchType) {
+        List<Media> mediaList = new ArrayList<>();
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            // 部署IDに加えて、MEDIA_TYPE も条件（WHERE）に指定する
+            String sql = "SELECT ID, MEDIA_TYPE, TITLE, CONTENT, created_at, USER_ID FROM FORZMEDIA WHERE DEPARTMENT_ID = ? AND MEDIA_TYPE = ? ORDER BY created_at DESC";
+
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, loginUser.getDepartment());
+            pStmt.setString(2, searchType); // 👈 絞り込みたいタイプをセット
+
+            ResultSet rs = pStmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String mediaType = rs.getString("media_type");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String created_at = rs.getString("created_at");
+                int userId = rs.getInt("USER_ID");
+                
+                Media media = new Media(id, mediaType, title, content, created_at, userId);
+                mediaList.add(media);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return mediaList;
+    }
+
 
     
 }
