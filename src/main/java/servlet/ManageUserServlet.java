@@ -27,15 +27,13 @@ public class ManageUserServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(employee == null) {
-			response.sendRedirect("home");
+		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
+			response.sendRedirect("Home");
 			return;
 		}
 		
 		EmployeeDAO dao = new EmployeeDAO();
 		List<EmployeePosition> employeePositionList = dao.findPositionName();
-		
-		System.out.println(employeePositionList.size());
 		
 		session.setAttribute("employeePositionList", employeePositionList);
 		

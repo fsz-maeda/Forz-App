@@ -28,8 +28,8 @@ public class ManageExpensesServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(employee == null) {
-			response.sendRedirect("home");
+		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
+			response.sendRedirect("Home");
 			return;
 		}
 		

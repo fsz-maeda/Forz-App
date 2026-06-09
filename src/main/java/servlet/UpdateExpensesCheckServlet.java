@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import dao.ExpensesDAO;
 
-@WebServlet("/UpdateExpensesCheckServlet")
+@WebServlet("/updateExpensesCheck")
 public class UpdateExpensesCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

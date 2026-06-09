@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Expenses implements Serializable{
 	private int expensesId;
-	private int userId;
+	private int employeeId;
 	private int amount;
 	private String detail;
 	private String approval;
 	
-	public Expenses(int expensesId, int userId, int amount, String detail, String approval) {
+	public Expenses(int expensesId, int employeeId, int amount, String detail, String approval) {
 		this.expensesId = expensesId;
-		this.userId = userId;
+		this.employeeId = employeeId;
 		this.amount = amount;
 		this.detail = detail;
 		this.approval = approval;
@@ -26,8 +26,8 @@ public class Expenses implements Serializable{
 		return expensesId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getEmployeeId() {
+		return employeeId;
 	}
 
 	public int getAmount() {

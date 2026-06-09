@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import dao.PositionDAO;
-import model.DeletePositionCheck;
+import service.DeletePositionService;
 
 @WebServlet("/deletePosition")
 public class DeletePositionServlet extends HttpServlet {
@@ -22,7 +22,7 @@ public class DeletePositionServlet extends HttpServlet {
 		
 		int positionId = Integer.parseInt(request.getParameter("positionId"));
 		
-		DeletePositionCheck check = new DeletePositionCheck();
+		DeletePositionService check = new DeletePositionService();
 		boolean checkResult = check.deletePositionCheck(positionId);
 		
 		if(!checkResult) {

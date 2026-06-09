@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import dao.DepartmentDAO;
-import model.DeleteDepartmentCheck;
+import service.DeleteDepartmentService;
 
 @WebServlet("/deleteDepartment")
 public class DeleteDepartmentServlet extends HttpServlet {
@@ -22,8 +22,8 @@ public class DeleteDepartmentServlet extends HttpServlet {
 		
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 		
-		DeleteDepartmentCheck check = new DeleteDepartmentCheck();
-		boolean checkResult = check.deleteDepartmentCheck(departmentId);
+		DeleteDepartmentService check = new DeleteDepartmentService();
+		boolean checkResult = check.deleteDepartment(departmentId);
 		
 		if(!checkResult) {
 			request.getSession().setAttribute("deleteDepartmentMsg", "対象の部署に所属しているユーザーがいるため"

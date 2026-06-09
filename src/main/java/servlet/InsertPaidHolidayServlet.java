@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,10 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.PaidHolidayDAO;
 import model.Employee;
+import model.PaidHoliday;
 
-@WebServlet("/admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/insertPaidHoliday")
+public class InsertPaidHolidayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,12 +27,12 @@ public class AdminServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
-				response.sendRedirect("Home");
-				return;
-		}
-	
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+		PaidHolidayDAO dao = new PaidHolidayDAO();
+		List<PaidHoliday> holidayList = dao.findByEmployeeId(employee.getEmployeeId());
+		
+		request.setAttribute("holidayList", holidayList);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertPaidHoliday.jsp");
 		dispatcher.forward(request, response);
 	}
 

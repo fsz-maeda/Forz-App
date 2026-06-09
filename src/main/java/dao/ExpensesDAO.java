@@ -80,7 +80,7 @@ public class ExpensesDAO {
         return expenses;
     }
     
-    public List<Expenses> findByUserId(int userId){
+    public List<Expenses> findByEmployeeId(int employeeId){
     	List<Expenses> expensesList = new ArrayList<>();
     	Expenses expenses = null;
     	
@@ -94,7 +94,7 @@ public class ExpensesDAO {
         	String sql = "SELECT * FROM EXPENSES WHERE USER_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
-        	pStmt.setInt(1, userId);
+        	pStmt.setInt(1, employeeId);
         	
         	ResultSet rs = pStmt.executeQuery();
         	
@@ -103,7 +103,7 @@ public class ExpensesDAO {
         		int amount = rs.getInt("AMOUNT");
         		String detail = rs.getString("DETAIL");
         		String approval = rs.getString("APPROVAL");
-        		expenses = new Expenses(expensesId, userId, amount, detail, approval);
+        		expenses = new Expenses(expensesId, employeeId, amount, detail, approval);
         		expensesList.add(expenses);
         	}
         }catch (SQLException e) {
