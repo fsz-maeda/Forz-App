@@ -24,8 +24,8 @@ public class ChatDAO {
                     DriverManager.getConnection(JDBC_URL);
 
             String sql =
-                    "INSERT INTO CHAT(SENDER_ID, RECEIVER_ID, MESSAGE) "
-                    + "VALUES(?,?,?)";
+                    "INSERT INTO CHAT(SENDER_ID, RECEIVER_ID, MESSAGE,) "
+                    + "VALUES(?,?,?,?)";
 
             PreparedStatement pStmt =
                     conn.prepareStatement(sql);
@@ -33,6 +33,7 @@ public class ChatDAO {
             pStmt.setInt(1, chat.getSenderId());
             pStmt.setInt(2, chat.getReceiverId());
             pStmt.setString(3, chat.getMessage());
+            
 
             int result = pStmt.executeUpdate();
 
@@ -167,5 +168,6 @@ public class ChatDAO {
         }
 
         return chatList;
+    
     }
-}
+    }
