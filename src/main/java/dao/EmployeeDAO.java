@@ -318,7 +318,8 @@ public class EmployeeDAO {
 		return employee;
 	}
 
-	public boolean updateEmployeePosition(String positionName, int employeeId) {
+	public boolean updateEmployee(int employeeId, int positionId, 
+			int departmentId, String enter, boolean management) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e) {
@@ -327,14 +328,19 @@ public class EmployeeDAO {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 			String sql = "UPDATE EMPLOYEE "
-					+ "SET POSITION_ID = POSITION.POSITION_ID "
+					+ "SET POSITION_ID = ?, "
+					+ "DEPARTMENT_ID = ?, "
+					+ "ENTER = ?, "
+					+ "MANAGEMENT = ?"
 					+ "FROM EMPLOYEE "
-					+ "JOIN POSITION ON POSITION.POSITION_NAME = ? "
 					+ "WHERE EMPLOYEE.ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, positionName);
-			pStmt.setInt(2, employeeId);
+			pStmt.setInt(1, positionId);
+			pStmt.setInt(2, departmentId);
+			pStmt.setString(3, enter);
+			pStmt.setBoolean(4, management);
+			pStmt.setInt(5, employeeId);
 
 			int result = pStmt.executeUpdate();
 			return result == 1;

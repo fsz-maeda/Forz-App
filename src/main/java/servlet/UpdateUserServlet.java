@@ -20,10 +20,13 @@ public class UpdateUserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-		String positionName = request.getParameter("positionName");
+		int positionId = Integer.parseInt(request.getParameter("positionId"));
+		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
+		String enter = request.getParameter("enter");
+		boolean management = Boolean.parseBoolean(request.getParameter("management"));
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		boolean result = dao.updateEmployeePosition(positionName, employeeId);
+		boolean result = dao.updateEmployee(employeeId, positionId, departmentId, enter, management);
 		
 		if(result) {
 		    request.getSession().setAttribute("updateUserMsg", "更新成功");

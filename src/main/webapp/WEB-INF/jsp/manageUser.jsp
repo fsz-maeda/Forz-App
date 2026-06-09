@@ -30,7 +30,17 @@
 					<td>${employee.positionName }</td>
 					<td>${employee.departmentName }</td>
 					<td>${employee.enter }</td>
-					<td>${employee.management }</td>
+					
+					<td>
+						<c:choose>
+    						<c:when test="${employee.management == true}">
+        						許可
+    						</c:when>
+   							<c:otherwise>
+       							未許可
+    						</c:otherwise>
+						</c:choose>
+					</td>
 					
 					<td>
 						<form action="editUser" method="post">
@@ -51,12 +61,12 @@
 		
 		<c:if test="${updateUserMsg != null}">
 			${updateUserMsg }
-			<c:remove  var="updateUserMsg" scope="session"/>
+			<c:remove  var="updateUserMsg" scope="session"/><br>
 		</c:if>
 		
 		<c:if test="${deleteUserMsg != null}">
 			${deleteUserMsg }
-			<c:remove  var="deleteUserMsg" scope="session"/>
+			<c:remove  var="deleteUserMsg" scope="session"/><br>
 		</c:if>
 		
 		<a href="admin">戻る</a>

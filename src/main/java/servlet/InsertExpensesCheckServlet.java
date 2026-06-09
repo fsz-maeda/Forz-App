@@ -1,9 +1,7 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,27 +11,32 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
 import model.Employee;
-import model.Expenses;
 
-@WebServlet("/insertExpenses")
-public class InsertExpensesServlet extends HttpServlet {
+@WebServlet("/insertExpensesCheck")
+public class InsertExpensesCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		String detail = request.getParameter("detail");
 		
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
 		ExpensesDAO dao = new ExpensesDAO();
-		List<Expenses> expensesList = dao.findByEmployeeId(employee.getEmployeeId());
+		boolean result = dao.insertExpenses(employee.getEmployeeId(), amount, detail);
 		
-		request.setAttribute("expensesList", expensesList);
+		if(result) {
+			request.getSession().setAttribute("insertExpensesMsg", "申請完了");
+		}else {
+			request.getSession().setAttribute("insertExpensesMsg", "申請失敗");
+		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertExpenses.jsp");
-		dispatcher.forward(request, response);
+		response.sendRedirect("insertExpenses");
 	}
 
 }

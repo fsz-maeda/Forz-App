@@ -3,6 +3,7 @@
     <%@ page import="java.util.List" %>
 <%@ page import="model.Event" %>
 <%@ page import="model.DailyReport" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,13 @@
 
     <li><a href="MyProfileServlet">👤 プロフィール</a></li>
     
-	<li><a href="admin">⚙ 管理者ページ</a></li>
+    <li><a href="insertExpenses">💰 経費申請</a></li>
+    
+    <li><a href="insertPaidHoliday">有給申請</a></li>
+    
+	<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
+		<li><a href="admin">⚙ 管理者ページ</a></li>
+	</c:if>
 </ul>
 <hr>
 <h2>🔔 Notifications</h2>
