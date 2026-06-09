@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+
+
 	<header class="header-top">
 		<h1>日報</h1>
 		<div class="new-post">
@@ -25,6 +27,7 @@
 		    <input type="text" name="keyword" placeholder="検索（タイトル or 種別）">
 		    <input type="submit" value="検索">
 		</form>
+		<a href="AttendanceServlet">勤怠</a>
 	</header>
 	
 	
