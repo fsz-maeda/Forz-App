@@ -26,6 +26,7 @@ public class EventServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		EventDAO dao = new EventDAO();
+		String keyword = request.getParameter("keyword");
 		String pageStr = request.getParameter("page");
 
 		int page = 1;
@@ -34,12 +35,30 @@ public class EventServlet extends HttpServlet {
 			page = Integer.parseInt(pageStr);
 		}
 		int pageSize = 5;
+
 		int offset = (page - 1) * pageSize;
-		List<Event> eventList = dao.findPage(offset, pageSize);
-		int totalCount = dao.countAll();
-		int totalPages = (int) Math.ceil(
-				(double) totalCount
-						/ pageSize);
+
+		List<Event> eventList;
+
+		int totalPages = 1;
+
+		if (keyword != null &&
+				!keyword.isEmpty()) {
+
+			eventList = dao.search(keyword);
+
+		} else {
+
+			eventList = dao.findPage(
+					offset,
+					pageSize);
+
+			int totalCount = dao.countAll();
+
+			totalPages = (int) Math.ceil(
+					(double) totalCount
+							/ pageSize);
+		}
 		HttpSession session = request.getSession();
 
 		Employee loginUser = (Employee) session.getAttribute("loginUser");
@@ -58,7 +77,7 @@ public class EventServlet extends HttpServlet {
 
 				event.setLiked(
 						likeDAO.exists(
-							loginUser.getEmployeeId(),
+								loginUser.getEmployeeId(),
 								event.getEventId()));
 			}
 		}

@@ -71,84 +71,95 @@ input[type="text"] {
 
 <a href="eventAdd">イベント登録</a>
 <a href="Main">メインに戻る</a>
-<hr>
+<a href="calendar">イベントカレンダー</a>
+<a href="event">イベント一覧に戻る</a>
+<br>
+<br>
 
-<c:forEach var="event" items="${eventList}">
-	<div class="event-card">
-		<h3>${event.title}</h3>
+<form action="event" method="get">
 
-		<p>${event.content}</p>
+	<input type="text" name="keyword" placeholder="タイトル検索"> <input
+		type="submit" value="検索">
+	<hr>
 
-		<p>Area : ${event.area}</p>
+	<c:forEach var="event" items="${eventList}">
+		<div class="event-card">
+			<h3>${event.title}</h3>
 
-		<p>Date : ${event.eventDate}</p>
+			<p>${event.content}</p>
 
-		<p>いいね数：${event.likes}</p>
+			<p>Area : ${event.area}</p>
 
-		<c:choose>
+			<p>Date : ${event.eventDate}</p>
 
-			<c:when test="${event.liked}">
-				<form action="like" method="post">
-					<input type="hidden" name="eventId" value="${event.eventId}">
-					<input type="submit" value="いいね解除">
-				</form>
-			</c:when>
+			<p>いいね数：${event.likes}</p>
 
-			<c:otherwise>
-				<form action="like" method="post">
-					<input type="hidden" name="eventId" value="${event.eventId}">
-					<input type="submit" value="いいね">
-				</form>
-			</c:otherwise>
+			<c:choose>
+        
+				<c:when test="${event.liked}">
+					<form action="like" method="post">
+						<input type="hidden" name="eventId" value="${event.eventId}">
+						<input type="submit" value="いいね解除">
+					</form>
+				</c:when>
 
-		</c:choose>
+				<c:otherwise>
+					<form action="like" method="post">
+						<input type="hidden" name="eventId" value="${event.eventId}">
+						<input type="submit" value="いいね">
+					</form>
+				</c:otherwise>
 
-		<br>
+			</c:choose>
 
-		<!-- コメント投稿 -->
-		<form action="commentAdd" method="post">
+			<br>
 
-			<input type="hidden" name="eventId" value="${event.eventId}">
-
-			<input type="text" name="comment" placeholder="コメントを入力"> <input
-				type="submit" value="コメント">
-
-		</form>
-
-		<!-- コメント一覧 -->
-		<h4>コメント一覧</h4>
-
-		<c:forEach var="comment" items="${event.commentList}">
-
-			<p>${comment.comment}</p>
-
-		</c:forEach>
-		<c:if test="${loginUser.employeeId == event.employeeId}">
-
-			<form action="eventEdit" method="get">
-				<input type="hidden" name="eventId" value="${event.eventId}">
-				<input type="submit" value="編集">
-			</form>
-
-		</c:if>
-		<c:if test="${loginUser.employeeId == event.userId}">
-			<form action="eventDelete" method="post"
-				onsubmit="return confirm('このイベントを削除しますか？');">
+			<!-- コメント投稿 -->
+			<form action="commentAdd" method="post">
 
 				<input type="hidden" name="eventId" value="${event.eventId}">
 
-				<input type="submit" value="削除">
+				<input type="text" name="comment" placeholder="コメントを入力"> <input
+					type="submit" value="コメント">
 
 			</form>
-		</c:if>
-	</div>
-</c:forEach>
+            
+			<!-- コメント一覧 -->
+			<h4>コメント一覧 （${event.commentList.size()}件）</h4>
+			<c:if test="${empty event.commentList}">
+				<p>まだコメントはありません</p>
+			</c:if>
+			<c:forEach var="comment" items="${event.commentList}">
 
-<!-- ページネーション -->
+				<p>${comment.comment}</p>
 
-<c:forEach var="i" begin="1" end="${totalPages}">
+			</c:forEach>
+			<c:if test="${loginUser.employeeId == event.employeeId}">
 
-	<a class="page-link" href="event?page=${i}"> ${i} </a>
-</c:forEach>
-</body>
+				<form action="eventEdit" method="get">
+					<input type="hidden" name="eventId" value="${event.eventId}">
+					<input type="submit" value="編集">
+				</form>
+
+			</c:if>
+			<c:if test="${loginUser.employeeId == event.userId}">
+				<form action="eventDelete" method="post"
+					onsubmit="return confirm('このイベントを削除しますか？');">
+
+					<input type="hidden" name="eventId" value="${event.eventId}">
+
+					<input type="submit" value="削除">
+
+				</form>
+			</c:if>
+		</div>
+	</c:forEach>
+
+	<!-- ページネーション -->
+
+	<c:forEach var="i" begin="1" end="${totalPages}">
+
+		<a class="page-link" href="event?page=${i}"> ${i} </a>
+	</c:forEach>
+	</body>
 </html>

@@ -193,6 +193,61 @@ public class EventDAO {
 		return false;
 	}
 
+	// タイトル検索
+	public List<Event> search(String keyword) {
+
+		List<Event> eventList = new ArrayList<>();
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "SELECT * " +
+					"FROM FORZEVENTS " +
+					"WHERE title LIKE ? " +
+					"OR content LIKE ? " +
+					"OR area LIKE ? " +
+					"ORDER BY event_date DESC";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			String searchWord = "%" + keyword + "%";
+
+			pStmt.setString(1, searchWord);
+			pStmt.setString(2, searchWord);
+			pStmt.setString(3, searchWord);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+
+				Event event = new Event();
+
+				event.setEventId(
+						rs.getInt("event_id"));
+
+				event.setEmployeeId(
+						rs.getInt("employee_id"));
+
+				event.setTitle(
+						rs.getString("title"));
+
+				event.setContent(
+						rs.getString("content"));
+
+				event.setArea(
+						rs.getString("area"));
+
+				event.setEventDate(
+						rs.getDate("event_date"));
+
+				eventList.add(event);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return eventList;
+	}
+
 	public boolean update(Event event) {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
