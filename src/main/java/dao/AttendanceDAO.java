@@ -340,10 +340,10 @@ public class AttendanceDAO {
     }
 	
 	
-	public boolean isApproved(int employeeId, int year, int month) {
+	public boolean isMonthApproved(int employeeId, int year, int month) {
 
 	    String sql = """
-	        SELECT 1
+	        SELECT COUNT(*) 
 	        FROM FORZATTENDANCE
 	        WHERE employee_id = ?
 	        AND YEAR(work_date) = ?
@@ -360,8 +360,10 @@ public class AttendanceDAO {
 
 	        ResultSet rs = ps.executeQuery();
 
-	        // 1件でもあれば承認済み
-	        return rs.next();
+	        if (rs.next()) {
+	            int count = rs.getInt(1);
+	            return count > 0;
+	        }
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -369,7 +371,6 @@ public class AttendanceDAO {
 
 	    return false;
 	}
-	
 	public boolean unapproveMonth(int employeeId, int year, int month) {
 
 	    String sql = """
