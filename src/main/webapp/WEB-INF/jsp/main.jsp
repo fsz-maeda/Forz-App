@@ -107,6 +107,15 @@ submitted
 %>
 <hr>
 
+<img src="images/default.png"width="120"height="120">
+
+<br><br>
+
+<a href="MyProfileServlet">プロフィールを見る</a>
+<hr>
+
+<a href="logout">ログアウト</a>
+
 <p>© Forz-App</p>
 </body>
 </html>

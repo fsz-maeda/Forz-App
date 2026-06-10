@@ -9,9 +9,10 @@ public class EmployeePosition {
 	private String departmentName;
 	private String enter;
 	private boolean management;
+	private int remainPaidHoliday;
 	
 	public EmployeePosition(int employeeId, String name, String pass, String mail, String positionName,
-			String departmentName, String enter, boolean management) {
+			String departmentName, String enter, boolean management, int remainPaidHoliday) {
 		this.employeeId = employeeId;
 		this.name = name;
 		this.pass = pass;
@@ -20,6 +21,7 @@ public class EmployeePosition {
 		this.departmentName = departmentName;
 		this.enter = enter;
 		this.management = management;
+		this.remainPaidHoliday = remainPaidHoliday;
 	}
 
 	public int getEmployeeId() {
@@ -52,5 +54,9 @@ public class EmployeePosition {
 
 	public boolean isManagement() {
 		return management;
+	}
+	
+	public int getRemainPaidHoliday() {
+		return remainPaidHoliday;
 	}
 }

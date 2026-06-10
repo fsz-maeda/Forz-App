@@ -12,12 +12,13 @@
 	<form action="updateUser" method="post">
 		<input type="hidden" name="employeeId" value="${employee.employeeId }">
 		
-		役職ID<input type="text" name="positionId" value="${employee.position}" required><br>
-		部署ID<input type="text" name="departmentId" value="${employee.department}" required><br>
+		役職ID<input type="number" name="positionId" value="${employee.position}" required><br>
+		部署ID<input type="number" name="departmentId" value="${employee.department}" required><br>
 		入社日<input type="date" name="enter" value="${employee.enter}" required><br>
+		有給日数<input type="number" name="remainPaidHoliday" value="${employee.remainPaidHoliday}" required><br>
 		管理者権限
-			<input type="radio" name="management" value="true" required> 許可
-    		<input type="radio" name="management" value="false"> 未許可<br>
+			<input type="radio" name="management" value="true"  ${employee.management ? 'checked' : ''}> 許可
+    		<input type="radio" name="management" value="false" ${!employee.management ? 'checked' : ''}> 未許可<br>
 		
 		<input type="submit" value="更新">
 	</form>

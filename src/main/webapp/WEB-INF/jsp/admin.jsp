@@ -14,6 +14,7 @@
 		<a href="manageDepartment">部署管理</a><br>
 		<a href="manageExpenses">経費管理</a><br>
 		<a href="manageAttendance">勤怠管理</a><br>
+		<a href="managePaidHoliday">有給管理</a><br>
 		
 		<a href="Main">メインへ</a>
 </body>
