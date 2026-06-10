@@ -37,6 +37,20 @@ public class EventDAO {
 				event.setContent(rs.getString("content"));
 				event.setArea(rs.getString("area"));
 				event.setEventDate(rs.getDate("event_date"));
+				event.setEventYear(
+						rs.getDate("event_date")
+								.toLocalDate()
+								.getYear());
+
+				event.setEventMonth(
+						rs.getDate("event_date")
+								.toLocalDate()
+								.getMonthValue());
+
+				event.setEventDay(
+						rs.getDate("event_date")
+								.toLocalDate()
+								.getDayOfMonth());
 				eventList.add(event);
 			}
 

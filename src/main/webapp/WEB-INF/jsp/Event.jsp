@@ -81,6 +81,7 @@ input[type="text"] {
 	<input type="text" name="keyword" placeholder="タイトル検索"> <input
 		type="submit" value="検索">
 	<hr>
+</form>
 
 	<c:forEach var="event" items="${eventList}">
 		<div class="event-card">
