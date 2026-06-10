@@ -193,9 +193,10 @@ public class EmployeeDAO {
 				Date enter = rs.getDate("ENTER");
 				String intro = rs.getString("INTRO");
 				boolean management = rs.getBoolean("MANAGEMENT");
+				int remainPaidHoliday = rs.getInt("REMAIN_PAIDHOLIDAY");
 
 				emp = new Employee(employeeId, name, pass, mail, positionId, departmentId,
-						photoPath, enter, intro, management);
+						photoPath, enter, intro, management, remainPaidHoliday);
 			}
 
 			conn.close();
@@ -244,14 +245,17 @@ public class EmployeeDAO {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 			String sql = "SELECT EMPLOYEE.ID, "
-					+ "EMPLOYEE.NAME, EMPLOYEE.PASS, "
-					+ "EMPLOYEE.MAIL, POSITION.POSITION_NAME, "
+					+ "EMPLOYEE.NAME, "
+					+ "EMPLOYEE.PASS, "
+					+ "EMPLOYEE.MAIL, "
+					+ "POSITION.POSITION_NAME, "
 					+ "DEPARTMENT.DEPARTMENT_NAME, "
 					+ "EMPLOYEE.ENTER, "
+					+ "EMPLOYEE.REMAIN_PAIDHOLIDAY, "
 					+ "EMPLOYEE.MANAGEMENT "
 					+ "FROM EMPLOYEE "
 					+ "JOIN POSITION ON EMPLOYEE.POSITION_ID = POSITION.POSITION_ID "
-					+ "JOIN DEPARTMENT ON EMPLOYEE.DEPARTMENT_ID = DEPARTMENT.DEPARTMENT_ID";
+					+ "JOIN DEPARTMENT ON EMPLOYEE.DEPARTMENT_ID = DEPARTMENT.DEPARTMENT_ID;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			ResultSet rs = pStmt.executeQuery();
@@ -264,9 +268,10 @@ public class EmployeeDAO {
 				String positionName = rs.getString("POSITION_NAME");
 				String departmentName = rs.getString("DEPARTMENT_NAME");
 				String enter = rs.getString("ENTER");
+				int remainPaidHoliday = rs.getInt("REMAIN_PAIDHOLIDAY");
 				boolean management = rs.getBoolean("MANAGEMENT");
 				emlployeePosition = new EmployeePosition(id, name, pass, mail, positionName,
-						departmentName, enter, management);
+						departmentName, enter, management, remainPaidHoliday);
 				PositionList.add(emlployeePosition);
 			}
 		} catch (SQLException e) {
@@ -319,7 +324,7 @@ public class EmployeeDAO {
 	}
 
 	public boolean updateEmployee(int employeeId, int positionId, 
-			int departmentId, String enter, boolean management) {
+			int departmentId, String enter, int remainPaidHoliday, boolean management) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e) {
@@ -331,7 +336,8 @@ public class EmployeeDAO {
 					+ "SET POSITION_ID = ?, "
 					+ "DEPARTMENT_ID = ?, "
 					+ "ENTER = ?, "
-					+ "MANAGEMENT = ?"
+					+ "REMAIN_PAIDHOLIDAY = ?, "
+					+ "MANAGEMENT = ? "
 					+ "FROM EMPLOYEE "
 					+ "WHERE EMPLOYEE.ID = ?";
 
@@ -339,8 +345,9 @@ public class EmployeeDAO {
 			pStmt.setInt(1, positionId);
 			pStmt.setInt(2, departmentId);
 			pStmt.setString(3, enter);
-			pStmt.setBoolean(4, management);
-			pStmt.setInt(5, employeeId);
+			pStmt.setInt(4, remainPaidHoliday);
+			pStmt.setBoolean(5, management);
+			pStmt.setInt(6, employeeId);
 
 			int result = pStmt.executeUpdate();
 			return result == 1;
@@ -376,6 +383,33 @@ public class EmployeeDAO {
 				return false;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+	
+	public boolean decreaseRemainPaidHoliday(int employeeId, double usedDays) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "UPDATE EMPLOYEE SET REMAIN_PAIDHOLIDAY = REMAIN_PAIDHOLIDAY - ? WHERE ID = ?";
+			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setDouble(1, usedDays);
+			pStmt.setInt(2, employeeId);
+			
+			int result = pStmt.executeUpdate();
+			
+			if(result != 1) {
+				return false;
+			}
+		}catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}

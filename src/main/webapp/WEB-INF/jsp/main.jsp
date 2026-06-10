@@ -114,6 +114,9 @@ submitted
 
 <a href="MyProfileServlet">プロフィールを見る</a>
 <hr>
+
+<a href="logout">ログアウト</a>
+
 <p>© Forz-App</p>
 </body>
 </html>

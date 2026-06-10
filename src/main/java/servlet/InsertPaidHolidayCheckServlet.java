@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import dao.EmployeeDAO;
 import dao.PaidHolidayDAO;
+import model.Employee;
 import service.PaidHolidayService;
 
 @WebServlet("/insertPaidHolidayCheck")
@@ -24,25 +26,36 @@ public class InsertPaidHolidayCheckServlet extends HttpServlet {
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         Date startDate = Date.valueOf(request.getParameter("startDate"));
         Date finishDate = Date.valueOf(request.getParameter("finishDate"));
+        String holidayType = request.getParameter("holidayType");
         
         PaidHolidayService phs = new PaidHolidayService();
-        double usedDays = phs.calcUsedDays(startDate, finishDate);
+        double usedDays = phs.calcUsedDays(startDate, finishDate, holidayType);
+        
+        EmployeeDAO edao = new EmployeeDAO();
+        Employee employee = edao.findByUserId(employeeId);
+        boolean check = phs.checkUsedDays(employeeId, usedDays, employee);
         
         if (usedDays == -1) {
 
-            request.getSession().setAttribute("insertPaidHolidayMsg", "終了日は開始日以降を入力してください");
+            request.getSession().setAttribute("insertPaidHolidayMsg", "入力内容に誤りがあります");
 
             response.sendRedirect("insertPaidHoliday");
             return;
         }
         
-        PaidHolidayDAO dao = new PaidHolidayDAO();
-        boolean result = dao.insertPaidHoliday(employeeId, usedDays, startDate, finishDate);
-        
-        if(result) {
-        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請完了");
+        if(check) {
+	        PaidHolidayDAO dao = new PaidHolidayDAO();
+	        boolean result = dao.insertPaidHoliday(employeeId, usedDays, startDate, finishDate, holidayType);
+	        
+	        boolean decrease = edao.decreaseRemainPaidHoliday(employeeId, usedDays);
+	        
+	        if(result && decrease) {
+	        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請完了");
+	        }else {
+	        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請失敗");
+	        }
         }else {
-        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請失敗");
+        	request.getSession().setAttribute("insertPaidHolidayMsg", "有給日数が超過しています");
         }
         
         response.sendRedirect("insertPaidHoliday");

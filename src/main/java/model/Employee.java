@@ -14,6 +14,7 @@ public class Employee implements Serializable{
 	private Date enter;
 	private String intro;
 	private boolean management;
+	private int remainPaidHoliday;
 	
 	public Employee(int id, String name, String pass, String mail, int department, int position,
 			String photoPath, Date enter, String intro, boolean management) {
@@ -27,6 +28,21 @@ public class Employee implements Serializable{
 		this.enter = enter;
 		this.intro = intro;
 		this.management = management;
+	}
+	
+	public Employee(int id, String name, String pass, String mail, int position, int department,
+			String photoPath, Date enter, String intro, boolean management, int remainPaidHoliday) {
+		this.employeeId = id;
+		this.name = name;
+		this.pass = pass;
+		this.mail = mail;
+		this.department = department;
+		this.position = position;
+		this.photoPath = photoPath;
+		this.enter = enter;
+		this.intro = intro;
+		this.management = management;
+		this.remainPaidHoliday = remainPaidHoliday;
 	}
 
 	public String getPass() {
@@ -87,6 +103,10 @@ public class Employee implements Serializable{
 
 	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
+	}
+	
+	public int getRemainPaidHoliday() {
+		return remainPaidHoliday;
 	}
 
 }
