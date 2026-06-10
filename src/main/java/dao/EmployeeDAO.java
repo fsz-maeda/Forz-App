@@ -382,4 +382,85 @@ public class EmployeeDAO {
 
 		return true;
 	}
-}
+	public boolean updateIntro(int employeeId, String intro) {
+
+	    try {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    } catch (ClassNotFoundException e) {
+	        throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	    }
+
+	    String sql = "UPDATE EMPLOYEE SET INTRO = ? WHERE ID = ?";
+
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL);
+	         PreparedStatement pStmt = conn.prepareStatement(sql)) {
+
+	        pStmt.setString(1, intro);
+	        pStmt.setInt(2, employeeId);
+
+	        int result = pStmt.executeUpdate();
+	        return result == 1;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	    public boolean updatePhoto(int employeeId, String photoPath) {
+
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	        } catch (ClassNotFoundException e) {
+	            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	        }
+
+	        String sql = "UPDATE EMPLOYEE SET PHOTO_PATH = ? WHERE ID = ?";
+
+	        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+	             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+
+	            pStmt.setString(1, photoPath);
+	            pStmt.setInt(2, employeeId);
+
+	            int result = pStmt.executeUpdate();
+
+	            return result == 1;
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
+	        public boolean updatePassword(int employeeId, String newPass) {
+
+	            try {
+	                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            } catch (ClassNotFoundException e) {
+	                throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	            }
+
+	            try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+	                // パスワードをハッシュ化
+	                String hashedPass = PasswordUtil.hashPassword(newPass);
+
+	                String sql = "UPDATE EMPLOYEE SET PASS = ? WHERE ID = ?";
+
+	                PreparedStatement pStmt = conn.prepareStatement(sql);
+
+	                pStmt.setString(1, hashedPass);
+	                pStmt.setInt(2, employeeId);
+
+	                int result = pStmt.executeUpdate();
+
+	                return result == 1;
+
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	                return false;
+	            }
+	        }
+	    
+	    
+	}
+

@@ -88,5 +88,23 @@ public class Employee implements Serializable{
 	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
 	}
+	public void setIntro(String intro) {
+	    this.intro = intro;
+	}
+	public void setMail(String mail) {
+	    this.mail = mail;
+	}
+
+	public void setPass(String pass) {
+	    this.pass = pass;
+	}
+
+	public void setEnter(Date enter) {
+	    this.enter = enter;
+	}
+
+	public void setManagement(boolean management) {
+	    this.management = management;
+	}
 
 }

@@ -80,15 +80,18 @@ if(msgList != null && !msgList.isEmpty()){
 <div>
 
 <img src="<%= m.getPhotoPath() %>"
-     width="40"
+     width="35"
      height="40">
 
 <b>
-<%= m.getSenderName() %>
+<%=(m.getSenderId() == loginUser.getEmployeeId())
+? "Me"
+ : m.getSenderName() %>
 </b>
 
 :
 <%= m.getMessage() %>
+
 </div>
 
 <br>

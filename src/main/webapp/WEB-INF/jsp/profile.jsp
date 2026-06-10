@@ -11,29 +11,35 @@
 <title>Profile</title>
 </head>
 <body>
-<h1>👤 Profile</h1>
+<h1> 社員プロフィール</h1>
+
+<h2>
+    ようこそ、<%= emp.getName() %> さん
+</h2>
 <hr>
 <h3>Profile Photo</h3>
 <img src="<%= emp.getPhotoPath() %>"
 			width ="150"
 			height="150">
 <hr>
-社員ID :
-<%= emp.getEmployeeId() %><br><br>
 
-氏名 :
-<%= emp.getName() %><br><br>
+<h3>📝 自己紹介</h3>
 
-部署 :
-<%= emp.getDepartment() %><br><br>
+<pre>
+<%= emp.getIntro() == null ? "" : emp.getIntro() %>
+</pre>
 
-役職 :
-<%= emp.getPosition() %><br><br>
+<hr>
 
+社員ID :<%= emp.getEmployeeId() %><br><br>
+
+氏名 :<%= emp.getName() %><br><br>
+
+部署 :<%= emp.getDepartment() %><br><br>
+
+役職 :<%= emp.getPosition() %><br><br>
 
 <a href="Main">🏠 Home</a>
-
-
 
 </body>
 </html>

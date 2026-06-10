@@ -28,7 +28,6 @@ for(Employee emp : employeeList){
 名前: <%=emp.getName() %><br>
 部署 :<%= emp.getDepartment() %><br>
 役職 :<%= emp.getPosition() %><br>
-写真 :<%=emp.getPhotoPath() %><br><br>
 
 <a href="ProfileServlet?employeeId=<%= emp.getEmployeeId() %>">Profile
 </a><br>
