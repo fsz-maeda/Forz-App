@@ -6,8 +6,6 @@ import dao.SystemSettingDAO;
 
 public class AttendanceLockService {
 
-    private final SystemSettingDAO settingDAO = new SystemSettingDAO();
-
     public boolean isLocked(
             LocalDate date,
             boolean isAdmin,
@@ -18,27 +16,31 @@ public class AttendanceLockService {
 
         if (isAdmin) return false;
 
-        LocalDate baseDate = LocalDate.of(year, month, 1);
+        SystemSettingDAO dao = new SystemSettingDAO();
+        int closeDay = dao.getCloseDay();
 
-        int closeDay = settingDAO.getCloseDay();
+        LocalDate today = LocalDate.now();
 
+        // 今回の締め日
         LocalDate closeDate = LocalDate.of(
-                baseDate.getYear(),
-                baseDate.getMonth(),
-                Math.min(closeDay, baseDate.lengthOfMonth())
+                today.getYear(),
+                today.getMonth(),
+                closeDay
         );
 
-        // ①締め日前は編集OK
-        if (!LocalDate.now().isAfter(closeDate)) {
-            return false;
+        // ロック開始日（1ヶ月前の翌日）
+        LocalDate startLock = closeDate.minusMonths(1).plusDays(1);
+
+        // 🔴過去（締め済み期間）は全部ロック
+        if (date.isBefore(startLock)) {
+            return true;
         }
 
-        // ②承認済み → 月全ロック
-        if (approved) {
-            return true; // ← シンプルでOK
+        // 🔴締め対象期間はロック
+        if (!date.isAfter(closeDate)) {
+            return true;
         }
 
-        // ③未承認 → 過去月だけロック
-        return date.isBefore(baseDate);
+        return false;
     }
 }

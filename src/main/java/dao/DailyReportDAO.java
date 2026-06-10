@@ -205,28 +205,28 @@ public class DailyReportDAO {
     
     public boolean updateReport(int reportId, int employeeId,
             String title, String content, String reportType) {
+		
+		String sql =
+					"UPDATE FORZDAILYREPORTS " +
+					"SET title = ?, content = ?, report_type = ? " +
+					"WHERE daily_report_id = ? AND employee_id = ?";
+		
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+		PreparedStatement ps = conn.prepareStatement(sql)) {
+		
+			ps.setString(1, title);
+			ps.setString(2, content);
+			ps.setString(3, reportType);
+			ps.setInt(4, reportId);
+			ps.setInt(5, employeeId);
+			
+			return ps.executeUpdate() == 1;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-String sql =
-"UPDATE FORZDAILYREPORTS " +
-"SET title = ?, content = ?, report_type = ? " +
-"WHERE daily_report_id = ? AND employee_id = ?";
-
-try (Connection conn = DriverManager.getConnection(JDBC_URL);
-PreparedStatement ps = conn.prepareStatement(sql)) {
-
-ps.setString(1, title);
-ps.setString(2, content);
-ps.setString(3, reportType);
-ps.setInt(4, reportId);
-ps.setInt(5, employeeId);
-
-return ps.executeUpdate() == 1;
-
-} catch (SQLException e) {
-e.printStackTrace();
-}
-
-return false;
+	return false;
 }
     
     
