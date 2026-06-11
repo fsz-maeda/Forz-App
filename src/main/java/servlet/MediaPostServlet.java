@@ -63,7 +63,7 @@ public class MediaPostServlet extends HttpServlet {
 			errorMsg2 += "タイトルが入力されていません";
 		}
 		if(content.length()==0) {
-			errorMsg3 += "内容が入力されていません";
+			errorMsg3 += "本文が入力されていません";
 		}
 		if(title.length()!=0&&content.length()!=0&&category.length()!=0) {
 			HttpSession session = request.getSession();

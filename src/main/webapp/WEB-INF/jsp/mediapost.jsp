@@ -179,7 +179,7 @@
 
         <!-- 内容入力 -->
         <div class="form-group">
-            <label for="content">内容</label>
+            <label for="content">本文</label>
             <textarea id="content" name="content" rows="12" placeholder="記事の本文を記述してください（※改行も反映されます）"><%= request.getParameter("content") != null ? request.getParameter("content") : "" %></textarea>
             
             <%-- 内容のエラーメッセージ --%>
