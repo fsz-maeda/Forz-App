@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>新規記事作成</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReportPost.css">
 </head>
 <body>
 	<h1>新規記事作成</h1>

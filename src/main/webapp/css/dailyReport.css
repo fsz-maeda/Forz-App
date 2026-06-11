@@ -1,0 +1,92 @@
+/* ===== 基本リセット ===== */
+p {
+    margin: 0;
+}
+
+/* ===== ヘッダー ===== */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 20px;
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-link form {
+    margin: 0;
+}
+
+/* ===== 全体レイアウト ===== */
+.report-list {
+    border: 1px solid #ccc;
+	padding-bottom:10px ;
+	margin-bottom: 15px;
+	margin-left: 10px;
+    width: 95%;
+    border-radius: 6px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow-wrap: break-word;
+}
+
+/* ===== タイトル ===== */
+.report-list h2 {
+    margin: 0;
+	background-color: #f5f5f5;
+	padding:10px;
+}
+
+.report-content{
+	padding: 0px 10px 10px;
+
+}
+
+/* ===== サブ情報（日時・種別・名前） ===== */
+.report-subcontent {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: #666;
+
+}
+
+/* ===== 本文 ===== */
+.report-content {
+    line-height: 1.5;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-text {
+    flex: 1;
+}
+
+/* ===== ボタン共通 ===== */
+.action-btn {
+    padding: 4px 10px;
+    cursor: pointer;
+}
+
+/* ===== 編集・削除 ===== */
+.delete-edit {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}

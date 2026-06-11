@@ -14,6 +14,9 @@
 
 <body>
 
+<a href="Main">メイン画面へ</a>
+			<a href="Home">ホーム画面へ</a>
+
 <h1>${year}年${month}月</h1>
 
 <div style="display:flex; justify-content:space-between; max-width:900px; margin-bottom:10px;">
@@ -44,7 +47,7 @@
 
     <c:set var="a" value="${attendanceMap[date]}" />
     <c:set var="locked" value="${lockMap[date]}" />
-    <c:set var="disabled" value="${locked or approved}" />
+    <c:set var="disabled" value="${locked}" />
 
     <c:choose>
 

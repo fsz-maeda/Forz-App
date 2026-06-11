@@ -17,6 +17,7 @@
 				<th>役職名</th>
 				<th>部署名</th>
 				<th>入社日</th>
+				<th>有給日数</th>
 				<th>管理者権限</th>
 				<th>修正</th>
 				<th>削除</th>
@@ -30,6 +31,7 @@
 					<td>${employee.positionName }</td>
 					<td>${employee.departmentName }</td>
 					<td>${employee.enter }</td>
+					<td>${employee.remainPaidHoliday}</td>
 					
 					<td>
 						<c:choose>

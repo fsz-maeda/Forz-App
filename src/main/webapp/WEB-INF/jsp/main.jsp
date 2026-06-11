@@ -106,7 +106,6 @@ submitted
 }
 %>
 <hr>
-<h2>My Profile</h2>
 
 <img src="images/default.png"width="120"height="120">
 
@@ -114,6 +113,9 @@ submitted
 
 <a href="MyProfileServlet">プロフィールを見る</a>
 <hr>
+
+<a href="logout">ログアウト</a>
+
 <p>© Forz-App</p>
 </body>
 </html>

@@ -8,27 +8,35 @@
 <meta charset="UTF-8">
 <title>日報</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReport.css">
 </head>
 <body>
 
 
-	<header class="header-top">
-		<h1>日報</h1>
-		<div class="new-post">
-			<form action="DailyReportPostServlet" method="get">
-				<input type="hidden" name="action" value="post">
-				<input type="submit" value="新規記事作成">
-			</form>
-			<a href="Main">メイン画面へ</a>
-			<a href="Home">ホーム画面へ</a>
+	<header>
+		<div class="header-top">
+			<h1>日報</h1>
+			<div class="header-link">
+				<div>
+					<a href="Main">メイン</a>
+					<a href="Home">ログアウト</a>
+				</div>
+				<div>
+					<form action="DailyReportPostServlet" method="get">
+						<input type="hidden" name="action" value="post">
+						<input type="submit" value="新規記事作成">
+					</form>
+				</div>
+				<div>
+					<form action="dailyReportPage" method="get">
+					    <input type="text" name="keyword" placeholder="検索（タイトル or 種別）">
+					    <input type="submit" value="検索">
+					</form>
+				</div>
+			</div>
 		</div>
-		
-		<form action="dailyReportPage" method="get">
-		    <input type="text" name="keyword" placeholder="検索（タイトル or 種別）">
-		    <input type="submit" value="検索">
-		</form>
-		<a href="AttendanceServlet">勤怠</a>
 	</header>
+<a href="AttendanceServlet">勤怠</a>
 	
 	
 		<c:if test="${not empty sessionScope.deleteErrorMsg }">
@@ -38,79 +46,77 @@
 	
 <c:forEach var="r" items="${reportList}">
 
-    <div class="report-list" style="border:1px solid #ccc; margin:10px; padding:10px;">
-        <p>投稿者：${r.userName}</p>
-        <p>種別：${r.reportType}</p>
-        <p>タイトル：${r.title}</p>
-        <p>内容：${r.content}</p>
-		<p>
-		<fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
-		</p>
-		<form action="DailyReportLikeServlet" method="post">
-		    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
-		    <c:choose>
-		        <c:when test="${r.liked}">
-		            <button type="submit" class="action-btn">いいね解除</button>
-		        </c:when>
-		
-		        <c:otherwise>
-		            <button type="submit" class="action-btn">いいね</button>
-		        </c:otherwise>
-		    </c:choose>
-		</form>
-		
-		${r.likes}
-
+    <div class="report-list">
+        <h2>${r.title}</h2>
         
-
+        <div class="report-content">
+	        <div class="report-subcontent">
+	        	<p>
+				<fmt:formatDate value="${r.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+				</p>
+				<p>${r.reportType}</p>
+		        <p>${r.userName}</p>
+			</div>
+	        <p>${r.content}</p>
+	
+			<form action="DailyReportLikeServlet" method="post">
+			    <input type="hidden" name="dailyReportId" value="${r.dailyReportId}"/>
+			    <c:choose>
+			        <c:when test="${r.liked}">
+			            <button type="submit" class="action-btn">❤</button>
+			        </c:when>
+			
+			        <c:otherwise>
+			            <button type="submit" class="action-btn">♡</button>
+			        </c:otherwise>
+			    </c:choose>
+			    ${r.likes}
+			</form>
 		
 	        <c:forEach var="c" items="${r.commentList}">
-	           <div style="margin-left:20px;">
-	               <p>${c.employeeName}：${c.commentText}</p>
-	           </div>
+	           <div class="comment">
+	               <p class="comment-text">${c.employeeName}：${c.commentText}</p>
 	           <c:if test="${sessionScope.loginUser.employeeId == c.employeeId}">
 				    <form action="DailyReportCommentServlet" method="post">
 				        <input type="hidden" name="action" value="delete">
 				        <input type="hidden" name="commentId" value="${c.commentId}">
 				        <input type="hidden" name="reportId" value="${r.dailyReportId}">
-				        <button type="submit" class="action-btn">コメント削除</button>
+				        <button type="submit" class="action-btn">削除</button>
 				    </form>
 				</c:if>
+				</div>
 	        </c:forEach>
 
-	        
-		<form action="DailyReportCommentServlet" method="post">
-			<input type="hidden" name="action" value="insert">
-		    <input type="hidden" name="reportId" value="${r.dailyReportId}">
-		    <input type="text" name="comment" required>
-		
-		    <input type="submit" value="コメント投稿" class="action-btn" >
-		
-		</form>
-		
-
+		        
+			<form action="DailyReportCommentServlet" method="post">
+				<input type="hidden" name="action" value="insert">
+			    <input type="hidden" name="reportId" value="${r.dailyReportId}">
+			    <input type="text" name="comment" required>
 			
+			    <input type="submit" va
+			    ]lue="コメント投稿" class="action-btn" >
 			
-		<c:if test="${sessionScope.loginUser.employeeId == r.employeeId}">
-		    <form action="DailyReportPostServlet" method="post">
-		        <input type="hidden" name="action" value="dailyReportDelete">
-		        <input type="hidden" name="reportId" value="${r.dailyReportId}">
-		        <input type="submit" value="削除" class="action-btn">
-		    </form>
-		</c:if>
-		
-		
-		<c:if test="${sessionScope.loginUser.employeeId == r.employeeId}">
-		    <form action="DailyReportEditServlet" method="get">
-		        <input type="hidden" name="reportId" value="${r.dailyReportId}">
-		        <input type="submit" value="編集" class="action-btn">
-		    </form>
-		</c:if>
+			</form>
+			
+	
+				
+			<div class="delete-edit">
+				<c:if test="${sessionScope.loginUser.employeeId == r.employeeId}">
+				    <form action="DailyReportEditServlet" method="get">
+				        <input type="hidden" name="reportId" value="${r.dailyReportId}">
+				        <input type="submit" value="編集" class="action-btn">
+				    </form>
+				
+				    <form action="DailyReportPostServlet" method="post">
+				    	<input type="hidden" name="action" value="dailyReportDelete">
+				        <input type="hidden" name="reportId" value="${r.dailyReportId}">
+				        <input type="submit" value="削除" class="action-btn delete-btn">
+				    </form>
+				</c:if>
+			</div>	
+		</div>
 	</div>
 	
-	
-		
-
 
 </c:forEach>
 

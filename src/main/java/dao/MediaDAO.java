@@ -26,7 +26,7 @@ public class MediaDAO {
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-        String sql ="SELECT ID,MEDIA_TYPE,TITLE,CONTENT,created_at FROM FORZMEDIA WHERE DEPARTMENT_ID = ? ORDER BY created_at DESC";
+        String sql ="SELECT ID,USER_ID,MEDIA_TYPE,TITLE,CONTENT,created_at FROM FORZMEDIA WHERE DEPARTMENT_ID = ? ORDER BY created_at DESC";
 
             PreparedStatement pStmt = conn.prepareStatement(sql);
             
@@ -36,11 +36,12 @@ public class MediaDAO {
             ResultSet rs = pStmt.executeQuery();
             while(rs.next()) {
             int id = rs.getInt("ID");
+            int userId = rs.getInt("USER_ID");
             String mediaType = rs.getString("media_type");
             String title = rs.getString("title");
             String content = rs.getString("content");
             String created_at = rs.getString("created_at");
-            Media media = new Media(id,mediaType,title,content,created_at);
+            Media media = new Media(id,userId,mediaType,title,content,created_at);
             mediaList.add(media);
             }
 
@@ -201,6 +202,40 @@ return true;
         }
         return mediaList;
     }
+
+	public String findName(int u) {
+		List<Media> mediaList = new ArrayList<>();
+		String name = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+        String sql ="SELECT NAME FROM EMPLOYEE WHERE ID = ? ";
+
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            
+            pStmt.setInt(1,u);
+            
+
+            ResultSet rs = pStmt.executeQuery();
+            while(rs.next()) {
+            name = rs.getString("NAME");
+            }
+
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return name;
+    
+		
+	}
 
 
     

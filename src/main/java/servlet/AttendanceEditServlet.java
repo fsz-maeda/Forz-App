@@ -49,7 +49,7 @@ public class AttendanceEditServlet extends HttpServlet {
         
         AttendanceDAO dao = new AttendanceDAO();
 
-        boolean approved = dao.isApproved(
+        boolean approved = dao.isMonthApproved(
                 employee.getEmployeeId(),
                 year,
                 month
@@ -96,7 +96,7 @@ public class AttendanceEditServlet extends HttpServlet {
         
         AttendanceDAO dao = new AttendanceDAO();
 
-        boolean approved = dao.isApproved(
+        boolean approved = dao.isMonthApproved(
                 employee.getEmployeeId(),
                 year,
                 month
@@ -120,6 +120,7 @@ public class AttendanceEditServlet extends HttpServlet {
                 clockOutStr,
                 breakMinutes
         );
+        
 
         response.sendRedirect("AttendanceServlet?year=" +
                 dateStr.substring(0, 4) + "&month=" + dateStr.substring(5, 7));

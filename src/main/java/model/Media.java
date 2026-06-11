@@ -10,8 +10,9 @@ public class Media implements Serializable{
 	private String content;
 	private String mediaDate;
 	
-	public Media(int ID,String mediaType,String title,String content,String mediaDate) {
+	public Media(int ID,int userId,String mediaType,String title,String content,String mediaDate) {
 		this.ID = ID;
+		this.userId = userId;
 		this.mediaType = mediaType;
 		this.title = title;
 		this.content = content;
@@ -41,6 +42,8 @@ public class Media implements Serializable{
 		this.mediaDate = created_at;
 		this.userId = userId; 
 	}
+
+	
 
 	public int getId() {return ID;}
 	public int getUserId() { return userId; }

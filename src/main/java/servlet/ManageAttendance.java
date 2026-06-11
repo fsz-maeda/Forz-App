@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.AttendanceDAO;
+import dao.EmployeeDAO;
 import dao.SystemSettingDAO;
 import model.Attendance;
 import model.AttendanceView;
@@ -24,20 +25,49 @@ import service.AttendanceLockService;
 import service.AttendanceQueryService;
 import service.AttendanceService;
 
-@WebServlet("/AttendanceServlet")
-public class AttendanceServlet extends HttpServlet {
+
+@WebServlet("/manageAttendance")
+public class ManageAttendance extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Employee employee = (Employee) session.getAttribute("loginUser");
+		
+		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
+			response.sendRedirect("Home");
+			return;
+		}
+		
+        EmployeeDAO dao = new EmployeeDAO();
+        
+        List<Employee> employeeList = dao.findAll();
+        
+        request.setAttribute("attendanceEmployee", employeeList);
+        
+        
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/manageAttendance.jsp");
+
+		dispatcher.forward(request, response);
+	}
+	
     private final AttendanceQueryService queryService = new AttendanceQueryService();
 	private final AttendanceService service = new AttendanceService();
     private final AttendanceLockService lockService = new AttendanceLockService();
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		request.setCharacterEncoding("UTF-8");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Employee employee = (Employee) session.getAttribute("loginUser");
+		
+		
+		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
+			response.sendRedirect("Home");
+			return;
+		}
+        
+        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+        
 		
 //		今日の日付取得
 		LocalDate now = LocalDate.now();
@@ -50,17 +80,7 @@ public class AttendanceServlet extends HttpServlet {
 		        .map(Integer::parseInt)
 		        .orElse(now.getMonthValue());
 	
-//		ログインユーザー取得確認
-		Employee employee = (Employee) session.getAttribute("loginUser");
-		
-		
-        if (employee == null) {
-            response.sendRedirect("Home");
-            return;
-        }
-        
         boolean isAdmin = employee.getManagement();
-        int employeeId = employee.getEmployeeId();;
 
 //		ログインユーザーのその月の分のデータを取得
 		List<Attendance> list = queryService.findMonthly(employeeId, year, month);
