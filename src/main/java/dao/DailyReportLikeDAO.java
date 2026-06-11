@@ -44,7 +44,7 @@ public class DailyReportLikeDAO {
 	}
 	
 	
-//	そのユーザーがいいねを押している日報一覧を取得
+//	ログインユーザーがいいねを押している日報一覧を取得
 	public Set<Integer> findLikedReportIds(int employeeId) {
 
 	    Set<Integer> set = new HashSet<>();
@@ -78,6 +78,7 @@ public class DailyReportLikeDAO {
 	    return set;
 	}
 	
+//	いいねを削除
 	public boolean deleteLikeEmployee(int employeeId, int dailyReportId) {
 
 	    String sql =

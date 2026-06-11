@@ -15,11 +15,10 @@
 
 	<header>
 		<div class="header-top">
-			<h1>日報</h1>
+			<h1><a href="Main">ForzApp</a></h1>
 			<div class="header-link">
 				<div>
-					<a href="Main">メイン</a>
-					<a href="Home">ログアウト</a>
+					
 				</div>
 				<div>
 					<form action="DailyReportPostServlet" method="get">
@@ -35,8 +34,8 @@
 				</div>
 			</div>
 		</div>
+		<a href="AttendanceServlet">勤怠</a>
 	</header>
-<a href="AttendanceServlet">勤怠</a>
 	
 	
 		<c:if test="${not empty sessionScope.deleteErrorMsg }">

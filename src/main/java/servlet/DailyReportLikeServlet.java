@@ -18,12 +18,13 @@ public class DailyReportLikeServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
     	
 //    	ログイン確認
         HttpSession session = request.getSession();
-        Employee user = (Employee) session.getAttribute("loginUser");
+        Employee employee = (Employee) session.getAttribute("loginUser");
 
-        if (user == null) {
+        if (employee == null) {
             response.sendRedirect("Home");
             return;
         }
@@ -33,14 +34,14 @@ public class DailyReportLikeServlet extends HttpServlet {
 
         DailyReportLikeDAO dao = new DailyReportLikeDAO();
         
-//     	isLikedはuserがいいねしてるかどうかの確認処理していなかったらinsertLikeUserでいいねを押した登録処理
-        Set<Integer> likedSet =
-        	    dao.findLikedReportIds(user.getEmployeeId());
-
+//      いいねしているのかの確認
+        Set<Integer> likedSet = dao.findLikedReportIds(employee.getEmployeeId());
+        
+//        	いいねしているかしていないかでの分岐containsでsetの中身で同じもの探している
         	if (likedSet.contains(dailyReportId)) {
-        	    dao.deleteLikeEmployee(user.getEmployeeId(), dailyReportId);
+        	    dao.deleteLikeEmployee(employee.getEmployeeId(), dailyReportId);
         	} else {
-        	    dao.insertLikeEmployee(user.getEmployeeId(), dailyReportId);
+        	    dao.insertLikeEmployee(employee.getEmployeeId(), dailyReportId);
         	}
 
         response.sendRedirect("dailyReportPage");

@@ -23,7 +23,7 @@
     </select>
 
     <p>内容</p>
-    <textarea name="content" required>${report.content}</textarea>
+    <textarea name="content" rows="50" cols="100" required>${report.content}</textarea>
 
     <input type="submit" value="更新">
 </form>

@@ -98,7 +98,10 @@ public class AttendanceDAO {
 
 		return null;
 	}
+	
+	
 
+//	日付指定取得
 	public Attendance findByDate(int employeeId, String date) {
 
 		String sql = """
@@ -175,6 +178,7 @@ public class AttendanceDAO {
 		return a;
 	}
 	
+//	存在のチェック
 	public boolean exists(int employeeId, java.time.LocalDate date) {
 
 	    String sql = """
@@ -200,6 +204,7 @@ public class AttendanceDAO {
 	    return false;
 	}
 	
+//	既存データ更新
 	public boolean updateAttendance(int employeeId,
             java.time.LocalDate date,
             java.sql.Timestamp clockIn,
@@ -234,6 +239,7 @@ public class AttendanceDAO {
 		return false;
 	}
 	
+//	新規登録
 	public boolean insertAttendance(int employeeId,
         java.time.LocalDate date,
         java.sql.Timestamp clockIn,
@@ -263,6 +269,7 @@ public class AttendanceDAO {
 		
 			return false;
 		}
+	
 	
 	public boolean saveAttendance(int employeeId, String date,
             Timestamp clockIn,
@@ -313,6 +320,7 @@ public class AttendanceDAO {
 	}
 	
 	
+//	月の承認
 	public boolean approveMonth(int employeeId, int year, int month) {
 
         String sql = """
@@ -340,6 +348,7 @@ public class AttendanceDAO {
     }
 	
 	
+//	承認チェック
 	public boolean isMonthApproved(int employeeId, int year, int month) {
 
 	    String sql = """
@@ -371,6 +380,8 @@ public class AttendanceDAO {
 
 	    return false;
 	}
+	
+//	承認解除
 	public boolean unapproveMonth(int employeeId, int year, int month) {
 
 	    String sql = """

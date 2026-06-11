@@ -1,7 +1,40 @@
 @charset "UTF-8";
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 20px;
+}
 
-body{
+
+
+.daily-post{
 	text-align: center;
 }
 
+.title{
+	width: 100%;
+	margin-top: 8px;
+	margin-bottom: 20px;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 14px;
+	transition: 0.2s;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.daily-type{
+	width: 100%;
+}
+
+.btn{
+	width: 100%;
+}
+
+.content{
+	width: 100%;
+	resize: vertical;
+}

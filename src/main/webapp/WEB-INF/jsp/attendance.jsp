@@ -15,7 +15,6 @@
 <body>
 
 <a href="Main">メイン画面へ</a>
-			<a href="Home">ホーム画面へ</a>
 
 <h1>${year}年${month}月</h1>
 
