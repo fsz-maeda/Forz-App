@@ -102,12 +102,12 @@ public class LikeDAO {
 			String sql = "DELETE FROM FORZEVENTSLIKE " +
 					"WHERE employee_id = ? " +
 					"AND event_id = ?";
-
+    
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			pStmt.setInt(1, employeeId);
 			pStmt.setInt(2, eventId);
-
+           
 			return pStmt.executeUpdate() == 1;
 
 		} catch (Exception e) {
