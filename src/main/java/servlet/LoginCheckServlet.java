@@ -35,6 +35,7 @@ public class LoginCheckServlet extends HttpServlet {
 			
 			response.sendRedirect("Main");
 		}else {
+			request.getSession().setAttribute("loginMsg", "ログイン失敗");
 			response.sendRedirect("Home");
 		}
 	}

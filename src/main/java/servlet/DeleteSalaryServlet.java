@@ -19,17 +19,21 @@ public class DeleteSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int salaryId = Integer.parseInt(request.getParameter("salaryId"));
 		
+		//指定した給料IDをもつデータを削除
 		SalaryDAO dao = new SalaryDAO();
 		boolean result = dao.deleteSalary(salaryId);
 		
+		//実行結果
 		if(result) {
 			request.getSession().setAttribute("deleteSalaryMsg", "削除成功");
 		}else {
 			request.getSession().setAttribute("deleteSalaryMsg", "削除失敗");
 		}
 		
+		//manageSalaryにリダイレクト
 		response.sendRedirect("manageSalary");
 	}
 

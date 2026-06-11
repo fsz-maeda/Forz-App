@@ -20,18 +20,23 @@ public class DeleteDepartmentServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 		
+		//指定した部署IDをもつデータが存在するか確認
 		DeleteDepartmentService check = new DeleteDepartmentService();
 		boolean checkResult = check.deleteDepartment(departmentId);
 		
+		//確認結果
 		if(!checkResult) {
 			request.getSession().setAttribute("deleteDepartmentMsg", "対象の部署に所属しているユーザーがいるため"
 					+ "削除できません");
 		}else {
+			//指定した部署IDをもつデータを削除
 			DepartmentDAO dao = new DepartmentDAO();
 			boolean result = dao.deleteDepartmnt(departmentId);
 			
+			//実行結果
 			if(result) {
 				request.getSession().setAttribute("deleteDepartmentMsg", "削除成功");
 			}else {
@@ -39,6 +44,7 @@ public class DeleteDepartmentServlet extends HttpServlet {
 			}
 		}
 		
+		//manageDpartmentにリダイレクト
 		response.sendRedirect("manageDepartment");
 	}
 

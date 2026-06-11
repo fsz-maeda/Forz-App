@@ -18,18 +18,22 @@ public class InsertDepartmentCheckServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-
+		
+		//フォームのデータを取得
 		String departmentName = request.getParameter("departmentName");
 		
+		//指定した名前を登録
 		DepartmentDAO dao = new DepartmentDAO();
 		boolean result = dao.insertDepartment(departmentName);
 		
+		//実行結果
 		if(result) {
 			request.getSession().setAttribute("insertDepartmentMsg", "入力完了");
 		}else {
 			request.getSession().setAttribute("insertDepartmentMsg", "入力失敗");
 		}
 		
+		//manageDepartmentにリダイレクト
 		response.sendRedirect("manageDepartment");
 	}
 

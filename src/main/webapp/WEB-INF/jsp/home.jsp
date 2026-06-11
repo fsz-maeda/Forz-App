@@ -10,7 +10,12 @@
 <body>
 	<h1>ホーム</h1>
 	<a href="login">ログイン</a>
-	<a href="UserRegister">ユーザー登録</a>
+	<a href="UserRegister">ユーザー登録</a><br>
+	
+	<c:if test="${loginMsg != null}">
+		${loginMsg}
+		<c:remove var="loginMsg" scope="session"/><br>
+	</c:if>
 	
 	<c:out value="${registerMsg }" />
 </body>

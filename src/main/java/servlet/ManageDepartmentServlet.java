@@ -24,6 +24,7 @@ public class ManageDepartmentServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
@@ -32,11 +33,14 @@ public class ManageDepartmentServlet extends HttpServlet {
 			return;
 		}
 		
+		//部署テーブルをすべて取得
 		DepartmentDAO dao = new DepartmentDAO();
 		List<Department> departmentList = dao.findAll();
 
+		//リクエストスコープに保存
 		request.setAttribute("departmentList", departmentList);
 		
+		//manageDepartment.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageDepartment.jsp");
 		dispatcher.forward(request, response);
 	}

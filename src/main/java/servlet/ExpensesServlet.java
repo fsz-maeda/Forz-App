@@ -24,6 +24,7 @@ public class ExpensesServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
@@ -32,11 +33,14 @@ public class ExpensesServlet extends HttpServlet {
 			return;
 		}
 		
+		//承認済み経費をリスト化
 		ExpensesDAO dao = new ExpensesDAO();
 		List<Expenses> expensesList = dao.expensesOK(employee.getEmployeeId(), "承認");
 		
+		//リクエストスコープに保存
 		request.setAttribute("expensesList", expensesList);
 		
+		//expenses.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/expenses.jsp");
 		dispatcher.forward(request, response);
 	}

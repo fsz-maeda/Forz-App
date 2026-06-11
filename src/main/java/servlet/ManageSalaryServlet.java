@@ -24,6 +24,7 @@ public class ManageSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
@@ -32,11 +33,14 @@ public class ManageSalaryServlet extends HttpServlet {
 			return;
 		}
 		
+		//給料テーブルをすべて取得
 		SalaryDAO dao = new SalaryDAO();
 		List<Salary> salaryList = dao.findAll();
 		
+		//リクエストスコープに保存
 		request.setAttribute("salaryList", salaryList);
 		
+		//manageSalary.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageSalary.jsp");
 		dispatcher.forward(request, response);
 	}

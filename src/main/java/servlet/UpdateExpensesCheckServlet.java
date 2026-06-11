@@ -19,18 +19,22 @@ public class UpdateExpensesCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int expensesId = Integer.parseInt(request.getParameter("expensesId"));
 		String approval = request.getParameter("approval");
 		
+		//指定したデータで更新
 		ExpensesDAO dao = new ExpensesDAO();
 		boolean result = dao.updateExpenses(expensesId, approval);
 		
+		//実行結果
 		if(result) {
 			request.getSession().setAttribute("updateExpensesMsg", "承認しました");
 		}else {
 			request.getSession().setAttribute("updateExpensesMsg", "認証に失敗しました");
 		}
 		
+		//manageExpensesにリダイレクト
 		response.sendRedirect("manageExpenses");
 	}
 

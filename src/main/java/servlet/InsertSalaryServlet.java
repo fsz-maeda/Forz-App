@@ -23,12 +23,15 @@ public class InsertSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//役職・部署IDを名前にした従業員リスト
 		EmployeeDAO dao = new EmployeeDAO();
 		List<EmployeePosition> employeePositionList = dao.findPositionName();
 		
+		//セッションスコープに保存
 		HttpSession session = request.getSession();
 		session.setAttribute("employeePositionList", employeePositionList);
 		
+		//insertSalary.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertSalary.jsp");
 		dispatcher.forward(request, response);
 	}

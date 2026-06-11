@@ -21,13 +21,17 @@ public class UpdateDepartmentSerlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 		
+		//指定した部署IDで部署を取得
 		DepartmentDAO dao = new DepartmentDAO();
 		Department department = dao.findByDepartmentId(departmentId);
 		
+		//リクエストスコープに保存
 		request.setAttribute("department", department);
 		
+		//updateDepartment.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateDepartment.jsp");
 		dispatcher.forward(request, response);
 	}

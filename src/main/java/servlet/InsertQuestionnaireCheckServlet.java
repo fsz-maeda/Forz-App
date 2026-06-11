@@ -8,10 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.EmployeeDAO;
+import dao.QuestionnaireDAO;
 
-@WebServlet("/deleteUser")
-public class DeleteUserServlet extends HttpServlet {
+@WebServlet("/InsertQuestionnaireCheckServlet")
+public class InsertQuestionnaireCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -19,22 +19,19 @@ public class DeleteUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		//フォームのデータを取得
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		String content = request.getParameter("content");
 		
-		//指定した従業員IDをもつデータを削除
-		EmployeeDAO dao = new EmployeeDAO();
-		boolean result = dao.deleteEmployee(employeeId);
+		QuestionnaireDAO dao = new QuestionnaireDAO();
+		boolean result = dao.insertQuestionnaire(employeeId, content);
 		
-		//実行結果
 		if(result) {
-			request.getSession().setAttribute("deleteUserMsg", "削除成功");
+			request.getSession().setAttribute("insertQuestionnaireMsg", "記入完了");
 		}else {
-			request.getSession().setAttribute("deleteUserMsg", "削除失敗");
+			request.getSession().setAttribute("insertQuestionnaireMsg", "記入失敗");
 		}
 		
-		//manageUserにリダイレクト
-		response.sendRedirect("manageUser");
+		response.sendRedirect("insertQuestionnaire");
 	}
 
 }

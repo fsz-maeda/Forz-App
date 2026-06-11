@@ -10,11 +10,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.PaidHolidayDAO;
-import model.PaidHoliday;
+import dao.QuestionnaireDAO;
+import model.Questionnaire;
 
-@WebServlet("/managePaidHoliday")
-public class ManagePaidHolidayServlet extends HttpServlet {
+@WebServlet("/ManageQuestionnaireServlet")
+public class ManageQuestionnaireServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,15 +22,15 @@ public class ManagePaidHolidayServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		//有給テーブルをすべて取得
-		PaidHolidayDAO dao = new PaidHolidayDAO();
-		List<PaidHoliday> paidHolidayList = dao.findAll();
+		//アンケートテーブルをすべて取得
+		QuestionnaireDAO dao = new QuestionnaireDAO();
+		List<Questionnaire> questionnaireList = dao.findAll();
 		
-		//リクエストスコープに保存
-		request.setAttribute("paidHolidayList", paidHolidayList);
-
-		//managePaidHoliday.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/managePaidHoliday.jsp");
+		//アンケートリストをリクエストスコープに保存
+		request.setAttribute("questionnaireList", questionnaireList);
+		
+		//manageQuestionnaire.jspに保存
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/manageQuestionnaire.jsp");
 		dispatcher.forward(request, response);
 	}
 

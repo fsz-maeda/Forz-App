@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,10 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.QuestionnaireDAO;
 import model.Employee;
+import model.Questionnaire;
 
-@WebServlet("/admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/insertQuestionnaire")
+public class InsertQuestionnaireServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -21,17 +24,15 @@ public class AdminServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		if(!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)){
-				response.sendRedirect("Home");
-				return;
-		}
+		QuestionnaireDAO dao = new QuestionnaireDAO();
+		List<Questionnaire> questionnaireList = dao.findByEmployeeId(employee.getEmployeeId());
 		
-		//admin.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp");
+		request.setAttribute("questionnaireList", questionnaireList);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/insertQuestionnaire.jsp");
 		dispatcher.forward(request, response);
 	}
 

@@ -14,6 +14,7 @@ import model.Port;
 public class DepartmentDAO {
 	String JDBC_URL = Port.JDBC_URL;
     
+	//部署テーブルをすべて表示
     public List<Department> findAll(){
     	List<Department> departmentList = new ArrayList<>();
     	Department department = null;
@@ -45,6 +46,7 @@ public class DepartmentDAO {
         return departmentList;
     }
     
+    //指定した部署IDをもつデータを取得
     public Department findByDepartmentId(int departmentId) {
     	Department department = null;
     	
@@ -73,6 +75,7 @@ public class DepartmentDAO {
         return department;
     }
     
+    //部署テーブルに新規データを登録
     public boolean insertDepartment(String departmentName) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -99,6 +102,7 @@ public class DepartmentDAO {
         return true;
     }
     
+    //部署テーブルを更新
     public boolean updateDepartment(int departmentId, String departmentName) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -125,6 +129,7 @@ public class DepartmentDAO {
         return true;
     }
     
+    //指定した部署IDをもつデータを削除
     public boolean deleteDepartmnt(int departmentId) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

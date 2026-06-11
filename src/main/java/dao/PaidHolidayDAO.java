@@ -15,6 +15,7 @@ import model.Port;
 public class PaidHolidayDAO {
 	String JDBC_URL = Port.JDBC_URL;
 
+	//有給情報をすべて取得
 	public List<PaidHoliday> findAll() {
 		List<PaidHoliday> holidayList = new ArrayList<>();
 		PaidHoliday holiday = null;
@@ -51,6 +52,7 @@ public class PaidHolidayDAO {
         return holidayList;
 	}
 	
+	//指定した有給IDをもつデータを取得
 	public PaidHoliday findByPaidHolidayId(int paidHolidayId) {
 		PaidHoliday holiday = null;
 		
@@ -85,6 +87,7 @@ public class PaidHolidayDAO {
         return holiday;
 	}
 	
+	//指定した従業員IDをもつデータをすべて取得する
 	public List<PaidHoliday> findByEmployeeId(int employeeId){
 		List<PaidHoliday> holidayList = new ArrayList<>();
 		PaidHoliday holiday = null;
@@ -121,6 +124,7 @@ public class PaidHolidayDAO {
         return holidayList;
 	}
 	
+	//新規有給情報を登録する
 	public boolean insertPaidHoliday(int employeeId, double usedDays, Date startDate, Date finishDate, String holidayType) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -152,6 +156,7 @@ public class PaidHolidayDAO {
         return true;
 	}
 	
+	//指定した有給IDをもつデータを承認済みにする
 	public boolean approvePaidHoliday(int paidHolidayId, String status) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -179,6 +184,7 @@ public class PaidHolidayDAO {
         return true;
 	}
 	
+	//指定した従業員の残り有給日数を確認
 	public double checkUsedDays(int employeeId) {
 		double usedDays = 0;
 		

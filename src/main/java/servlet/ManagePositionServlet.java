@@ -24,6 +24,7 @@ public class ManagePositionServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
@@ -32,11 +33,14 @@ public class ManagePositionServlet extends HttpServlet {
 			return;
 		}
 
+		//役職テーブルをすべて取得
 		PositionDAO dao = new PositionDAO();
 		List<Position> positionList = dao.findAll();
 
+		//リクエストスコープに保存
 		request.setAttribute("positionList", positionList);
 		
+		//managePosition.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/managePosition.jsp");
 		dispatcher.forward(request, response);
 	}

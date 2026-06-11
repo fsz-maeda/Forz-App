@@ -19,19 +19,23 @@ public class ApprovePaidHolidayCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int paidHolidayId = Integer.parseInt(request.getParameter("paidHolidayId"));
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		String status = request.getParameter("status");
 		
+		//有給を承認
 		PaidHolidayDAO dao = new PaidHolidayDAO();
 		boolean result = dao.approvePaidHoliday(paidHolidayId, status);
 		
+		//実行結果
 		if(result) {
 			request.getSession().setAttribute("approvePaidHolidayMsg", "登録しました");
 		}else {
 			request.getSession().setAttribute("approvePaidHolidayMsg", "登録失敗しました");
 		}
 		
+		//managePaidHolidayにリダイレクト
 		response.sendRedirect("managePaidHoliday");
 	}
 

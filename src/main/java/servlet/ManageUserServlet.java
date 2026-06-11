@@ -24,6 +24,7 @@ public class ManageUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//ログインチェック
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
@@ -32,11 +33,14 @@ public class ManageUserServlet extends HttpServlet {
 			return;
 		}
 		
+		//従業員テーブルをすべて取得
 		EmployeeDAO dao = new EmployeeDAO();
 		List<EmployeePosition> employeePositionList = dao.findPositionName();
 		
+		//セッションスコープに保存
 		session.setAttribute("employeePositionList", employeePositionList);
 		
+		//manageUser.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageUser.jsp");
 		dispatcher.forward(request, response);
 	}

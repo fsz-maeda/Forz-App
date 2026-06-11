@@ -21,13 +21,17 @@ public class ApprovePaidHolidayServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int paidHolidayId = Integer.parseInt(request.getParameter("paidHolidayId"));
 		
+		//指定した有給IDで有給を取得
 		PaidHolidayDAO dao = new PaidHolidayDAO();
 		PaidHoliday holiday = dao.findByPaidHolidayId(paidHolidayId);
 		
+		//リクエストスコープに保存
 		request.setAttribute("holiday", holiday);
 		
+		//approvalPaidHoliday.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/approvePaidHoliday.jsp");
 		dispatcher.forward(request, response);
 	}

@@ -14,6 +14,7 @@ import model.Salary;
 public class SalaryDAO {
 	String JDBC_URL = Port.JDBC_URL;
     
+	//給料情報をすべて取得
     public List<Salary> findAll(){
     	List<Salary> salaryList = new ArrayList<>();
     	Salary salary = null;
@@ -47,6 +48,7 @@ public class SalaryDAO {
         return salaryList;
     }
     
+    //指定した給料IDをもつデータを取得
     public Salary findBySalaryId(int salaryId) {
     	Salary salary = null;
     	
@@ -78,6 +80,7 @@ public class SalaryDAO {
         return salary;
     }
     
+    //新規給料情報を登録
     public boolean insertSalary(int userId, int amount, int month) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -106,6 +109,7 @@ public class SalaryDAO {
         return true;
     }
     
+    //給料情報を更新
     public boolean updateSalary(Salary salary) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -135,6 +139,7 @@ public class SalaryDAO {
         return true;
     }
     
+    //指定した給料IDをもつデータを削除
     public boolean deleteSalary(int salaryId) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

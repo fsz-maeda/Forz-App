@@ -20,11 +20,14 @@ public class DeletePositionServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int positionId = Integer.parseInt(request.getParameter("positionId"));
 		
+		//指定した役職IDをもつデータがあるか確認
 		DeletePositionService check = new DeletePositionService();
 		boolean checkResult = check.deletePositionCheck(positionId);
 		
+		//確認結果
 		if(!checkResult) {
 			request.getSession().setAttribute("deletePositionMsg", "この役職IDに属しているユーザーがいるため、"
 					+ "削除できません");
@@ -33,15 +36,18 @@ public class DeletePositionServlet extends HttpServlet {
 			return;
 		}
 		
+		//指定した役職IDをもつデータを削除
 		PositionDAO dao = new PositionDAO();
 		boolean result = dao.deletePosition(positionId);
 		
+		//実行結果
 		if(result) {
 			request.getSession().setAttribute("deletePositionMsg", "削除成功");
 		}else {
 			request.getSession().setAttribute("deletePositionMsg", "削除失敗");
 		}
 		
+		//managePositionにリダイレクト
 		response.sendRedirect("managePosition");
 	}
 

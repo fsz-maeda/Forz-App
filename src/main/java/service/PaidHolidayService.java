@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import model.Employee;
 
 public class PaidHolidayService {
+	//午前休・午後休は0.5日の有給とする
 	public double calcUsedDays(Date startDate, Date finishDate, String holidayType) {
 		LocalDate start = startDate.toLocalDate();
 		LocalDate finish = finishDate.toLocalDate();
@@ -24,6 +25,7 @@ public class PaidHolidayService {
 		return ChronoUnit.DAYS.between(start, finish) + 1;
 	}
 	
+	//有給取得日数が取得可能日数を超えていないか確認
 	public boolean checkUsedDays(int employeeId, double usingDays, Employee employee) {
 		if (usingDays <= employee.getRemainPaidHoliday()) {
 			return true;

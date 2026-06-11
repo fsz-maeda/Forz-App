@@ -21,13 +21,17 @@ public class UpdateSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int salaryId = Integer.parseInt(request.getParameter("salaryId"));
 		
+		//指定したデータで給料を取得
 		SalaryDAO dao = new SalaryDAO();
 		Salary salary = dao.findBySalaryId(salaryId);
 		
+		//リクエストスコープに保存
 		request.setAttribute("salary", salary);
 		
+		//updateSalary.jspにフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateSalary.jsp");
 		dispatcher.forward(request, response);
 	}

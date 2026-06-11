@@ -14,6 +14,7 @@ import model.Port;
 public class ExpensesDAO {
 	String JDBC_URL = Port.JDBC_URL;
     
+	//経費テーブルをすべて取得
     public List<Expenses> findAll(){
     	List<Expenses> expensesList = new ArrayList<>();
     	Expenses expenses = null;
@@ -48,6 +49,7 @@ public class ExpensesDAO {
         return expensesList;
     }
     
+    //指定した経費IDをもつデータを取得
     public Expenses findByExpensesId(int expensesId) {
     	Expenses expenses = null;
     	
@@ -80,6 +82,7 @@ public class ExpensesDAO {
         return expenses;
     }
     
+    //指定した従業員IDをもつデータをすべて取得
     public List<Expenses> findByEmployeeId(int employeeId){
     	List<Expenses> expensesList = new ArrayList<>();
     	Expenses expenses = null;
@@ -114,6 +117,7 @@ public class ExpensesDAO {
         return expensesList;
     }
     
+    //承認済みの経費をすべて取得
     public List<Expenses> expensesOK(int userId, String approval){
     	List<Expenses> expensesList = new ArrayList<>();
     	Expenses expenses = null;
@@ -147,6 +151,7 @@ public class ExpensesDAO {
         return expensesList;
     }
     
+    //新規経費情報を登録
     public boolean insertExpenses(int userId, int amount, String detail) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -174,6 +179,7 @@ public class ExpensesDAO {
         return true;
     }
     
+    //経費情報を更新
     public boolean updateExpenses(int expensesId, String approval) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

@@ -19,6 +19,7 @@ public class UpdateUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		int positionId = Integer.parseInt(request.getParameter("positionId"));
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
@@ -26,15 +27,18 @@ public class UpdateUserServlet extends HttpServlet {
 		int remainPaidHoliday = Integer.parseInt(request.getParameter("remainPaidHoliday"));
 		boolean management = Boolean.parseBoolean(request.getParameter("management"));
 		
+		//指定したデータで従業員を更新
 		EmployeeDAO dao = new EmployeeDAO();
 		boolean result = dao.updateEmployee(employeeId, positionId, departmentId, enter, remainPaidHoliday, management);
 		
+		//実行結果
 		if(result) {
 		    request.getSession().setAttribute("updateUserMsg", "更新成功");
 		} else {
 		    request.getSession().setAttribute("updateUserMsg", "更新失敗");
 		}
 
+		//manageUserにリダイレクト
 		response.sendRedirect("manageUser");
 	}
 
