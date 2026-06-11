@@ -53,12 +53,12 @@ if(photo == null || photo.isEmpty()){
 <hr>
 
 <h3>出勤情報</h3>
-<a href="#">出勤ページ</a>
+<a href="AttendanceServlet">出勤ページ</a>
 
 <hr>
 
 <h3>給料明細</h3>
-<a href="#">給料ページ</a>
+<a href="expenses">給料ページ</a>
 
 <hr>
 
@@ -70,7 +70,8 @@ if(photo == null || photo.isEmpty()){
 <br><br>
 
 <a href="ChangePasswordServlet"> パスワード変更</a><br><br>
-<a href="LogoutServlet">ログアウト</a><br>
+
+<a href="LogoutServlet">ログアウト</a><br><br>
 
 <a href="Main">🏠 Home</a>
 
