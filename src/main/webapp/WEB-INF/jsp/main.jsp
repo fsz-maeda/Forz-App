@@ -2,8 +2,21 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.List" %>
 <%@ page import="model.Event" %>
+<%@ page import="model.Employee" %>
 <%@ page import="model.DailyReport" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%
+Employee loginUser = (Employee)session.getAttribute("loginUser");
+
+String photo = "images/default.png";
+
+if(loginUser != null &&
+   loginUser.getPhotoPath() != null &&
+   !loginUser.getPhotoPath().isEmpty()){
+
+    photo = loginUser.getPhotoPath();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +26,20 @@
 <body>
 
 	<h1>Forz-App</h1>
+
+<h2>
+🎉 Welcome to Forz-App
+</h2>
+
+<p>
+👤 Name :
+<b><%= loginUser.getName() %></b>
+</p>
+
+<p>
+🆔 Employee ID :
+<b><%= loginUser.getEmployeeId() %></b>
+</p>
 
 <hr>
 <h2>今日の励ましの言葉</h2>
@@ -107,14 +134,16 @@ submitted
 %>
 <hr>
 
-<img src="images/default.png"width="120"height="120">
+<img src="<%=photo%>"
+     width="120"
+     height="120">
 
 <br><br>
 
 <a href="MyProfileServlet">プロフィールを見る</a>
 <hr>
 
-<a href="logout">ログアウト</a>
+<a href="LogoutServlet">ログアウト</a>
 
 <p>© Forz-App</p>
 </body>

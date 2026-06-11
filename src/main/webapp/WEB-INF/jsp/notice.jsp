@@ -18,11 +18,11 @@ List<Notice> noticeList =
 </head>
 <body>
 
-<h1>📢 Company Notice Board</h1>
+<h1>お知らせ掲示板</h1>
 
 <hr>
 
-<h2>🚨 Important Notice</h2>
+<h2>🚨 重要なお知らせ</h2>
 
 <%
 for(Notice n : noticeList){if("IMPORTANT".equalsIgnoreCase(n.getCategory())){
@@ -36,7 +36,7 @@ for(Notice n : noticeList){if("IMPORTANT".equalsIgnoreCase(n.getCategory())){
     }
 }
 %>
-<h2>🎉 Event Notice</h2>
+<h2>🎉 イベントのお知らせ</h2>
 <%
 for(Notice n : noticeList){
     if("EVENT".equalsIgnoreCase(n.getCategory())){
@@ -49,7 +49,7 @@ for(Notice n : noticeList){
     }
 }
 %>
-<h2>🎂 Birthday Notice</h2>
+<h2>🎂 誕生日のお知らせ</h2>
 <%
 for(Notice n : noticeList){
     if("BIRTHDAY".equalsIgnoreCase(n.getCategory())){
@@ -61,68 +61,19 @@ for(Notice n : noticeList){
     }
 }
 %>
-<h2>🏆 Employee Achievement</h2>
+<h2>🏆 社員表彰・実績</h2>
 <%
 for(Notice n : noticeList){if("ACHIEVEMENT".equalsIgnoreCase(n.getCategory())){
 %><b><%= n.getTitle() %></b><br><%= n.getContent() %><hr>
 <%
     }
 }
-%><h2>📅 Upcoming Schedule</h2><%
+%><h2>📅 今後の予定</h2><%
 for(Notice n : noticeList){if("SCHEDULE".equalsIgnoreCase(n.getCategory())){
 %>
 
 <b><%= n.getTitle() %></b><br>
 <%= n.getContent() %>
-<hr>
-
-<%
-    }
-}
-%>
-<h2>🏢 HR Notice</h2>
-<%
-for(Notice n : noticeList){
-    if("HR".equalsIgnoreCase(n.getCategory())){
-%>
-
-<b><%= n.getTitle() %></b><br>
-<%= n.getContent() %>
-
-<hr>
-
-<%
-    }
-}
-%>
-
-<h2>💻 IT / System Notice</h2>
-
-<%
-for(Notice n : noticeList){
-    if("SYSTEM".equalsIgnoreCase(n.getCategory())){
-%>
-
-<b><%= n.getTitle() %></b><br>
-<%= n.getContent() %>
-
-<hr>
-
-<%
-    }
-}
-%>
-
-<h2>📢 General Notice</h2>
-
-<%
-for(Notice n : noticeList){
-    if("GENERAL".equalsIgnoreCase(n.getCategory())){
-%>
-
-<b><%= n.getTitle() %></b><br>
-<%= n.getContent() %>
-
 <hr>
 
 <%
