@@ -19,6 +19,7 @@ public class DailyReportPostServlet extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		
 //		ログイン確認
 		HttpSession session = request.getSession();
@@ -49,7 +50,7 @@ public class DailyReportPostServlet extends HttpServlet {
 		    return;
 		}
 		
-//		新規投稿
+//		新規投稿からの取得
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String action = request.getParameter("action");
@@ -65,11 +66,11 @@ public class DailyReportPostServlet extends HttpServlet {
 				return ;
 				
 			}
-		int userId = loginUser.getEmployeeId();
+		int employeeId = loginUser.getEmployeeId();
 		
-//		日報のインサート処理
+//		日報の追加処理
 		boolean result = dao.insertDaylyReport(
-		userId,
+		employeeId,
 		request.getParameter("dailyType"),
 		title,
 		content

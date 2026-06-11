@@ -13,7 +13,7 @@ public class AttendanceClockService {
                                String clockInStr, String clockOutStr,
                                int breakMinutes) {
 
-//      2026-06-09から日付に変換
+//      文字の2026-06-09から日付に変換
         LocalDate d = LocalDate.parse(date);
         
         Timestamp clockIn = null;
@@ -22,7 +22,7 @@ public class AttendanceClockService {
 
         try {
 
-//          09:00から時間に変換
+//          文字の09:00から時間に変換　valueOfはDB用に変換
             if (clockInStr != null && !clockInStr.isEmpty()) {
                 clockIn = Timestamp.valueOf(
                         LocalDateTime.of(d, LocalTime.parse(clockInStr)));
@@ -39,8 +39,10 @@ public class AttendanceClockService {
 
         AttendanceDAO dao = new AttendanceDAO();
 
+//      その日のデータがあるないのか判定
         boolean exists = dao.exists(employeeId, d);
 
+//      あるのかないのかで更新なのか新規登録なのか分岐
         if (exists) {
             dao.updateAttendance(employeeId, d, clockIn, clockOut, breakMinutes);
         } else {

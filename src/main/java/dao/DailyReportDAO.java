@@ -169,6 +169,7 @@ public class DailyReportDAO {
         return list;
     }
     
+//  Editでどの記事のレポートかを取得してくるDAO
     public DailyReport findById(int reportId) {
 
         String sql =
@@ -202,7 +203,7 @@ public class DailyReportDAO {
         return null;
     }
     
-    
+//  Editで修正するDAO
     public boolean updateReport(int reportId, int employeeId,
             String title, String content, String reportType) {
 		
@@ -229,7 +230,7 @@ public class DailyReportDAO {
 	return false;
 }
     
-    
+//  総件数取得
     public int countAllReports() {
 
         String sql = "SELECT COUNT(*) FROM FORZDAILYREPORTS";
@@ -251,7 +252,7 @@ public class DailyReportDAO {
     
     
 
-    
+//  日報、コメント、いいね数の取得
     public List<DailyReport> findAllWithComments(Set<Integer> likedSet) {
 
         List<DailyReport> result = new ArrayList<>();

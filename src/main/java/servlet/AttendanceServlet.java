@@ -84,9 +84,11 @@ public class AttendanceServlet extends HttpServlet {
 //		勤務時間の計算
 		double totalHours = service.calcMonthlyTotal(list);
 		
+//		承認チェック
 		AttendanceDAO dao = new AttendanceDAO();
 		boolean approved = dao.isMonthApproved(employeeId, year, month);
 		
+//		ロック判定
 		SystemSettingDAO settingDAO = new SystemSettingDAO();
 		int closeDay = settingDAO.getCloseDay();
 		request.setAttribute("closeDay", closeDay);

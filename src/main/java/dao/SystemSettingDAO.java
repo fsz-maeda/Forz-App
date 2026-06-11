@@ -18,6 +18,7 @@ public class SystemSettingDAO {
 	}
 
 
+//	締め日の取得
     public int getCloseDay() {
 
         String sql = """
@@ -41,6 +42,8 @@ public class SystemSettingDAO {
         return 25; // fallback
     }
     
+    
+//  締め日の更新
     public void updateCloseDay(int closeDay) {
 
         String updateSql = """

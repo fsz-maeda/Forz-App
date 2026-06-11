@@ -17,27 +17,25 @@ import model.Employee;
 public class AttendanceApproveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		request.setCharacterEncoding("UTF-8");
+//		ログインチェック
 		HttpSession session = request.getSession();
-        Employee emp = (Employee) session.getAttribute("loginUser");
+        Employee employee = (Employee) session.getAttribute("loginUser");
 
-        if (emp == null) {
+        if (employee == null) {
             response.sendRedirect("Home");
             return;
         }
 
-        if (!emp.getManagement()) {
+//      管理者チェック
+        if (!employee.getManagement()) {
             response.sendError(403);
             return;
         }
 
-        int employeeId = emp.getEmployeeId();
+        int employeeId = employee.getEmployeeId();
 
         int year = Integer.parseInt(request.getParameter("year"));
         int month = Integer.parseInt(request.getParameter("month"));

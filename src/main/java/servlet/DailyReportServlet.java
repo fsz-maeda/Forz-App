@@ -25,6 +25,7 @@ public class DailyReportServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		
 //		ログイン確認
 	    HttpSession session = request.getSession();
@@ -52,7 +53,7 @@ public class DailyReportServlet extends HttpServlet {
 	    }
 	    int offset = (page - 1) * limit;
 	    
-//	    全部の日報の件数取得で１ページ１０件になるようにしている
+//	    全部の日報の総件数取得で１ページ１０件になるようにしている
 	    int totalCount = dao.countAllReports();
 	    int totalPage = (int) Math.ceil((double) totalCount / limit);
 	    
@@ -68,8 +69,8 @@ public class DailyReportServlet extends HttpServlet {
 	    
 	    DailyReportService service = new DailyReportService();
 
-	    List<DailyReport> list =
-	        service.getPagedReports(offset, limit, likedSet);
+//	    日報一覧といいね済みフラグ取得
+	    List<DailyReport> list = service.getPagedReports(offset, limit, likedSet);
 
 	    request.setAttribute("reportList", list);
 
@@ -79,11 +80,6 @@ public class DailyReportServlet extends HttpServlet {
 	        request.getRequestDispatcher("//WEB-INF/jsp/dailyReport.jsp");
 
 	    dispatcher.forward(request, response);
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 	}
 
 }

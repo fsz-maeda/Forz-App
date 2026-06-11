@@ -21,6 +21,7 @@ public class DailyReportEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         Employee loginUser = (Employee) session.getAttribute("loginUser");
 
@@ -33,6 +34,7 @@ public class DailyReportEditServlet extends HttpServlet {
 
         DailyReportDAO dao = new DailyReportDAO();
 
+//      どのレポートなのか中身を取得
         DailyReport report = dao.findById(reportId);
 
         request.setAttribute("report", report);
@@ -42,6 +44,7 @@ public class DailyReportEditServlet extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
         Employee loginUser = (Employee) session.getAttribute("loginUser");
 
@@ -56,7 +59,7 @@ public class DailyReportEditServlet extends HttpServlet {
         String reportType = request.getParameter("reportType");
 
         DailyReportDAO dao = new DailyReportDAO();
-
+        
         boolean result = dao.updateReport(reportId, loginUser.getEmployeeId(), title, content, reportType);
         
         if(result) {

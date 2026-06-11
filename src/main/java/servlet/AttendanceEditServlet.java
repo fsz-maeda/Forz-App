@@ -25,9 +25,10 @@ public class AttendanceEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
 
+//    	ログイン確認
         HttpSession session = request.getSession();
-
         Employee employee = (Employee) session.getAttribute("loginUser");
 
         if (employee == null) {
@@ -35,6 +36,7 @@ public class AttendanceEditServlet extends HttpServlet {
             return;
         }
 
+//      日付取得からnullチェック
         String dateStr = request.getParameter("date");
 
         if (dateStr == null) {
@@ -44,24 +46,29 @@ public class AttendanceEditServlet extends HttpServlet {
         
         LocalDate date = LocalDate.parse(dateStr);
 
+//      年月を分解
         int year = date.getYear();
         int month = date.getMonthValue();
         
         AttendanceDAO dao = new AttendanceDAO();
 
+//      月が承認済みか
         boolean approved = dao.isMonthApproved(
                 employee.getEmployeeId(),
                 year,
                 month
         );
         
+//      管理者判定
         boolean isAdmin = employee.getManagement();
 
+//      ロック判定
         if (lockService.isLocked(date, isAdmin, approved, year, month)) {
             response.sendError(403);
             return;
         }
 
+//      編集の対象データ取得
         AttendanceQueryService queryService = new AttendanceQueryService();
         Attendance a = queryService.findByDate(employee.getEmployeeId(), dateStr);
 
@@ -78,8 +85,8 @@ public class AttendanceEditServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
+//      ログイン確認
         HttpSession session = request.getSession();
-
         Employee employee = (Employee) session.getAttribute("loginUser");
 
         if (employee == null) {
@@ -87,21 +94,26 @@ public class AttendanceEditServlet extends HttpServlet {
             return;
         }
 
+//      日付取得
         String dateStr = request.getParameter("date");
         LocalDate date = LocalDate.parse(dateStr);
+//      管理者チェック
         boolean isAdmin = employee.getManagement();
 
+//      年月の分解
         int year = date.getYear();
         int month = date.getMonthValue();
         
         AttendanceDAO dao = new AttendanceDAO();
 
+//      月の承認チェック
         boolean approved = dao.isMonthApproved(
                 employee.getEmployeeId(),
                 year,
                 month
         );
 
+//      ロックチェック
         if (lockService.isLocked(date, isAdmin, approved, year, month)) {
             response.sendError(403);
             return;
@@ -113,6 +125,7 @@ public class AttendanceEditServlet extends HttpServlet {
 
         AttendanceClockService clockService = new AttendanceClockService();
 
+//      保存処理
         clockService.saveAttendance(
                 employee.getEmployeeId(),
                 dateStr,
