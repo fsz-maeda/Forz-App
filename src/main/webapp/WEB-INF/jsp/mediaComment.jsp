@@ -143,7 +143,7 @@
     
     <form action="MediaCommentServlet" method="post">
         <div class="form-group">
-            <label for="comment">コメント内容</label>
+            <label for="comment">コメント</label>
             <textarea name="comment" id="comment" rows="8" placeholder="コメントを入力してください（※改行も反映されます）"><%= request.getParameter("comment") != null ? request.getParameter("comment") : "" %></textarea>
             
             <%-- エラーメッセージが存在する場合のみ綺麗に表示 --%>
