@@ -29,9 +29,14 @@ th {
 
 </head>
 <body>
+	<a href="calendar?year=${prevYear}&month=${prevMonth}"> ← 前月 </a>
 
+	&nbsp;&nbsp;
+
+	<a href="calendar?year=${nextYear}&month=${nextMonth}"> 翌月 → </a>
 	<h1>${year}年${month}月</h1>
-
+    <a href="event">イベント一覧へ戻る</a>
+    <hr>
 
 	<table>
 
@@ -49,41 +54,37 @@ th {
 		<c:forEach var="week" begin="1" end="6">
 
 			<tr>
+			
 
 				<c:forEach var="col" begin="0" end="6">
 
 					<td><c:choose>
 							<c:when test="${week == 1 && col < startColumn}">
 							</c:when>
-                        <c:when test="${day <= lastDay}">
+							<c:when test="${day <= lastDay}">
 
-	<div>
-		${day}
-	</div>
+								<div>${day}</div>
 
-	<c:forEach var="event" items="${eventList}">
+								<c:forEach var="event" items="${eventList}">
 
-		<c:if test="${event.eventDate.date == day}">
+									<c:if
+										test="${event.eventYear == year
+	&& event.eventMonth == month
+	&& event.eventDay == day}">
 
-			<div
-				style="font-size:12px;
-				background:#e8f2ff;
-				margin-top:3px;
-				padding:2px;
-				border-radius:3px;">
+										<div
+											style="font-size: 12px; background: #e8f2ff; margin-top: 3px; padding: 2px; border-radius: 3px;">
 
-				${event.title}
+											${event.title}</div>
 
-			</div>
+									</c:if>
 
-		</c:if>
+								</c:forEach>
 
-	</c:forEach>
+								<c:set var="day" value="${day + 1}" />
 
-	<c:set var="day" value="${day + 1}" />
+							</c:when>
 
-</c:when>
-							
 
 						</c:choose></td>
 

@@ -23,11 +23,35 @@ public class CalendarServlet extends HttpServlet {
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws ServletException, IOException {
+		String yearStr = request.getParameter("year");
+		String monthStr = request.getParameter("month");
+
 		LocalDate today = LocalDate.now();
 
 		int year = today.getYear();
-
 		int month = today.getMonthValue();
+
+		if (yearStr != null && monthStr != null) {
+
+			year = Integer.parseInt(yearStr);
+			month = Integer.parseInt(monthStr);
+
+		}
+		int prevYear = year;
+		int prevMonth = month - 1;
+
+		if (prevMonth == 0) {
+			prevMonth = 12;
+			prevYear--;
+		}
+
+		int nextYear = year;
+		int nextMonth = month + 1;
+
+		if (nextMonth == 13) {
+			nextMonth = 1;
+			nextYear++;
+		}
 
 		YearMonth ym = YearMonth.of(year, month);
 
@@ -56,10 +80,13 @@ public class CalendarServlet extends HttpServlet {
 		request.setAttribute(
 				"startColumn",
 				startColumn);
+		request.setAttribute("prevYear", prevYear);
+		request.setAttribute("prevMonth", prevMonth);
+		request.setAttribute("nextYear", nextYear);
+		request.setAttribute("nextMonth", nextMonth);
 		EventDAO dao = new EventDAO();
 
-		List<Event> eventList =
-				dao.findAll();
+		List<Event> eventList = dao.findAll();
 
 		request.setAttribute(
 				"eventList",
@@ -71,4 +98,5 @@ public class CalendarServlet extends HttpServlet {
 				request,
 				response);
 	}
+	
 }
