@@ -1,22 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Event" %>
-<%@ page import="model.Employee" %>
-<%@ page import="model.DailyReport" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%
-Employee loginUser = (Employee)session.getAttribute("loginUser");
 
-String photo = "images/default.png";
-
-if(loginUser != null &&
-   loginUser.getPhotoPath() != null &&
-   !loginUser.getPhotoPath().isEmpty()){
-
-    photo = loginUser.getPhotoPath();
-}
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +15,8 @@ if(loginUser != null &&
 		<div class="header-top">
 			<h1>Forz-App</h1>
 			<div class="header-link">
-				<p>ユーザネーム :<b><%= loginUser.getName() %></b></p>
-				<p>ユーザーID :<b><%= loginUser.getEmployeeId() %></b></p>
+				<p>ユーザネーム :<b>${loginUser.name}</b></p>
+				<p>ユーザーID :<b>${loginUser.employeeId}</b></p>
 			</div>
 		</div>
 	</header>
@@ -69,72 +54,39 @@ if(loginUser != null &&
 		</div>
 		<div class="main-news">
 			<h2>🔔 お知らせ</h2>
-			<%
-			List<Event> eventList =(List<Event>)request.getAttribute("eventList");
-		
-			if(eventList != null){int count = 0;
-		
-		    	for(Event event : eventList){
-		        	if(count >= 6) break;
-			%>
 			
-			<p>
-				🎉 イベント :
-				<b><%= event.getTitle() %></b>
-				<br>
-				📅 <%= event.getEventDate() %>
-			</p>
-			<%
-		        	count++;
-		    	}
-			}
-			%>
-		
-		
-			<%
-			List<DailyReport> reportList =
-			(List<DailyReport>)request.getAttribute("reportList");
-		
-			if(reportList != null){
-		
-		    	int count = 0;
-		
-		    	for(DailyReport report : reportList){
-		
-		        	if(count >= 6) break;
-			%>
-		
-			<p>
-		
-			📝 日報 :
-		
-			<b><%= report.getUserName() %></b>
-		
-			submitted
-		
-			"<%= report.getTitle() %>"
-		
-			<br>
-		
-			📅 <%= report.getCreatedAt() %>
-		
-			</p>
-		
+			<h3>イベント</h3>
+			<c:forEach var="event" items="${eventList}" end="5">
+    			<p>
+    				🎉 イベント :<b>${event.title}</b><br>
+        			📅 ${event.eventDate}
+    			</p>
+			</c:forEach>
 
-		
-			<%
-		        	count++;
-		   		}
-			}
-			%>
+			<h3>日報</h3>
+			<c:forEach var="report" items="${reportList}" end="5">
+				<p>
+					🎉 日報 :<b>${report.title}</b><br>
+					著者 : <b>${report.userName}</b><br>
+	    			📅 ${report.createdAt}
+				</p>
+			</c:forEach>
+			
+			<h3>メディア</h3>
+			<c:forEach var="media" items="${mediaList}" end="5">
+				<p>
+					🎉 日報 :<b>${media.title}</b><br>
+					著者 : <b>${media.name}</b><br>
+	    			📅 ${media.mediaDate}
+				</p>
+			</c:forEach>
 		</div>
 	</div>
 	
 	<hr>
-	<div  class="profile">
-		<img src="<%=photo%>" width="120" height="120">
-		<br><br>
-		<a href="MyProfileServlet">プロフィールを見る</a>
+	<div class="profile">
+    	<img src="${empty loginUser.photoPath ? 'images/rdesign_17464.png' : loginUser.photoPath}" width="120" height="120"><br>
+    	<a href="MyProfileServlet">プロフィールを見る</a>
 	</div>
 	<hr>
 	

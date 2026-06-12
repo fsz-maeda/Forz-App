@@ -15,8 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import dao.DailyReportDAO;
 import dao.EventDAO;
+import dao.MediaDAO;
 import model.DailyReport;
 import model.Event;
+import model.MediaByEmployeeName;
 
 @WebServlet("/Main")
 public class MainServlet extends HttpServlet {
@@ -42,45 +44,29 @@ public class MainServlet extends HttpServlet {
 				"安全第一で行きましょう！",
 				"笑顔で頑張りましょう！",
 				"挑戦を楽しみましょう！",
-				"チームワークを大切にしましょう！"
-				
-			};
+				"チームワークを大切にしましょう！"};
+		
 		EventDAO eventDao = new EventDAO();
+		List<Event> eventList = eventDao.findAll();
 
-		List<Event> eventList =
-		        eventDao.findAll();
-
-		request.setAttribute(
-		        "eventList",
-		        eventList);
-
-
-		DailyReportDAO reportDao =
-		        new DailyReportDAO();
-
-		Set<Integer> likedSet =
-		        new HashSet<>();
-
-		List<DailyReport> reportList =
-		        reportDao.findAllWithComments(
-		                likedSet);
-
-		request.setAttribute(
-		        "reportList",
-		        reportList);
-			Random random = new Random();
-			String message =messages[random.nextInt(messages.length)];
-request.setAttribute("motivation", message);
-
+		DailyReportDAO reportDao = new DailyReportDAO();
+		Set<Integer> likedSet = new HashSet<>();
+		List<DailyReport> reportList = reportDao.findAllWithComments(likedSet);
+		
+		MediaDAO mediaDao = new MediaDAO();
+		List<MediaByEmployeeName> mediaList = mediaDao.findAll();
+		
+		System.out.println(mediaList.size());
+		
+		Random random = new Random();
+		String message =messages[random.nextInt(messages.length)];
+		
+		request.setAttribute("eventList", eventList);
+		request.setAttribute("reportList", reportList);
+		request.setAttribute("mediaList", mediaList);
+		request.setAttribute("motivation", message);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
 		dispatcher.forward(request, response);
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }
