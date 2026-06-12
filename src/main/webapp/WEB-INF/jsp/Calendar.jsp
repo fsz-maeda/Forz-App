@@ -54,6 +54,7 @@ th {
 		<c:forEach var="week" begin="1" end="6">
 
 			<tr>
+			
 
 				<c:forEach var="col" begin="0" end="6">
 
