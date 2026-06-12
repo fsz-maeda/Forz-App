@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+/* ===== ヘッダー ===== */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:20px 20px;
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.word{
+	text-align: center;
+}
+.main{
+	display: flex;
+	justify-content: space-between;
+	width: 80%;
+	margin: 0px auto;
+	
+}
+
+.profile{
+	width: 80%;
+	margin: 0px auto;
+}
+
+.footer-copy{
+	text-align: center;
+}
+
+hr {
+  width: 100vw;
+  margin: 0;
+}

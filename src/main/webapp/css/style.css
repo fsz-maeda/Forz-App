@@ -43,5 +43,11 @@ header {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: white;
+  background-color: #005bac;
+  color: white;
 }
+
+footer{
+	background-color: #f5f5f5;
+}
+
