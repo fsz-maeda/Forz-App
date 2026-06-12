@@ -31,11 +31,11 @@
 		<div class="main-menu">
 			<h2>📋 メニュー</h2>
 			<ul>
-		    	<li><a href="event">🎉 イベント</a></li>
+		    	<li><a href="event">🎉 社内イベント</a></li>
 		    	
 		    	<li><a href="dailyReportPage">📝 日報</a></li>
 		    
-		    	<li><a href="media">メディア</a></li>
+		    	<li><a href="media">🏢 部署コミュニティ</a></li>
 		
 		    	<li><a href="EmployeeListServlet">👥 社員一覧</a></li>
 		
@@ -45,41 +45,50 @@
 		    
 		    	<li><a href="insertExpenses">💰 経費申請</a></li>
 		    
-		    	<li><a href="insertPaidHoliday">有給申請</a></li>
+		    	<li><a href="insertPaidHoliday">💰 有給申請</a></li>
 		    
 				<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
 					<li><a href="admin">⚙ 管理者ページ</a></li>
 				</c:if>
 			</ul>
 		</div>
+		
+		<h2>🔔 お知らせ</h2>
+			
 		<div class="main-news">
-			<h2>🔔 お知らせ</h2>
-			
-			<h3>イベント</h3>
-			<c:forEach var="event" items="${eventList}" end="5">
-    			<p>
-    				🎉 イベント :<b>${event.title}</b><br>
-        			📅 ${event.eventDate}
-    			</p>
-			</c:forEach>
 
-			<h3>日報</h3>
-			<c:forEach var="report" items="${reportList}" end="5">
-				<p>
-					🎉 日報 :<b>${report.title}</b><br>
-					著者 : <b>${report.userName}</b><br>
-	    			📅 ${report.createdAt}
-				</p>
-			</c:forEach>
+			<div>
+			<h3>イベント</h3>
+				<c:forEach var="event" items="${eventList}" end="5">
+	    			<p>
+	    				🎉 イベント :<b>${event.title}</b><br>
+	        			📅 ${event.eventDate}
+	    			</p>
+				</c:forEach>
+			</div>
 			
+			<div>
+				<h3>日報</h3>
+				<c:forEach var="report" items="${reportList}" end="5">
+					<p>
+						🎉 日報 :<b>${report.title}</b><br>
+						著者 : <b>${report.userName}</b><br>
+		    			📅 ${report.createdAt}
+					</p>
+				</c:forEach>
+			</div>
+			
+			<div>
 			<h3>メディア</h3>
-			<c:forEach var="media" items="${mediaList}" end="5">
-				<p>
-					🎉 日報 :<b>${media.title}</b><br>
-					著者 : <b>${media.name}</b><br>
-	    			📅 ${media.mediaDate}
-				</p>
-			</c:forEach>
+				<c:forEach var="media" items="${mediaList}" end="5">
+					<p>
+						🎉 日報 :<b>${media.title}</b><br>
+						著者 : <b>${media.name}</b><br>
+		    			📅 ${media.mediaDate}
+					</p>
+				</c:forEach>
+			</div>
+			
 		</div>
 	</div>
 	

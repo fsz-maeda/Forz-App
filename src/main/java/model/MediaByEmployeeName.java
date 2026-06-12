@@ -9,7 +9,8 @@ public class MediaByEmployeeName implements Serializable{
 	private String content;
 	private String mediaDate;
 	
-	public MediaByEmployeeName(int ID,String name,String mediaType,String title,String content,String mediaDate) {
+	public MediaByEmployeeName(int ID, String name, String mediaType, String title,
+			String content,String mediaDate) {
 		this.ID = ID;
 		this.name = name;
 		this.mediaType = mediaType;
@@ -18,10 +19,27 @@ public class MediaByEmployeeName implements Serializable{
 		this.mediaDate = mediaDate;
 	}
 	
-	public int getId() {return ID;}
-	public String getName() { return name; }
-	public String getMediaType() {return mediaType;}
-	public String getTitle() {return title;}
-	public String getContent() {return content;}
-	public String getMediaDate() {return mediaDate;}
+	public int getId() {
+		return ID;
+	}
+	
+	public String getName() { 
+		return name; 
+	}
+	
+	public String getMediaType() {
+		return mediaType;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+	
+	public String getMediaDate() {
+		return mediaDate;
+	}
 }

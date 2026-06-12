@@ -7,7 +7,7 @@ import dao.MediaDAO;
 public class MediaLogic {
 	public List<Media> execute(Employee loginUser){
 	MediaDAO dao = new MediaDAO();	
-	List<Media> mediaList = dao.findAll(loginUser);
+	List<Media> mediaList = dao.findAll(loginUser.getEmployeeId());
 	return mediaList;
 	}
 }

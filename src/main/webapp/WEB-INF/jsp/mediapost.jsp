@@ -1,18 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
- <%@ page import="model.Employee"%>
- <%
- String s = (String)session.getAttribute("errorMsg");
- String s2 = (String)session.getAttribute("errorMsg2");
- String s3 = (String)session.getAttribute("errorMsg3");
- Employee loginUser = (Employee)session.getAttribute("loginUser");
- %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>新規投稿</title>
 <style>
     :root {
         --primary-color: #2563eb;
@@ -147,59 +139,74 @@
         background-color: #e2e8f0;
     }
 </style>
+<title>新規投稿</title>
 </head>
+
 <body>
 
 <div class="container">
     <h1>新規投稿</h1>
-    
+
     <form action="MediaPostServlet" method="post">
-        
-        <!-- カテゴリー選択 -->
+
+        <!-- カテゴリー -->
         <div class="form-group">
-            <label for="category">カテゴリー</label>
-            <select name="category" id="category">
-                <option value="businessknowledge">業務ナレッジ</option>
-                <option value="contact">部署内連絡・進歩共有</option>
-                <option value="membership">メンバーシップ・相互理解</option>
-                <option value="others">その他</option>
+            <label>カテゴリー</label>
+            <select name="category">
+
+                <option value="businessknowledge"
+                    ${param.category == 'businessknowledge' ? 'selected' : ''}>
+                    業務ナレッジ
+                </option>
+
+                <option value="contact"
+                    ${param.category == 'contact' ? 'selected' : ''}>
+                    部署内連絡・進歩共有
+                </option>
+
+                <option value="membership"
+                    ${param.category == 'membership' ? 'selected' : ''}>
+                    メンバーシップ・相互理解
+                </option>
+
+                <option value="others"
+                    ${param.category == 'others' ? 'selected' : ''}>
+                    その他
+                </option>
+
             </select>
         </div>
 
-        <!-- タイトル入力 -->
+        <!-- タイトル -->
         <div class="form-group">
-            <label for="title">タイトル</label>
-            <input type="text" id="title" name="title" value="<%= request.getParameter("title") != null ? request.getParameter("title") : "" %>" placeholder="記事のタイトルを入力してください">
-            
-            <%-- タイトルのエラーメッセージ --%>
-            <% if (s2 != null && !s2.trim().isEmpty()) { %>
-                <div class="error-message"><%= s2 %></div>
-            <% } %>
+            <label>タイトル</label>
+            <input type="text" name="title" value="${param.title}" />
+
+            <c:if test="${not empty errorMsg2}">
+                <div class="error-message">${errorMsg2}</div>
+            </c:if>
         </div>
 
-        <!-- 内容入力 -->
+        <!-- 本文 -->
         <div class="form-group">
-            <label for="content">本文</label>
-            <textarea id="content" name="content" rows="12" placeholder="記事の本文を記述してください（※改行も反映されます）"><%= request.getParameter("content") != null ? request.getParameter("content") : "" %></textarea>
-            
-            <%-- 内容のエラーメッセージ --%>
-            <% if (s3 != null && !s3.trim().isEmpty()) { %>
-                <div class="error-message"><%= s3 %></div>
-            <% } %>
-        </div>
-        
-        <%-- 全体的なエラーメッセージ（s）がある場合、ここに表示することも可能です --%>
-        <% if (s != null && !s.trim().isEmpty()) { %>
-            <div class="error-message" style="margin-bottom: 15px;"><%= s %></div>
-        <% } %>
+            <label>本文</label>
+            <textarea name="content">${param.content}</textarea>
 
-        <input type="hidden" name="departmentId" value="<%= loginUser.getDepartment() %>">
-        
-        <!-- アクションボタン -->
-        <div class="btn-group">
-            <button type="submit" class="btn btn-primary">投稿する</button>
-            <a href="media" class="btn btn-secondary">メディアページへ</a>
+            <c:if test="${not empty errorMsg3}">
+                <div class="error-message">${errorMsg3}</div>
+            </c:if>
         </div>
+
+        <!-- 全体エラー -->
+        <c:if test="${not empty errorMsg}">
+            <div class="error-message">${errorMsg}</div>
+        </c:if>
+
+        <!-- hidden -->
+        <input type="hidden" name="departmentId" value="${loginUser.department}" />
+
+        <button type="submit">投稿する</button>
+        <a href="media">戻る</a>
     </form>
 </div>
 

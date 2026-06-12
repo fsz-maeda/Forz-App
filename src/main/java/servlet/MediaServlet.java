@@ -15,43 +15,47 @@ import jakarta.servlet.http.HttpSession;
 import dao.MediaDAO;
 import model.Employee;
 import model.Media;
-import model.MediaLogic;
 
-/**
- * Servlet implementation class MediaServlet
- */
 @WebServlet("/media")
 public class MediaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 
-        HttpSession session = request.getSession();
-        Employee loginUser = (Employee)session.getAttribute("loginUser");
-        MediaLogic ml = new MediaLogic();
-        List<Media> mediaList = ml.execute(loginUser);
-        session.setAttribute("mediaList",mediaList);
-        List<Media> mediaList2 = (List<Media>)session.getAttribute("mediaList");
-        List<Integer>userIdList = new ArrayList<Integer>();
-        for (Media media : mediaList2) {
-        	userIdList.add(media.getUserId());
-        }
-        MediaDAO dao = new MediaDAO(); 
-        List<String>nameList = new ArrayList<>(); 
-        for (int u : userIdList) {
-        	String name = dao.findName(u);
-        	nameList.add(name);
-        }
-        session.setAttribute("nameList",nameList);
-        
+		HttpSession session = request.getSession();
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
+
+		MediaDAO dao = new MediaDAO();
+		List<Media> medialist = dao.findAll(loginUser.getDepartment()); //部署ごとのfindAll
+		List<Media> mediaList = dao.findAll(loginUser.getEmployeeId()); //従業員ごとのfindAll
+
+		System.out.println(medialist.size());
+		System.out.println(mediaList.size());
 		
+		List<Integer> userIdList = new ArrayList<Integer>();
+		
+		if (mediaList != null) {
+			for (Media media : mediaList) {
+				userIdList.add(media.getUserId());
+			}
+		}
+
+		List<String> nameList = new ArrayList<>();
+		
+		if (userIdList != null) {
+			for (int u : userIdList) {
+				String name = dao.findName(u);
+				nameList.add(name);
+			}
+		}
+
+		request.setAttribute("medialist", medialist);
+		request.setAttribute("nameList", nameList);
+		request.setAttribute("mediaList", mediaList);
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/media.jsp");
 		dispatcher.forward(request, response);
 	}
-
-
-	
-
 }

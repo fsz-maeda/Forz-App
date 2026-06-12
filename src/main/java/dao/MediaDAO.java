@@ -19,7 +19,7 @@ public class MediaDAO {
 
 	public List<MediaByEmployeeName> findAll() {
 		List<MediaByEmployeeName> mediaList = new ArrayList<>();
-		
+
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e) {
@@ -27,9 +27,13 @@ public class MediaDAO {
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT FORZMEDIA.ID,EMPLOYEE.NAME,MEDIA_TYPE,TITLE,CONTENT,created_at "
+			String sql = "SELECT FORZMEDIA.ID, "
+					+ "EMPLOYEE.NAME, "
+					+ "MEDIA_TYPE, "
+					+ "TITLE, "
+					+ "CONTENT,created_at "
 					+ "FROM FORZMEDIA "
-					+ "JOIN EMPLOYEE ON FORZMEDIA.USER_ID = EMPLOYEE.ID "
+					+ "JOIN EMPLOYEE ON FORZMEDIA.EMPLOYEE_ID = EMPLOYEE.ID "
 					+ "ORDER BY created_at DESC";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -43,7 +47,8 @@ public class MediaDAO {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String created_at = rs.getString("created_at");
-				MediaByEmployeeName media = new MediaByEmployeeName(id, employeeName, mediaType, title, content, created_at);
+				MediaByEmployeeName media = new MediaByEmployeeName(id, employeeName, mediaType, title, content,
+						created_at);
 				mediaList.add(media);
 			}
 		} catch (SQLException e) {
@@ -53,7 +58,43 @@ public class MediaDAO {
 		return mediaList;
 	}
 
-	public List<Media> findAll(Employee loginUser) {
+	public List<Media> findByEmployeeId(int employeeId) {
+		List<Media> mediaList = new ArrayList<>();
+
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "SELECT *"
+					+ "FROM FORZMEDIA "
+					+ "WHERE USER_ID = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, employeeId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				String mediaType = rs.getString("media_type");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String created_at = rs.getString("created_at");
+				Media media = new Media(id, employeeId, mediaType, title, content, created_at);
+				mediaList.add(media);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return mediaList;
+	}
+
+	public List<Media> findAll(int departmentId) {
 		List<Media> mediaList = new ArrayList<>();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -63,20 +104,21 @@ public class MediaDAO {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-			String sql = "SELECT ID,USER_ID,MEDIA_TYPE,TITLE,CONTENT,created_at FROM FORZMEDIA WHERE DEPARTMENT_ID = ? ORDER BY created_at DESC";
+			String sql = "SELECT ID, EMPLOYEE_ID, MEDIA_TYPE, TITLE, CONTENT, created_at "
+					+ "FROM FORZMEDIA "
+					+ "WHERE DEPARTMENT_ID = ? "
+					+ "ORDER BY created_at DESC";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-
-			pStmt.setInt(1, loginUser.getDepartment());
-			;
+			pStmt.setInt(1, departmentId);
 
 			ResultSet rs = pStmt.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("ID");
-				int userId = rs.getInt("USER_ID");
-				String mediaType = rs.getString("media_type");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
+				int userId = rs.getInt("EMPLOYEE_ID");
+				String mediaType = rs.getString("MEDIA_TYPE");
+				String title = rs.getString("TITLE");
+				String content = rs.getString("CONTENT");
 				String created_at = rs.getString("created_at");
 				Media media = new Media(id, userId, mediaType, title, content, created_at);
 				mediaList.add(media);
@@ -89,7 +131,7 @@ public class MediaDAO {
 		return mediaList;
 	}
 
-	public boolean mediaRegist(Media media, int departmentId, Employee em) {
+	public boolean insert(Media media, int departmentId, int employeeId) {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		} catch (ClassNotFoundException e) {
@@ -97,25 +139,23 @@ public class MediaDAO {
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "INSERT INTO FORZMEDIA "
+					    + "(EMPLOYEE_ID, MEDIA_TYPE, TITLE, CONTENT, DEPARTMENT_ID) "
+					    + "VALUES (?, ?, ?, ?, ?)";
 
-			String sql = "INSERT INTO FORZMEDIA(USER_ID,MEDIA_TYPE,TITLE,CONTENT,DEPARTMENT_ID) VALUES(?,?,?,?,?)";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, em.getEmployeeId());
-			pStmt.setString(2, media.getMediaType());
-			pStmt.setString(3, media.getTitle());
-			pStmt.setString(4, media.getContent());
-			pStmt.setInt(5, departmentId);
+			ps.setInt(1, employeeId);
+			ps.setString(2, media.getMediaType());
+			ps.setString(3, media.getTitle());
+			ps.setString(4, media.getContent());
+			ps.setInt(5, departmentId);
 
-			int result = pStmt.executeUpdate();
-			if (result != 1) {
-				return false;
-			}
+			return ps.executeUpdate() == 1;
+
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			throw new RuntimeException("MEDIA INSERT失敗", e);
 		}
-		return true;
 	}
 
 	public Media articleFind(int id) {

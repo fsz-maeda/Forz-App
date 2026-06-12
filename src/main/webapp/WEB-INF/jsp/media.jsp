@@ -1,273 +1,98 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="model.Media,java.util.List"%>
-<%
-    List<Media> mediaList = (List<Media>)session.getAttribute("mediaList");
-    List<String> nameList = (List<String>)session.getAttribute("nameList");
-%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>部署内メディア一覧</title>
-<style>
-    /* 投稿者名の文字デザイン */
-.contributor-name {
-    font-size: 14px;          /* 少し小さめにして上品に */
-    font-weight: 500;         /* ほんの少しだけ太字にして視認性を確保 */
-    color: #475569;           /* 真っ黒ではなく、少し柔らかなスレートグレー */
-    display: inline-block;
-    max-width: 120px;         /* 長すぎる名前の制限（必要に応じて調整） */
-    white-space: nowrap;      /* 改行させない */
-    overflow: hidden;         /* はみ出た分を隠す */
-    text-overflow: ellipsis;  /* 三点リーダー「...」で省略 */
-    vertical-align: middle;
-}
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/media.css">
 
-/* 名前の前にさりげないニュアンス（任意：グレーの小さな点など） */
-.contributor-name::before {
-    content: "•";
-    margin-right: 6px;
-    color: #cbd5e1;           /* 薄いグレーのドット */
-    font-size: 12px;
-}
-    
-    
-    :root {
-        --primary-color: #2563eb;
-        --primary-hover: #1d4ed8;
-        --bg-color: #f8fafc;
-        --card-bg: #ffffff;
-        --text-main: #1e293b;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-    }
-    
-    body {
-        font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-main);
-        margin: 0;
-        padding: 40px 20px;
-        line-height: 1.6;
-    }
-
-    .container {
-        max-width: 900px;
-        margin: 0 auto;
-        background: var(--card-bg);
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-top: 0;
-        margin-bottom: 24px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--border-color);
-        color: var(--text-main);
-    }
-
-    /* フィルターフォーム */
-    .filter-form {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 24px;
-        background: #f1f5f9;
-        padding: 16px;
-        border-radius: 6px;
-        flex-wrap: wrap;
-    }
-
-    .filter-form label {
-        font-size: 14px;
-        font-weight: bold;
-        color: var(--text-muted);
-    }
-
-    .filter-form select {
-        padding: 8px 12px;
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        background-color: #fff;
-        font-size: 14px;
-        outline: none;
-        min-width: 200px;
-    }
-
-    /* ボタン共通 */
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 500;
-        border-radius: 4px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        text-decoration: none;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--primary-hover);
-    }
-
-    .btn-secondary {
-        background-color: #edf2f7;
-        color: #4a5568;
-        margin-right: 8px;
-    }
-
-    .btn-secondary:hover {
-        background-color: #e2e8f0;
-    }
-
-    /* テーブルスタイル */
-    .table-container {
-        overflow-x: auto;
-        margin-bottom: 30px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-        font-size: 15px;
-    }
-
-    th {
-        background-color: #f1f5f9;
-        color: var(--text-main);
-        font-weight: 600;
-        padding: 12px 16px;
-        border-bottom: 2px solid var(--border-color);
-    }
-
-    td {
-        padding: 14px 16px;
-        border-bottom: 1px solid var(--border-color);
-        color: var(--text-main);
-    }
-
-    tr:hover td {
-        background-color: #f8fafc;
-    }
-
-    /* カテゴリバッジ */
-    .badge {
-        display: inline-block;
-        padding: 4px 8px;
-        font-size: 12px;
-        font-weight: bold;
-        border-radius: 4px;
-        background-color: #e2e8f0;
-        color: #475569;
-    }
-
-    /* 記事リンク */
-    .article-link {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .article-link:hover {
-        text-decoration: underline;
-    }
-
-    /* 空白時のメッセージ */
-    .no-data {
-        text-align: center;
-        color: var(--text-muted);
-        padding: 30px 0;
-    }
-
-    /* フッターナビゲーション */
-    .nav-links {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-</style>
 </head>
 <body>
 
 <div class="container">
     <h1>部署内メディア一覧</h1>
-         
+
     <!-- 絞り込みフォーム -->
     <form action="SearchCategoryServlet" method="get" class="filter-form">
         <label for="searchCategory">カテゴリーで絞り込み</label>
+
         <select name="searchCategory" id="searchCategory">
-            <option value="all" <%= "all".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>すべて表示</option>
-            <option value="業務ナレッジ" <%= "業務ナレッジ".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>業務ナレッジ</option>
-            <option value="部署内連絡・進歩共有" <%= "部署内連絡・進歩共有".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>部署内連絡・進歩共有</option>
-            <option value="メンバーシップ・相互理解" <%= "メンバーシップ・相互理解".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>メンバーシップ・相互理解</option>
-            <option value="その他" <%= "その他".equals(request.getAttribute("selectedType")) ? "selected" : "" %>>その他</option>
+
+            <option value="all" ${selectedType == 'all' ? 'selected' : ''}>すべて表示</option>
+            <option value="業務ナレッジ" ${selectedType == '業務ナレッジ' ? 'selected' : ''}>業務ナレッジ</option>
+            <option value="部署内連絡・進歩共有" ${selectedType == '部署内連絡・進歩共有' ? 'selected' : ''}>部署内連絡・進歩共有</option>
+            <option value="メンバーシップ・相互理解" ${selectedType == 'メンバーシップ・相互理解' ? 'selected' : ''}>メンバーシップ・相互理解</option>
+            <option value="その他" ${selectedType == 'その他' ? 'selected' : ''}>その他</option>
+
         </select>
+
         <button type="submit" class="btn btn-primary">絞り込む</button>
     </form>
 
-    <!-- 記事一覧テーブル -->
+    <!-- テーブル -->
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <!-- 幅の合計が100%になるよう修正 -->
                     <th style="width: 20%;">カテゴリ</th>
                     <th style="width: 20%;">投稿日時</th>
                     <th style="width: 30%;">タイトル</th>
                     <th style="width: 15%;">投稿者</th>
                 </tr>
             </thead>
+
             <tbody>
-    <% 
-    if (mediaList != null && !mediaList.isEmpty()) {
-        for (int i = 0; i < mediaList.size(); i++) {
-            Media media = mediaList.get(i);
-            String name = (nameList != null && i < nameList.size()) ? nameList.get(i) : "不明";
-    %>
-    <tr>
-        <td><span class="badge"><%= media.getMediaType() %></span></td>
-        <td style="color: var(--text-muted); font-size: 14px;"><%= media.getMediaDate() %></td>
-        <td><a href="ArticleContentServlet?id=<%= media.getId() %>" class="article-link"><%= media.getTitle() %></a></td>
-        <td>
-    <span class="contributor-name" title="<%= name %>"><%= name %></span>
-</td>
-        
-        
-    </tr>
-    <% 
-        }
-    } else {
-    %>
-    <tr>
-        <td colspan="4" class="no-data">表示する記事がありません。</td>
-    </tr>
-    <% 
-    }
-    %>
+                <c:choose>
+                    <c:when test="${not empty mediaList}">
+                        <c:forEach var="media" items="${mediaList}" varStatus="status">
+                            <tr>
+                                <td>
+                                    <span class="badge">${media.mediaType}</span>
+                                </td>
+
+                                <td style="color: var(--text-muted); font-size: 14px;">
+                                    ${media.mediaDate}
+                                </td>
+
+                                <td>
+                                    <a href="ArticleContentServlet?id=${media.id}" class="article-link">
+                                        ${media.title}
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <span class="contributor-name" title="${nameList[status.index]}">
+                                        ${nameList[status.index]}
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </c:forEach>
+                    </c:when>
+
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="4" class="no-data">
+                                表示する記事がありません。
+                            </td>
+                        </tr>
+                    </c:otherwise>
+
+                </c:choose>
+
             </tbody>
         </table>
     </div>
 
-    <!-- ページナビゲーション -->
+    <!-- ナビ -->
     <div class="nav-links">
         <a href="Main" class="btn btn-secondary">← メイン画面へ</a>
         <a href="MediaPostServlet" class="btn btn-primary">新規投稿</a>
     </div>
+
 </div>
 
 </body>

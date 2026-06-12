@@ -25,6 +25,11 @@
 	
 }
 
+.main-news{
+	display: flex;
+
+}
+
 .profile{
 	width: 80%;
 	margin: 0px auto;

@@ -33,7 +33,7 @@ public class SearchCategoryServlet extends HttpServlet {
 
 		
 		if (selectedType.equals("all")) {
-			mediaList = dao.findAll(loginUser);
+			mediaList = dao.findAll(loginUser.getEmployeeId());
 	    } else {
 	    	mediaList = dao.findByCategory(loginUser, selectedType);
 	    }
