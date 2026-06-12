@@ -281,6 +281,56 @@ public class EmployeeDAO {
 
 		return PositionList;
 	}
+	
+	public EmployeePosition showProfile(int employeeId) {
+		EmployeePosition employeePosition = null;
+
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "SELECT EMPLOYEE.ID, "
+					+ "EMPLOYEE.NAME, "
+					+ "EMPLOYEE.PASS, "
+					+ "EMPLOYEE.MAIL, "
+					+ "POSITION.POSITION_NAME, "
+					+ "DEPARTMENT.DEPARTMENT_NAME, "
+					+ "EMPLOYEE.ENTER, "
+					+ "EMPLOYEE.REMAIN_PAIDHOLIDAY, "
+					+ "EMPLOYEE.MANAGEMENT "
+					+ "FROM EMPLOYEE "
+					+ "JOIN POSITION ON EMPLOYEE.POSITION_ID = POSITION.POSITION_ID "
+					+ "JOIN DEPARTMENT ON EMPLOYEE.DEPARTMENT_ID = DEPARTMENT.DEPARTMENT_ID "
+					+ "WHERE EMPLOYEE.ID = ?;";
+			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, employeeId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			if (rs.next()) {
+				int id = rs.getInt("ID");
+				String name = rs.getString("NAME");
+				String pass = rs.getString("PASS");
+				String mail = rs.getString("MAIL");
+				String positionName = rs.getString("POSITION_NAME");
+				String departmentName = rs.getString("DEPARTMENT_NAME");
+				String enter = rs.getString("ENTER");
+				int remainPaidHoliday = rs.getInt("REMAIN_PAIDHOLIDAY");
+				boolean management = rs.getBoolean("MANAGEMENT");
+				employeePosition = new EmployeePosition(id, name, pass, mail, positionName,
+						departmentName, enter, management, remainPaidHoliday);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return employeePosition;
+	}
 
 	public Employee findByNameAndPass(String name, String pass) {
 		Employee employee = null;

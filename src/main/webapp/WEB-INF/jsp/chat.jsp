@@ -14,15 +14,15 @@ pageEncoding="UTF-8"%>
 <title>Chat</title>
 </head>
 <body>
-<h2>💬 Chat System</h2>
+<h2>💬 チャット</h2>
 <%Employee loginUser =(Employee)session.getAttribute("loginUser");%>
-<h3>Login User :<%= loginUser.getName() %></h3>
+<h3>ログインユーザー :<%= loginUser.getName() %></h3>
 
 <hr>
 <form action="ChatServlet" method="get">
     <input type="text"name="keyword"placeholder="社員名検索">
 
-    <input type="submit"value="Search">
+    <input type="submit"value="検索">
 </form>
 
 <hr>
@@ -51,7 +51,7 @@ List<Chat> chatList =(List<Chat>)request.getAttribute("chatList");
     <%= emp.getName() %>
 
     <a href="ChatServlet?receiverId=<%= emp.getEmployeeId() %>">
-        Chat
+        チャット
     </a>
 </div>
 
@@ -136,14 +136,14 @@ if(chatList != null){
 
 <% } else { %>
 <h3>
-    <a href="GroupChatServlet">Group Chat</a>
+    <a href="GroupChatServlet">グループチャット</a>
 </h3>
 
 <% } %>
 
 <hr>
 
-<a href="Main">🏠 Home</a>
+<a href="Main">メインへ</a>
 
 </body>
 </html>

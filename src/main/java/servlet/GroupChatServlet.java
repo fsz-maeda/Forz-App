@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.util.List;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,9 +33,7 @@ public class GroupChatServlet extends HttpServlet {
         }
 
         GroupDAO groupDao = new GroupDAO();
-
         List<Group> groupList = groupDao.getAllGroups();
-        request.setAttribute("groupList", groupList);
 
         String groupIdStr = request.getParameter("groupId");
 
@@ -42,10 +41,8 @@ public class GroupChatServlet extends HttpServlet {
         List<GroupMessage> msgList = null;
 
         if (groupIdStr != null && !groupIdStr.trim().isEmpty()) {
-
             try {
                 int groupId = Integer.parseInt(groupIdStr);
-
                 group = groupDao.getGroupById(groupId);
 
                 if (group != null) {
@@ -60,53 +57,12 @@ public class GroupChatServlet extends HttpServlet {
             }
         }
 
-        
+        request.setAttribute("groupList", groupList);
         request.setAttribute("group", group);
         request.setAttribute("msgList", msgList);
         request.setAttribute("loginUser", loginUser);
 
-     
-        request.getRequestDispatcher("/WEB-INF/jsp/groupChat.jsp")
-               .forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-        Employee loginUser = (Employee) session.getAttribute("loginUser");
-
-        if (loginUser == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        String groupIdStr = request.getParameter("groupId");
-        String message = request.getParameter("message");
-
-        if (groupIdStr == null || groupIdStr.trim().isEmpty()
-                || message == null || message.trim().isEmpty()) {
-            response.sendRedirect("GroupChatServlet");
-            return;
-        }
-
-        int groupId;
-
-        try {
-            groupId = Integer.parseInt(groupIdStr);
-        } catch (Exception e) {
-            response.sendRedirect("GroupChatServlet");
-            return;
-        }
-
-        GroupMessage gm = new GroupMessage();
-        gm.setGroupId(groupId);
-        gm.setSenderId(loginUser.getEmployeeId());
-        gm.setMessage(message);
-
-        GroupMessageDAO dao = new GroupMessageDAO();
-        dao.sendMessage(gm);
-
-        response.sendRedirect("GroupChatServlet?groupId=" + groupId);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/groupChat.jsp");
+        dispatcher.forward(request, response);
     }
 }

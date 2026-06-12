@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="java.util.List" %>
+<%@ page import="java.util.List" %>
 <%@ page import="model.Event" %>
 <%@ page import="model.Employee" %>
 <%@ page import="model.DailyReport" %>
@@ -27,124 +27,123 @@ if(loginUser != null &&
 
 	<h1>Forz-App</h1>
 
-<h2>
-🎉 Welcome to Forz-App
-</h2>
+	<h2>
+		🎉 ようこそ Forz-App へ
+	</h2>
 
-<p>
-👤 Name :
-<b><%= loginUser.getName() %></b>
-</p>
+	<p>
+		👤 ユーザネーム :
+		<b><%= loginUser.getName() %></b>
+	</p>
 
-<p>
-🆔 Employee ID :
-<b><%= loginUser.getEmployeeId() %></b>
-</p>
+	<p>
+		🆔 ユーザーID :
+		<b><%= loginUser.getEmployeeId() %></b>
+	</p>
 
-<hr>
-<h2>今日の励ましの言葉</h2>
-<p>
-    ${motivation}
-</p>
+	<hr>
+	<h2>今日の励ましの言葉</h2>
+	<p>
+    	${motivation}
+	</p>
 
-<hr>
-<h2>📋 Menu</h2>
-<ul>
-    <li><a href="event">🎉 イベント</a></li>
-
-    <li><a href="NoticeServlet">📢 お知らせ</a></li>
-
-    <li><a href="dailyReportPage">📝 日報</a></li>
+	<hr>
+	<h2>📋 メニュー</h2>
+	<ul>
+    	<li><a href="event">🎉 イベント</a></li>
+    	
+    	<li><a href="dailyReportPage">📝 日報</a></li>
     
-    <li><a href="media">メディア</a></li>
+    	<li><a href="media">メディア</a></li>
 
-    <li><a href="EmployeeListServlet">👥 社員一覧</a></li>
+    	<li><a href="EmployeeListServlet">👥 社員一覧</a></li>
 
-    <li><a href="ChatServlet">💬 Chat</a></li>
+    	<li><a href="ChatServlet">💬 Chat</a></li>
 
-    <li><a href="MyProfileServlet">👤 プロフィール</a></li>
+    	<li><a href="MyProfileServlet">👤 プロフィール</a></li>
     
-    <li><a href="insertExpenses">💰 経費申請</a></li>
+    	<li><a href="insertExpenses">💰 経費申請</a></li>
     
-    <li><a href="insertPaidHoliday">有給申請</a></li>
+    	<li><a href="insertPaidHoliday">有給申請</a></li>
     
-	<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
-		<li><a href="admin">⚙ 管理者ページ</a></li>
-	</c:if>
-</ul>
-<hr>
-<h2>🔔 Notifications</h2>
-<%
-List<Event> eventList =(List<Event>)request.getAttribute("eventList");
+		<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
+			<li><a href="admin">⚙ 管理者ページ</a></li>
+		</c:if>
+	</ul>
+	<hr>
+	<h2>🔔 お知らせ</h2>
+	<%
+	List<Event> eventList =(List<Event>)request.getAttribute("eventList");
 
-if(eventList != null){int count = 0;
+	if(eventList != null){int count = 0;
 
-    for(Event event : eventList){
-        if(count >= 3) break;
-%>
-<p>
-🎉 Event :
-<b><%= event.getTitle() %></b>
-<br>
-📅 <%= event.getEventDate() %>
-</p>
-<hr>
-<%
-        count++;
-    }
-}
-%>
+    	for(Event event : eventList){
+        	if(count >= 3) break;
+	%>
+	
+	<p>
+		🎉 イベント :
+		<b><%= event.getTitle() %></b>
+		<br>
+		📅 <%= event.getEventDate() %>
+	</p>
+	<hr>
+	<%
+        	count++;
+    	}
+	}
+	%>
 
 
-<%
-List<DailyReport> reportList =
-(List<DailyReport>)request.getAttribute("reportList");
+	<%
+	List<DailyReport> reportList =
+	(List<DailyReport>)request.getAttribute("reportList");
 
-if(reportList != null){
+	if(reportList != null){
 
-    int count = 0;
+    	int count = 0;
 
-    for(DailyReport report : reportList){
+    	for(DailyReport report : reportList){
 
-        if(count >= 3) break;
-%>
+        	if(count >= 3) break;
+	%>
 
-<p>
+	<p>
 
-📝 Daily Report :
+	📝 日報 :
 
-<b><%= report.getUserName() %></b>
+	<b><%= report.getUserName() %></b>
 
-submitted
+	submitted
 
-"<%= report.getTitle() %>"
+	"<%= report.getTitle() %>"
 
-<br>
+	<br>
 
-📅 <%= report.getCreatedAt() %>
+	📅 <%= report.getCreatedAt() %>
 
-</p>
+	</p>
 
-<hr>
+	<hr>
 
-<%
-        count++;
-    }
-}
-%>
-<hr>
+	<%
+        	count++;
+   		}
+	}
+	%>
+	<hr>
 
-<img src="<%=photo%>"
-     width="120"
-     height="120">
-
-<br><br>
-
-<a href="MyProfileServlet">プロフィールを見る</a>
-<hr>
-
-<a href="LogoutServlet">ログアウト</a>
-
-<p>© Forz-App</p>
+	<img src="<%=photo%>"
+	     width="120"
+	     height="120">
+	
+	<br><br>
+	
+	<a href="MyProfileServlet">プロフィールを見る</a>
+	<hr>
+	
+	<a href="LogoutServlet">ログアウト</a>
+	
+	<p>&copy; Forz-App</p>
 </body>
 </html>

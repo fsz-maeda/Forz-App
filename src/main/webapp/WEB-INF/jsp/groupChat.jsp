@@ -1,146 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@ page import="java.util.List" %>
-<%@ page import="model.Group" %>
-<%@ page import="model.GroupMessage" %>
-<%@ page import="model.Employee" %>
-
-<%
-Employee loginUser = (Employee)session.getAttribute("loginUser");
-Group group = (Group)request.getAttribute("group");
-List<GroupMessage> msgList =
-        (List<GroupMessage>)request.getAttribute("msgList");
-List<Group> groupList =
-        (List<Group>)request.getAttribute("groupList");
-%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Group Chat</title>
+<title>グループチャット</title>
 </head>
 <body>
-
-<h2>👥 Groups</h2>
-
-<%
-if(groupList != null){
-    for(Group g : groupList){
-%>
-
-<div>
-    <a href="GroupChatServlet?groupId=<%= g.getGroupId() %>">
-        <%= g.getGroupName() %>
-    </a>
-</div>
-
-<%
-    }
-}
-%>
-
-<hr>
-
-<a href="GroupChatServlet?groupId=1">
-    💬 Chat Area
-</a>
-
-<%
-if(group == null){
-%>
-
-<%
-}else{
-%>
-
-<h3><%= group.getGroupName() %></h3>
-
-<hr>
-
-<%
-if(msgList != null && !msgList.isEmpty()){
-
-    for(GroupMessage m : msgList){
-
-        if(loginUser != null &&
-           m.getSenderId() == loginUser.getEmployeeId()){
-%>
-
-<div>
-    <b>Me:</b>
-    <%= m.getMessage() %>
-</div>
-
-<%
-        }else{
-%>
-
-<div>
-
-<img src="<%= m.getPhotoPath() %>"
-     width="35"
-     height="40">
-
-<b>
-<%=(m.getSenderId() == loginUser.getEmployeeId())
-? "Me"
- : m.getSenderName() %>
-</b>
-
-:
-<%= m.getMessage() %>
-
-</div>
-
-<br>
-
-<%
-        }
-    }
-
-}else{
-%>
-
-<div>No messages yet 💬</div>
-
-<%
-}
-%>
-
-<hr>
-
-<form action="GroupChatServlet" method="post">
-
-    <input type="hidden"
-           name="groupId"
-           value="<%= group.getGroupId() %>">
-
-    <textarea name="message"
-              rows="4"
-              cols="40"></textarea>
-
-    <br><br>
-
-    <input type="submit"
-           value="SEND">
-
-</form>
-
-<br>
-
-<a href="CreateGroupServlet">
-    ➕ Create New Group
-</a>
-
-<%
-}
-%>
-
-<hr>
-
-<a href="ChatServlet">Back</a>
-
-</body>
+	<h2>👥 グループ</h2>
+	
+	<a href="CreateGroupServlet"> ➕ グループ作成</a>
+	
+	<hr>
+	
+	<c:if test="${groupList != null}">
+		<c:forEach var="g" items="${groupList}">
+			<div>
+	    		<a href="GroupChatsServlet?groupId=${g.groupId}">
+	       		 	${g.groupName}
+	       		 </a>
+			</div>
+		</c:forEach>
+	</c:if>
+	
+	<hr>
+	
+	<a href="GroupChatServlet?groupId=1">
+	    💬 チャット
+	</a>
+	
+	<c:if test="${group != null}">
+		<h3>${group.groupName}</h3>
+		
+		<hr>
+		
+		<c:choose>
+			<c:when test="${msgList != null && !msgList.isEmpty()}">
+				<c:forEach var="m" items="${msgList}">
+				    <c:choose>
+				        <c:when test="${m.senderId == loginUser.employeeId}">
+				            <div>
+				                <b>Me:</b>
+				                ${m.message}
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <div>
+				                <img src="${m.photoPath}" width="35" height="40">
+				
+				                <b>${m.senderName}</b>
+				                : ${m.message}
+				            </div>
+				        </c:otherwise>
+				    </c:choose>
+				    <br>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<div>No messages yet 💬</div>
+			</c:otherwise>
+		</c:choose>
+		
+		<hr>
+		
+		<form action="GroupChatServlet" method="post">
+	    	<input type="hidden" name="groupId"value="${group.getGroupId}">
+	    	<textarea name="message" rows="4" cols="40"></textarea>
+	    	
+	    	<br>
+	    	<br>
+	
+	    	<input type="submit"  value="SEND">
+		</form>
+	</c:if>
+	
+	<hr>
+	
+	<a href="ChatServlet">戻る</a>
+	
+	</body>
 </html>

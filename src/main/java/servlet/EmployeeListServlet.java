@@ -28,20 +28,15 @@ public class EmployeeListServlet extends HttpServlet {
         List<Employee> employeeList;
 
         if(keyword == null || keyword.trim().equals("")) {
-
             employeeList = dao.findAll();
-
         } else {
-
             employeeList = dao.search(keyword);
         }
 
         request.setAttribute("employeeList", employeeList);
-
-        RequestDispatcher dispatcher =
-                request.getRequestDispatcher(
-                "/WEB-INF/jsp/employeeList.jsp");
-
+        request.setAttribute("keyword", keyword);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/employeeList.jsp");
         dispatcher.forward(request, response);
     }
 }

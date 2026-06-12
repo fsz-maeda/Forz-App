@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="model.Employee" %>
-<%
-Employee emp = (Employee)request.getAttribute("employee");
-
-if(emp == null){
-    out.println("Profile Not Found");
-    return;
-}
-%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,63 +9,62 @@ if(emp == null){
 <title>Profile</title>
 </head>
 <body>
-<h1>👤 My Profile</h1>
-<hr>
-<h3>Profile Photo</h3>
-<%
-String photo = emp.getPhotoPath();
 
-if(photo == null || photo.isEmpty()){
-    photo = "images/default.png";
-}
-%>
-<img src="<%= photo %>"width="135"height="150">
+	<h1>👤 マイプロフィール</h1>
+	<hr>
 
-<hr>
+	<h3>写真</h3>
+	<img src="${pageContext.request.contextPath}/${employee.photoPath}"
+		width="135" height="150">
 
-社員ID :
-<%= emp.getEmployeeId() %><br><br>
+	<hr>
 
-氏名 :
-<%= emp.getName() %><br><br>
+	社員ID : ${employee.employeeId}<br><br>
 
-部署 :
-<%= emp.getDepartment() %><br><br>
+	氏名 : ${employee.name}<br><br>
 
-役職 :
-<%= emp.getPosition() %><br><br>
+	部署 : ${employeePosition.departmentName}<br><br>
 
-<hr>
+	役職 : ${employeePosition.positionName}<br><br>
 
-<h3>📝 自己紹介</h3>
-<pre>
-<%= emp.getIntro() == null ? "" : emp.getIntro() %>
-</pre>
-<br>
-<hr>
+	<hr>
 
-<h3>出勤情報</h3>
-<a href="AttendanceServlet">出勤ページ</a>
+	<h3>📝 自己紹介</h3>
+	${employee.intro}
 
-<hr>
+	<hr>
 
-<h3>給料明細</h3>
-<a href="expenses">給料ページ</a>
+	<h3>出勤情報</h3>
+	<a href="${pageContext.request.contextPath}/AttendanceServlet">
+		出勤ページ
+	</a>
 
-<hr>
+	<hr>
 
-<h3>設定</h3>
-<a href="${pageContext.request.contextPath}/EditIntroPageServlet">自己紹介編集</a>
-<br><br>
-<a href="ChangePhotoServlet">プロフィール写真変更</a>
+	<h3>給料明細</h3>
+	<a href="${pageContext.request.contextPath}/expenses">
+		給料ページ
+	</a>
 
-<br><br>
+	<hr>
 
-<a href="ChangePasswordServlet"> パスワード変更</a><br><br>
+	<h3>設定</h3>
 
-<a href="LogoutServlet">ログアウト</a><br><br>
+	<a href="${pageContext.request.contextPath}/EditIntroPageServlet">
+		自己紹介編集<br>
+	</a>
 
-<a href="Main">🏠 Home</a>
+	<a href="${pageContext.request.contextPath}/ChangePhotoServlet">
+		プロフィール写真変更<br>
+	</a>
+
+	<a href="${pageContext.request.contextPath}/ChangePasswordServlet">
+		パスワード変更<br>
+	</a>
+
+	<a href="${pageContext.request.contextPath}/Main">
+		🏠 ホームへ<br>
+	</a>
 
 </body>
 </html>
