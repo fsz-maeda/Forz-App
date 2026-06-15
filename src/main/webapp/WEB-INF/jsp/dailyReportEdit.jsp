@@ -6,9 +6,11 @@
 <meta charset="UTF-8">
 <title>日報修正</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReportEdit.css">
 </head>
 <body>
-
+<button class="hamburger" onclick="toggleMenu()">☰</button>
+<jsp:include page="/WEB-INF/jsp/header.jsp" />
 
 <form action="DailyReportEditServlet" method="post">
     <input type="hidden" name="reportId" value="${report.dailyReportId}">
