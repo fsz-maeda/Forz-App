@@ -48,6 +48,40 @@ public class SalaryDAO {
         return salaryList;
     }
     
+    public List<Salary> findByEmployeeId(int employeeId){
+    	List<Salary> salaryList = new ArrayList<>();
+    	Salary salary = null;
+    	
+    	try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+        }
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+        	String sql = "SELECT SALARY_ID, USER_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE USER_ID = ?";
+        	
+        	PreparedStatement pStmt = conn.prepareStatement(sql);
+        	pStmt.setInt(1, employeeId);
+        	
+        	ResultSet rs = pStmt.executeQuery();
+        	
+        	while(rs.next()) {
+       	 		int salaryId = rs.getInt("SALARY_ID");
+       	 		int userId = rs.getInt("USER_ID");
+       	 		int amount = rs.getInt("AMOUNT");
+       	 		int month = rs.getInt("SALARY_MONTH");
+       	 		salary = new Salary(salaryId, userId, amount, month);
+       	 		salaryList.add(salary);
+       	 	}
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        	return null;
+        }
+        
+        return salaryList;
+    }
+    
     //指定した給料IDをもつデータを取得
     public Salary findBySalaryId(int salaryId) {
     	Salary salary = null;

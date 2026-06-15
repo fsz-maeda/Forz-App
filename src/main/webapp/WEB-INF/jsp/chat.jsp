@@ -1,149 +1,162 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
-<%@ page import="java.util.List" %>
-<%@ page import="model.Employee" %>
-<%@ page import="model.Chat" %>
-<%@ page import="model.Group" %>
-
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Chat</title>
+
+<style>
+.chat-box {
+	border: 1px solid #ccc;
+	padding: 10px;
+	height: 400px;
+	overflow-y: auto;
+}
+
+.my-message {
+	text-align: right;
+	margin: 10px;
+}
+
+.other-message {
+	text-align: left;
+	margin: 10px;
+}
+
+.time {
+	color: gray;
+	font-size: 12px;
+}
+</style>
+
 </head>
 <body>
-<h2>💬 チャット</h2>
-<%Employee loginUser =(Employee)session.getAttribute("loginUser");%>
-<h3>ログインユーザー :<%= loginUser.getName() %></h3>
 
-<hr>
-<form action="ChatServlet" method="get">
-    <input type="text"name="keyword"placeholder="社員名検索">
+	<h2>💬 チャット</h2>
 
-    <input type="submit"value="検索">
-</form>
+	<h3>ログインユーザー : ${loginUser.name}</h3>
 
-<hr>
+	<hr>
 
-<%
-List<Employee> employeeList =(List<Employee>)request.getAttribute("employeeList");
+	<form action="ChatServlet" method="get">
 
-if(employeeList == null){employeeList = new java.util.ArrayList<>();
-}
+		<input type="text" name="keyword" placeholder="社員名検索"> <input
+			type="submit" value="検索">
 
-String receiverId =(String)request.getAttribute("receiverId");
+	</form>
 
-if(receiverId == null){
-    receiverId = "";
-}
+	<hr>
 
-Employee receiver =(Employee)request.getAttribute("receiver");
+	<h3>👥 社員一覧</h3>
 
-List<Chat> chatList =(List<Chat>)request.getAttribute("chatList");
-%>
+	<c:forEach var="emp" items="${employeeList}">
 
-<h3>👥 社員一覧</h3>
-<%for(Employee emp : employeeList){%>
+		<c:if test="${emp.employeeId != loginUser.employeeId}">
 
-<div>
-    <%= emp.getName() %>
+			<div>
 
-    <a href="ChatServlet?receiverId=<%= emp.getEmployeeId() %>">
-        チャット
-    </a>
-</div>
+				${emp.name} <a href="ChatServlet?receiverId=${emp.employeeId}">
+					チャット </a>
 
-<br>
-<%
-}
-%>
+			</div>
 
-<hr>
+			<br>
 
-<% if(receiver != null){ %>
+		</c:if>
 
-<h3>👤 Chat With :<%= receiver.getName() %></h3>
+	</c:forEach>
 
-<img src="<%= receiver.getPhotoPath() %>" width="100"height="100">
+	<hr>
 
-<br><br>
+	<c:if test="${receiver != null}">
 
-社員ID :<%= receiver.getEmployeeId() %>
+		<h3>👤 Chat With : ${receiver.name}</h3>
 
-<hr>
+		<img src="${receiver.photoPath}" width="100" height="100">
 
-<h3>📨 Message History</h3>
+		<br>
+		<br>
 
-<%
-if(chatList != null){
+    社員ID :
+    ${receiver.employeeId}
 
-    for(Chat chat : chatList){
+    <hr>
 
-        if(chat.getSenderId()
-                == loginUser.getEmployeeId()){
-%>
+		<h3>📨 Message History</h3>
 
-<div>
+		<div class="chat-box">
 
-<b>Me :</b>
+			<c:forEach var="chat" items="${chatList}">
 
-<%= chat.getMessage() %>
+				<c:choose>
 
-</div>
+					<c:when test="${chat.senderId == loginUser.employeeId}">
 
-<br>
+						<div class="my-message">
 
-<%
-        }else{
-%>
+							<b>Me</b> <br>
 
-<div>
+							<c:out value="${chat.message}" />
 
-<b>
-<%= receiver.getName() %> :
-</b>
+							<br> <span class="time"> ${chat.sendTime} </span>
 
-<%= chat.getMessage() %>
+						</div>
 
-</div>
+					</c:when>
 
-<br>
+					<c:otherwise>
 
-<%
-        }
-    }
-}
-%>
+						<div class="other-message">
 
-<hr>
+							<b> ${receiver.name} </b> <br>
 
-<form action="ChatServlet"
-      method="post">
+							<c:out value="${chat.message}" />
 
-    <input type="hidden"name="receiverId"value="<%= receiverId %>">
+							<br> <span class="time"> ${chat.sendTime} </span>
 
-    <label>Message</label>
+						</div>
 
-    <br><br>
+					</c:otherwise>
 
-    <textarea name="message"rows="5"cols="50"></textarea><br><br>
+				</c:choose>
 
-    <input type="submit"value="SEND">
+			</c:forEach>
 
-</form>
+		</div>
 
-<% } else { %>
-<h3>
-    <a href="GroupChatServlet">グループチャット</a>
-</h3>
+		<hr>
 
-<% } %>
+		<form action="ChatServlet" method="post">
 
-<hr>
+			<input type="hidden" name="receiverId" value="${receiver.employeeId}">
 
-<a href="Main">メインへ</a>
+			<textarea name="message" rows="5" cols="50" required>
+        </textarea>
+
+			<br>
+			<br> <input type="submit" value="SEND">
+
+		</form>
+
+	</c:if>
+
+	<c:if test="${receiver == null}">
+
+		<h3>
+
+			<a href="GroupChatServlet"> 👥 グループチャット </a>
+
+		</h3>
+
+	</c:if>
+
+	<hr>
+
+	<a href="Main"> メインへ戻る </a>
 
 </body>
 </html>

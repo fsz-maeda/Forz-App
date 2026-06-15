@@ -12,119 +12,156 @@ import model.Port;
 
 public class GroupDAO {
 
-    String JDBC_URL = Port.JDBC_URL;
+	String JDBC_URL = Port.JDBC_URL;
 
-    public boolean createGroup(Group group) {
+	// グループ作成
+	public boolean createGroup(
+			Group group) {
 
-        try {
+		try {
 
-            Connection conn =
-                DriverManager.getConnection(JDBC_URL);
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String sql =
-                "INSERT INTO CHAT_GROUP " +
-                "(GROUP_NAME, CREATED_BY) " +
-                "VALUES (?, ?)";
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
 
-            PreparedStatement pStmt =
-                conn.prepareStatement(sql);
+			String sql = "INSERT INTO CHAT_GROUP " +
+					"(GROUP_NAME, CREATED_BY) " +
+					"VALUES (?, ?)";
 
-            pStmt.setString(
-                1,
-                group.getGroupName());
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-            pStmt.setInt(
-                2,
-                group.getCreatedBy());
+			pStmt.setString(
+					1,
+					group.getGroupName());
 
-            int result =
-                pStmt.executeUpdate();
+			pStmt.setInt(
+					2,
+					group.getCreatedBy());
 
-            conn.close();
+			int result = pStmt.executeUpdate();
 
-            return result == 1;
+			conn.close();
 
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+			return result == 1;
 
-        return false;
-    }
-    public List<Group> getAllGroups() {
+		} catch (Exception e) {
 
-        List<Group> list = new ArrayList<>();
+			e.printStackTrace();
 
-        try {
-            Connection conn = DriverManager.getConnection(JDBC_URL);
+			return false;
+		}
+	}
 
-            String sql = "SELECT * FROM CHAT_GROUP";
+	// グループ一覧取得
+	public List<Group> getAllGroups() {
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+		List<Group> groupList = new ArrayList<>();
 
-            while(rs.next()){
-                Group g = new Group();
-                g.setGroupId(rs.getInt("GROUP_ID"));
-                g.setGroupName(rs.getString("GROUP_NAME"));
-                g.setCreatedBy(rs.getInt("CREATED_BY"));
+		try {
 
-                list.add(g);
-            }
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            conn.close();
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+			String sql = "SELECT * " +
+					"FROM CHAT_GROUP " +
+					"ORDER BY GROUP_ID";
 
-        return list;
-    }
-    public Group getGroupById(int groupId) {
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-        Group group = null;
+			ResultSet rs = pStmt.executeQuery();
 
-        try {
+			while (rs.next()) {
 
-            Connection conn =
-                DriverManager.getConnection(JDBC_URL);
+				Group group = new Group();
 
-            String sql =
-                "SELECT * FROM CHAT_GROUP WHERE GROUP_ID=?";
+				group.setGroupId(
+						rs.getInt(
+								"GROUP_ID"));
 
-            PreparedStatement ps =
-                conn.prepareStatement(sql);
+				group.setGroupName(
+						rs.getString(
+								"GROUP_NAME"));
 
-            ps.setInt(1, groupId);
+				group.setCreatedBy(
+						rs.getInt(
+								"CREATED_BY"));
 
-            ResultSet rs =
-                ps.executeQuery();
+				group.setCreatedAt(
+						rs.getString(
+								"CREATED_AT"));
 
-            System.out.println("Searching Group ID = " + groupId);
-            
+				groupList.add(group);
+			}
 
-            if(rs.next()){
+			conn.close();
 
-                System.out.println("Found Group = " + rs.getString("GROUP_NAME"));
+		} catch (Exception e) {
 
-                group = new Group();
+			e.printStackTrace();
+		}
 
-                group.setGroupId(rs.getInt("GROUP_ID"));
+		return groupList;
+	}
 
-                group.setGroupName(rs.getString("GROUP_NAME"));
+	// グループ取得
+	public Group getGroupById(
+			int groupId) {
 
-                group.setCreatedBy(rs.getInt("CREATED_BY"));
-            }
-        else{
-            System.out.println("Group Not Found");
-        }
+		Group group = null;
 
-            conn.close();
+		try {
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        return group;
-    }
-    
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
+
+			String sql = "SELECT * " +
+					"FROM CHAT_GROUP " +
+					"WHERE GROUP_ID = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(
+					1,
+					groupId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			if (rs.next()) {
+
+				group = new Group();
+
+				group.setGroupId(
+						rs.getInt(
+								"GROUP_ID"));
+
+				group.setGroupName(
+						rs.getString(
+								"GROUP_NAME"));
+
+				group.setCreatedBy(
+						rs.getInt(
+								"CREATED_BY"));
+
+				group.setCreatedAt(
+						rs.getString(
+								"CREATED_AT"));
+			}
+
+			conn.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return group;
+	}
 }

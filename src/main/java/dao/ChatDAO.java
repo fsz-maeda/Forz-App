@@ -12,162 +12,116 @@ import model.Port;
 
 public class ChatDAO {
 
-    String JDBC_URL = Port.JDBC_URL;
+	String JDBC_URL = Port.JDBC_URL;
 
-    // メッセージ送信
-    public boolean insert(Chat chat) {
+	// メッセージ送信
+	public boolean insert(Chat chat) {
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		try {
 
-            Connection conn =
-                    DriverManager.getConnection(JDBC_URL);
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String sql =
-                    "INSERT INTO CHAT(SENDER_ID, RECEIVER_ID, MESSAGE,) "
-                    + "VALUES(?,?,?,?)";
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
 
-            PreparedStatement pStmt =
-                    conn.prepareStatement(sql);
+			String sql = "INSERT INTO CHAT " +
+					"(SENDER_ID, RECEIVER_ID, MESSAGE) " +
+					"VALUES (?, ?, ?)";
 
-            pStmt.setInt(1, chat.getSenderId());
-            pStmt.setInt(2, chat.getReceiverId());
-            pStmt.setString(3, chat.getMessage());
-            
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-            int result = pStmt.executeUpdate();
+			pStmt.setInt(
+					1,
+					chat.getSenderId());
 
-            conn.close();
+			pStmt.setInt(
+					2,
+					chat.getReceiverId());
 
-            return result == 1;
+			pStmt.setString(
+					3,
+					chat.getMessage());
 
-        } catch(Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+			int result = pStmt.executeUpdate();
 
-    // チャット履歴取得
-    public List<Chat> findChatHistory(
-            int senderId,
-            int receiverId) {
+			conn.close();
 
-        List<Chat> chatList =
-                new ArrayList<>();
+			return result == 1;
 
-        try {
+		} catch (Exception e) {
 
-            Class.forName(
-                    "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			e.printStackTrace();
 
-            Connection conn =
-                    DriverManager.getConnection(JDBC_URL);
+			return false;
+		}
+	}
 
-            String sql =
-                    "SELECT * FROM CHAT "
-                    + "WHERE "
-                    + "(SENDER_ID=? AND RECEIVER_ID=?) "
-                    + "OR "
-                    + "(SENDER_ID=? AND RECEIVER_ID=?) "
-                    + "ORDER BY CHAT_ID";
+	// チャット履歴取得
+	public List<Chat> findChat(
+			int senderId,
+			int receiverId) {
 
-            PreparedStatement pStmt =
-                    conn.prepareStatement(sql);
+		List<Chat> chatList = new ArrayList<>();
 
-            pStmt.setInt(1, senderId);
-            pStmt.setInt(2, receiverId);
-            pStmt.setInt(3, receiverId);
-            pStmt.setInt(4, senderId);
+		try {
 
-            ResultSet rs =
-                    pStmt.executeQuery();
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            while(rs.next()) {
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
 
-                Chat chat = new Chat();
+			String sql = "SELECT * FROM CHAT " +
+					"WHERE " +
+					"(SENDER_ID=? AND RECEIVER_ID=?) " +
+					"OR " +
+					"(SENDER_ID=? AND RECEIVER_ID=?) " +
+					"ORDER BY SEND_TIME";
 
-                chat.setChatId(
-                        rs.getInt("CHAT_ID"));
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-                chat.setSenderId(
-                        rs.getInt("SENDER_ID"));
+			pStmt.setInt(1, senderId);
+			pStmt.setInt(2, receiverId);
+			pStmt.setInt(3, receiverId);
+			pStmt.setInt(4, senderId);
 
-                chat.setReceiverId(
-                        rs.getInt("RECEIVER_ID"));
+			ResultSet rs = pStmt.executeQuery();
 
-                chat.setMessage(
-                        rs.getString("MESSAGE"));
+			while (rs.next()) {
 
-                chatList.add(chat);
-            }
+				Chat chat = new Chat();
 
-            conn.close();
+				chat.setChatId(
+						rs.getInt(
+								"CHAT_ID"));
 
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+				chat.setSenderId(
+						rs.getInt(
+								"SENDER_ID"));
 
-        return chatList;
-    }
-    public List<Chat> findChat(
-            int senderId,
-            int receiverId) {
+				chat.setReceiverId(
+						rs.getInt(
+								"RECEIVER_ID"));
 
-        List<Chat> chatList =
-                new ArrayList<>();
+				chat.setMessage(
+						rs.getString(
+								"MESSAGE"));
 
-        try {
+				chat.setSendTime(
+						rs.getString(
+								"SEND_TIME"));
 
-            Class.forName(
-            "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				chatList.add(chat);
+			}
 
-            Connection conn =
-                    DriverManager.getConnection(
-                            JDBC_URL);
+			conn.close();
 
-            String sql =
-            "SELECT * FROM CHAT " +
-            "WHERE (SENDER_ID=? AND RECEIVER_ID=?) " +
-            "OR (SENDER_ID=? AND RECEIVER_ID=?) " +
-            "ORDER BY CHAT_ID";
+		} catch (Exception e) {
 
-            PreparedStatement pStmt =
-                    conn.prepareStatement(sql);
+			e.printStackTrace();
+		}
 
-            pStmt.setInt(1, senderId);
-            pStmt.setInt(2, receiverId);
-            pStmt.setInt(3, receiverId);
-            pStmt.setInt(4, senderId);
-
-            ResultSet rs =
-                    pStmt.executeQuery();
-
-            while (rs.next()) {
-
-                Chat chat = new Chat();
-
-                chat.setChatId(
-                        rs.getInt("CHAT_ID"));
-
-                chat.setSenderId(
-                        rs.getInt("SENDER_ID"));
-
-                chat.setReceiverId(
-                        rs.getInt("RECEIVER_ID"));
-
-                chat.setMessage(
-                        rs.getString("MESSAGE"));
-
-                chatList.add(chat);
-            }
-
-            conn.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return chatList;
-    
-    }
-    }
+		return chatList;
+	}
+}

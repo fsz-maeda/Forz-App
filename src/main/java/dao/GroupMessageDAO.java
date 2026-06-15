@@ -12,67 +12,128 @@ import model.Port;
 
 public class GroupMessageDAO {
 
-    String JDBC_URL = Port.JDBC_URL;
+	String JDBC_URL = Port.JDBC_URL;
 
-    public List<GroupMessage> getMessages(int groupId){
+	// メッセージ一覧取得
+	public List<GroupMessage> getMessages(
+			int groupId) {
 
-        List<GroupMessage> list = new ArrayList<>();
+		List<GroupMessage> list = new ArrayList<>();
 
-        try {
-            Connection conn = DriverManager.getConnection(JDBC_URL);
+		try {
 
-            String sql =
-            		"SELECT gc.*, e.NAME, e.PHOTO_PATH " +
-            		"FROM GROUP_CHAT gc " +
-            		"INNER JOIN EMPLOYEE e " +
-            		"ON gc.SENDER_ID = e.ID " +
-            		"WHERE gc.GROUP_ID=? " +
-            		"ORDER BY gc.CHAT_ID";
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, groupId);
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
 
-            ResultSet rs = ps.executeQuery();
+			String sql = "SELECT " +
+					"gc.CHAT_ID, " +
+					"gc.GROUP_ID, " +
+					"gc.SENDER_ID, " +
+					"gc.MESSAGE, " +
+					"gc.SEND_TIME, " +
+					"e.NAME, " +
+					"e.PHOTO_PATH " +
+					"FROM GROUP_CHAT gc " +
+					"INNER JOIN EMPLOYEE e " +
+					"ON gc.SENDER_ID = e.ID " +
+					"WHERE gc.GROUP_ID = ? " +
+					"ORDER BY gc.SEND_TIME";
 
-            while(rs.next()){
-                GroupMessage gm = new GroupMessage();
-                gm.setGroupId(rs.getInt("GROUP_ID"));
-                gm.setSenderId(rs.getInt("SENDER_ID"));
-                gm.setMessage(rs.getString("MESSAGE"));
-                gm.setSenderName(rs.getString("NAME"));
-                gm.setPhotoPath(rs.getString("PHOTO_PATH"));
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-                list.add(gm);
-            }
+			pStmt.setInt(1, groupId);
 
-            conn.close();
+			ResultSet rs = pStmt.executeQuery();
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+			while (rs.next()) {
 
-        return list;
-    }
+				GroupMessage msg = new GroupMessage();
 
-    public void sendMessage(GroupMessage msg){
+				msg.setChatId(
+						rs.getInt(
+								"CHAT_ID"));
 
-        try {
-            Connection conn = DriverManager.getConnection(JDBC_URL);
+				msg.setGroupId(
+						rs.getInt(
+								"GROUP_ID"));
 
-            String sql = "INSERT INTO GROUP_CHAT (GROUP_ID, SENDER_ID, MESSAGE) VALUES (?, ?, ?)";
+				msg.setSenderId(
+						rs.getInt(
+								"SENDER_ID"));
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, msg.getGroupId());
-            ps.setInt(2, msg.getSenderId());
-            ps.setString(3, msg.getMessage());
+				msg.setMessage(
+						rs.getString(
+								"MESSAGE"));
 
-            ps.executeUpdate();
+				msg.setSendTime(
+						rs.getString(
+								"SEND_TIME"));
 
-            conn.close();
+				msg.setSenderName(
+						rs.getString(
+								"NAME"));
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        
-    }
+				msg.setPhotoPath(
+						rs.getString(
+								"PHOTO_PATH"));
+
+				list.add(msg);
+			}
+
+			conn.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	// メッセージ送信
+	public boolean sendMessage(
+			GroupMessage msg) {
+
+		try {
+
+			Class.forName(
+					"com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+			Connection conn = DriverManager.getConnection(
+					JDBC_URL);
+
+			String sql = "INSERT INTO GROUP_CHAT " +
+					"(GROUP_ID, SENDER_ID, MESSAGE) " +
+					"VALUES (?, ?, ?)";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(
+					1,
+					msg.getGroupId());
+
+			pStmt.setInt(
+					2,
+					msg.getSenderId());
+
+			pStmt.setString(
+					3,
+					msg.getMessage());
+
+			int result = pStmt.executeUpdate();
+
+			conn.close();
+
+			return result == 1;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			return false;
+		}
+	}
 }

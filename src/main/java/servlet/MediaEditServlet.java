@@ -29,7 +29,7 @@ public class MediaEditServlet extends HttpServlet {
         Employee loginUser = (Employee) session.getAttribute("loginUser");
 
         
-        if (media != null && loginUser != null && media.getUserId() == loginUser.getEmployeeId()) {
+        if (media != null && loginUser != null && media.getEmployeeId() == loginUser.getEmployeeId()) {
             request.setAttribute("editMedia", media);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediaEdit.jsp");
             dispatcher.forward(request, response);
@@ -54,7 +54,7 @@ public class MediaEditServlet extends HttpServlet {
         Media media = dao.articleFind(id);
 
        
-        if (media != null && loginUser != null && media.getUserId() == loginUser.getEmployeeId()) {
+        if (media != null && loginUser != null && media.getEmployeeId() == loginUser.getEmployeeId()) {
             
             Media updateMedia = new Media(id, content, title, loginUser.getEmployeeId());
             boolean isSuccess = dao.mediaUpdate(updateMedia); 

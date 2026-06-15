@@ -46,8 +46,8 @@
 
             <tbody>
                 <c:choose>
-                    <c:when test="${not empty mediaList}">
-                        <c:forEach var="media" items="${mediaList}" varStatus="status">
+                    <c:when test="${not empty medialist}">
+                        <c:forEach var="media" items="${medialist}" varStatus="status">
                             <tr>
                                 <td>
                                     <span class="badge">${media.mediaType}</span>
@@ -65,7 +65,12 @@
 
                                 <td>
                                     <span class="contributor-name" title="${nameList[status.index]}">
-                                        ${nameList[status.index]}
+<!--                                    メディアの投稿者IDと従業員のIDが同じなら名前を表示する-->
+                                    	<c:forEach var="employee" items="${employeeList}">
+                                    		<c:if test="${media.employeeId == employee.employeeId}">
+                                    			${employee.name}
+                                    		</c:if>
+                                    	</c:forEach>
                                     </span>
                                 </td>
                             </tr>

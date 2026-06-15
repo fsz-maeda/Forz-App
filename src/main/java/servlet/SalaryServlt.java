@@ -11,32 +11,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.EmployeeDAO;
-import dao.MediaDAO;
+import dao.SalaryDAO;
 import model.Employee;
-import model.Media;
+import model.Salary;
 
-@WebServlet("/media")
-public class MediaServlet extends HttpServlet {
+@WebServlet("/salary")
+public class SalaryServlt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
-
+		
 		HttpSession session = request.getSession();
-		Employee loginUser = (Employee) session.getAttribute("loginUser");
-
-		MediaDAO dao = new MediaDAO();
-		List<Media> medialist = dao.findAll(loginUser.getDepartment()); //部署ごとのfindAll
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
-		EmployeeDAO edao = new EmployeeDAO();
-		List<Employee> employeeList = edao.findAll(); //従業員のデータを取得
-
-		request.setAttribute("medialist", medialist);
-		request.setAttribute("employeeList", employeeList);
+		SalaryDAO dao = new SalaryDAO();
+		List<Salary> salaryList = dao.findByEmployeeId(employee.getEmployeeId());
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/media.jsp");
+		request.setAttribute("salaryList", salaryList);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/salary.jsp");
 		dispatcher.forward(request, response);
 	}
+
 }

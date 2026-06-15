@@ -19,50 +19,135 @@ import model.GroupMessage;
 
 @WebServlet("/GroupChatServlet")
 public class GroupChatServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	private static final long serialVersionUID = 1L;
 
-        HttpSession session = request.getSession();
-        Employee loginUser = (Employee) session.getAttribute("loginUser");
+	@Override
+	protected void doGet(
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws ServletException, IOException {
 
-        if (loginUser == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
+		HttpSession session = request.getSession(false);
 
-        GroupDAO groupDao = new GroupDAO();
-        List<Group> groupList = groupDao.getAllGroups();
+		if (session == null ||
+				session.getAttribute("loginUser") == null) {
 
-        String groupIdStr = request.getParameter("groupId");
+			response.sendRedirect("Home");
+			return;
+		}
 
-        Group group = null;
-        List<GroupMessage> msgList = null;
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
-        if (groupIdStr != null && !groupIdStr.trim().isEmpty()) {
-            try {
-                int groupId = Integer.parseInt(groupIdStr);
-                group = groupDao.getGroupById(groupId);
+		request.setAttribute(
+				"loginUser",
+				loginUser);
 
-                if (group != null) {
-                    GroupMessageDAO msgDao = new GroupMessageDAO();
-                    msgList = msgDao.getMessages(groupId);
-                }
+		GroupDAO groupDao = new GroupDAO();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                response.sendRedirect("GroupChatServlet");
-                return;
-            }
-        }
+		List<Group> groupList = groupDao.getAllGroups();
 
-        request.setAttribute("groupList", groupList);
-        request.setAttribute("group", group);
-        request.setAttribute("msgList", msgList);
-        request.setAttribute("loginUser", loginUser);
+		request.setAttribute(
+				"groupList",
+				groupList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/groupChat.jsp");
-        dispatcher.forward(request, response);
-    }
+		String groupIdStr = request.getParameter("groupId");
+
+		Group group = null;
+		List<GroupMessage> msgList = null;
+
+		if (groupIdStr != null &&
+				!groupIdStr.trim().isEmpty()) {
+
+			try {
+
+				int groupId = Integer.parseInt(groupIdStr);
+
+				group = groupDao.getGroupById(groupId);
+
+				if (group != null) {
+
+					GroupMessageDAO msgDao = new GroupMessageDAO();
+
+					msgList = msgDao.getMessages(groupId);
+				}
+
+			} catch (NumberFormatException e) {
+
+				response.sendRedirect(
+						"GroupChatServlet");
+				return;
+			}
+		}
+
+		request.setAttribute(
+				"group",
+				group);
+
+		request.setAttribute(
+				"msgList",
+				msgList);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(
+				"/WEB-INF/jsp/groupChat.jsp");
+
+		dispatcher.forward(
+				request,
+				response);
+	}
+
+	@Override
+	protected void doPost(
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("UTF-8");
+
+		HttpSession session = request.getSession(false);
+
+		if (session == null ||
+				session.getAttribute("loginUser") == null) {
+
+			response.sendRedirect("Home");
+			return;
+		}
+
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
+
+		String groupIdStr = request.getParameter("groupId");
+
+		String message = request.getParameter("message");
+
+		if (groupIdStr == null ||
+				groupIdStr.isEmpty()) {
+
+			response.sendRedirect(
+					"GroupChatServlet");
+			return;
+		}
+
+		int groupId = Integer.parseInt(groupIdStr);
+
+		if (message != null &&
+				!message.trim().isEmpty()) {
+
+			GroupMessage msg = new GroupMessage();
+
+			msg.setGroupId(groupId);
+
+			msg.setSenderId(
+					loginUser.getEmployeeId());
+
+			msg.setMessage(message);
+
+			GroupMessageDAO dao = new GroupMessageDAO();
+
+			dao.sendMessage(msg);
+		}
+
+		response.sendRedirect(
+				"GroupChatServlet?groupId="
+						+ groupId);
+	}
 }

@@ -43,9 +43,9 @@
 		
 		    	<li><a href="MyProfileServlet">👤 プロフィール</a></li>
 		    
-		    	<li><a href="insertExpenses">💰 経費申請</a></li>
-		    
-		    	<li><a href="insertPaidHoliday">💰 有給申請</a></li>
+		    	<li><a href="application">📃 各種申請</a></li>
+		    	
+		    	<li><a href="salary">💰 給料ページ</a></li>
 		    
 				<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
 					<li><a href="admin">⚙ 管理者ページ</a></li>
@@ -79,10 +79,10 @@
 			</div>
 			
 			<div>
-			<h3>メディア</h3>
+			<h3>部署情報</h3>
 				<c:forEach var="media" items="${mediaList}" end="5">
 					<p>
-						🎉 日報 :<b>${media.title}</b><br>
+						🎉 部署情報 :<b>${media.title}</b><br>
 						著者 : <b>${media.name}</b><br>
 		    			📅 ${media.mediaDate}
 					</p>

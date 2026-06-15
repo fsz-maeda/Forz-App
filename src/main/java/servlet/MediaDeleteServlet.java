@@ -30,7 +30,7 @@ public class MediaDeleteServlet extends HttpServlet {
         Media media = dao.articleFind(id);
 
         // セキュリティチェック：記事が存在し、ログインユーザーが投稿者本人である場合のみ削除を許可
-        if (media != null && loginUser != null && media.getUserId() == loginUser.getEmployeeId()) {
+        if (media != null && loginUser != null && media.getEmployeeId() == loginUser.getEmployeeId()) {
             
             // 👈 データベースから削除を実行
             boolean isSuccess = dao.mediaDelete(id); 
