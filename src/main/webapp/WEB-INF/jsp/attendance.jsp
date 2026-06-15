@@ -39,6 +39,10 @@
 
 <div class="calendar">
 
+<c:forEach begin="1" end="${startBlank}" var="b">
+    <div class="day empty"></div>
+</c:forEach>
+
 <c:forEach begin="1" end="${days}" var="i">
 
     <c:set var="date"
