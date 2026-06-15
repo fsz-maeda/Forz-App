@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+
+/* =========================
+   背景
+========================= */
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #005bac, #003f7d);
+  font-family: sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   カード
+========================= */
+
+.register-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 360px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   タイトル
+========================= */
+
+h1 {
+  margin-bottom: 5px;
+  color: #005bac;
+}
+
+.sub {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   フォーム
+========================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-size: 13px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #005bac;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #005bac;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #003f7d;
+}

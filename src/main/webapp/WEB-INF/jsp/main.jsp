@@ -52,40 +52,44 @@
 				</c:if>
 			</ul>
 		</div>
-		
-		<h2>🔔 お知らせ</h2>
-			
+
 		<div class="main-news">
 
 			<div>
 			<h3>イベント</h3>
 				<c:forEach var="event" items="${eventList}" end="5">
-	    			<p>
-	    				🎉 イベント :<b>${event.title}</b><br>
-	        			📅 ${event.eventDate}
-	    			</p>
+					<div class="news-infomation">
+		    			<p>
+		    				🎉 イベント :<b>${event.title}</b><br>
+		        			📅 ${event.eventDate}
+		    			</p>
+	    			</div>
 				</c:forEach>
 			</div>
 			
 			<div>
 				<h3>日報</h3>
 				<c:forEach var="report" items="${reportList}" end="5">
+				<div class="news-infomation">
 					<p>
 						🎉 日報 :<b>${report.title}</b><br>
 						著者 : <b>${report.userName}</b><br>
 		    			📅 ${report.createdAt}
 					</p>
+					</div>
 				</c:forEach>
 			</div>
 			
 			<div>
 			<h3>部署情報</h3>
 				<c:forEach var="media" items="${mediaList}" end="5">
-					<p>
-						🎉 部署情報 :<b>${media.title}</b><br>
-						著者 : <b>${media.name}</b><br>
-		    			📅 ${media.mediaDate}
-					</p>
+					<div class="news-infomation">
+						<p>
+							🎉 部署情報 :<b>${media.title}</b><br>
+							著者 : <b>${media.name}</b><br>
+			    			📅 ${media.mediaDate}
+						</p>
+					</div>
 				</c:forEach>
 			</div>
 			
@@ -101,9 +105,6 @@
 	
 	<footer>
 		<a href="LogoutServlet">ログアウト</a>
-		<div class="footer-copy">
-			<p>&copy; Forz-App</p>
-		</div>
 	</footer>
 </body>
 </html>

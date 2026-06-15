@@ -1,51 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>有給管理</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/managePaidHoliday.css">
+
 </head>
+
 <body>
-	<h1>有給管理</h1>
-	
-	<table>
-		<tr>
-			<th>有給ID</th>
-			<th>ユーザーID</th>
-			<th>休暇区分</th>
-			<th>使用日数</th>
-			<th>開始日</th>
-			<th>終了日</th>
-			<th>状態</th>
-		</tr>
-		
-		<c:forEach var="holiday" items="${paidHolidayList}">
-			<tr>
-				<td>${holiday.paidHolidayId}</td>
-				<td>${holiday.employeeId}</td>
-				<td>${holiday.holidayType}</td>
-				<td>${holiday.usedDays}</td>
-				<td>${holiday.startDate}</td>
-				<td>${holiday.finishDate}</td>
-				<td>${holiday.status}</td>
-				
-				<td>
-					<form action="approvePaidHoliday" method="post">
-						<input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
-						<input type="submit" value="承認">
-					</form>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<c:if test="${approvePaidHolidayMsg != null}">
+
+<header>
+	<div class="header-top">
+		<h1><a href="admin">ForzApp</a></h1>
+		<div class="header-link">
+			<p><a href="admin">管理者ページへ</a></p>
+		</div>
+	</div>
+</header>
+
+<div class="word">
+	<h2>📅 有給管理</h2>
+	<p>申請一覧と承認処理</p>
+</div>
+
+<hr>
+
+<div class="main">
+
+	<div class="table-card">
+
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>ユーザーID</th>
+					<th>区分</th>
+					<th>日数</th>
+					<th>開始日</th>
+					<th>終了日</th>
+					<th>状態</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="holiday" items="${paidHolidayList}">
+					<tr>
+						<td>${holiday.paidHolidayId}</td>
+						<td>${holiday.employeeId}</td>
+						<td>${holiday.holidayType}</td>
+						<td>${holiday.usedDays}</td>
+						<td>${holiday.startDate}</td>
+						<td>${holiday.finishDate}</td>
+						<td>
+							<span class="status">${holiday.status}</span>
+						</td>
+						<td>
+							<form action="approvePaidHoliday" method="post">
+								<input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
+								<button type="submit" class="btn-approve">承認</button>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
+
+	</div>
+
+</div>
+
+<c:if test="${approvePaidHolidayMsg != null}">
+	<div class="message">
 		${approvePaidHolidayMsg}
-		<c:remove var="approvePaidHolidayMsg" scope="session"/><br>
-	</c:if>
-	
-	<a href="admin">戻る</a>
+	</div>
+	<c:remove var="approvePaidHolidayMsg" scope="session"/>
+</c:if>
+
 </body>
 </html>

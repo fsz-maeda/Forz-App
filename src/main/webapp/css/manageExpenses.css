@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+
+/* =========================
+   全体
+========================= */
+
+body {
+  background: #f4f7fb;
+}
+
+/* =========================
+   レイアウト
+========================= */
+
+.main {
+  display: flex;
+  gap: 20px;
+  width: 92%;
+  margin: 20px auto;
+  align-items: flex-start;
+}
+
+/* =========================
+   カード
+========================= */
+
+.table-card {
+  flex: 1;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 未承認強調 */
+.table-card.pending {
+  border-top: 4px solid #f39c12;
+}
+
+/* 承認済 */
+.table-card.approved {
+  border-top: 4px solid #2ecc71;
+}
+
+/* =========================
+   テーブル
+========================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #005bac;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f7fbff;
+}
+
+/* =========================
+   ステータス
+========================= */
+
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status.pending {
+  background: #fff3e0;
+  color: #f39c12;
+}
+
+.status.approved {
+  background: #e8f8f0;
+  color: #2ecc71;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+.btn-approve {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.btn-edit {
+  background: #005bac;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* =========================
+   メッセージ
+========================= */
+
+.message {
+  width: 92%;
+  margin: 10px auto;
+  padding: 10px;
+  border-left: 4px solid #3498db;
+  background: #eaf3ff;
+  border-radius: 6px;
+}

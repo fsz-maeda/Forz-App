@@ -1,68 +1,119 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>部署管理</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/manageDepartment.css">
+
 </head>
+
 <body>
-	<h1>部署管理</h1>
-	
-	<h2>新規部署追加</h2>
-	
+
+<header>
+	<div class="header-top">
+		<h1><a href="admin">ForzApp</a></h1>
+		<div class="header-link">
+			<p><a href="admin">管理者ページへ</a></p>
+		</div>
+	</div>
+</header>
+
+<div class="word">
+	<h2>🏢 部署管理</h2>
+	<p>部署の追加・編集・削除</p>
+</div>
+
+<hr>
+
+<div class="main">
+
+	<!-- 左：追加 -->
+	<div class="card">
+
+		<h3>➕ 新規部署追加</h3>
+
 		<form action="insertDepartment" method="post">
-			<input type="submit" value="追加">
+			<button type="submit" class="btn-primary">＋ 追加</button>
 		</form>
-	
-	<h2>既存部署編集</h2>
-	
-	<table>
-		<tr>
-			<th>部署ID</th>
-			<th>部署名</th>
-			<th></th>
-			<th></th>
-		</tr>
-		
-		<c:forEach var="department" items="${departmentList}">
-			<tr>
-				<td>${department.departmentId}</td>
-				<td>${department.departmentName}</td>
-				
-				<td>
-					<form action="updateDepartment" method="post">
-						<input type="hidden" name="departmentId" value="${department.departmentId}">
-						<input type="submit" value="修正">
-					</form>
-				</td>
-				
-				<td>
-					<form action="deleteDepartment" method="post" onsubmit="return confirm('削除しますか？')">
-						<input type="hidden" name="departmentId" value="${department.departmentId}">
-						<input type="submit" value="削除">
-					</form>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<c:if test="${insertDepartmentMsg != null}">
+
+	</div>
+
+	<!-- 右：一覧 -->
+	<div class="table-card">
+
+		<h3>📋 既存部署一覧</h3>
+
+		<table>
+
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>部署名</th>
+					<th>修正</th>
+					<th>削除</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="department" items="${departmentList}">
+					<tr>
+						<td>${department.departmentId}</td>
+						<td>${department.departmentName}</td>
+
+						<td>
+							<form action="updateDepartment" method="post">
+								<input type="hidden" name="departmentId" value="${department.departmentId}">
+								<button type="submit" class="btn-edit">修正</button>
+							</form>
+						</td>
+
+						<td>
+							<form action="deleteDepartment" method="post"
+							      onsubmit="return confirm('削除しますか？')">
+								<input type="hidden" name="departmentId" value="${department.departmentId}">
+								<button type="submit" class="btn-delete">削除</button>
+							</form>
+						</td>
+
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
+
+	</div>
+
+</div>
+
+<!-- メッセージ -->
+<c:if test="${insertDepartmentMsg != null}">
+	<div class="message success">
 		${insertDepartmentMsg}
-		<c:remove  var="insertDepartmentMsg" scope="session"/>
-	</c:if><br>
-		
-	<c:if test="${updateDepartmentMsg != null}">
+	</div>
+	<c:remove var="insertDepartmentMsg" scope="session"/>
+</c:if>
+
+<c:if test="${updateDepartmentMsg != null}">
+	<div class="message info">
 		${updateDepartmentMsg}
-		<c:remove  var="updateDepartmentMsg" scope="session"/>
-	</c:if><br>
-		
-	<c:if test="${deleteDepartmentMsg != null}">
+	</div>
+	<c:remove var="updateDepartmentMsg" scope="session"/>
+</c:if>
+
+<c:if test="${deleteDepartmentMsg != null}">
+	<div class="message danger">
 		${deleteDepartmentMsg}
-		<c:remove  var="deleteDepartmentMsg" scope="session"/>
-	</c:if><br>
-	
-	<a href="admin">戻る</a>
+	</div>
+	<c:remove var="deleteDepartmentMsg" scope="session"/>
+</c:if>
+
+<br>
+
 </body>
 </html>

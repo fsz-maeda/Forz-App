@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+
+/* =========================
+   全体
+========================= */
+
+body {
+  background: #f4f7fb;
+}
+
+/* =========================
+   カード
+========================= */
+
+.table-card {
+  width: 90%;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* =========================
+   テーブル
+========================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #005bac;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* hover */
+tr:hover {
+  background: #f7fbff;
+}
+
+/* =========================
+   ステータス
+========================= */
+
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #eef3ff;
+  color: #005bac;
+  font-size: 12px;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+.btn-approve {
+  background: #005bac;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-approve:hover {
+  background: #003f7d;
+  transform: scale(1.05);
+}
+
+/* =========================
+   メッセージ
+========================= */
+
+.message {
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px;
+  background: #e7f5ea;
+  border-left: 4px solid #2ecc71;
+  border-radius: 6px;
+}

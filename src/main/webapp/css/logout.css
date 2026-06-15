@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+
+/* =========================
+   背景
+========================= */
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #005bac, #003f7d);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+/* =========================
+   カード
+========================= */
+
+.logout-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   アイコン
+========================= */
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   テキスト
+========================= */
+
+h2 {
+  color: #005bac;
+  margin-bottom: 10px;
+}
+
+.text {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.sub {
+  font-size: 12px;
+  color: #888;
+}
+
+/* =========================
+   ローディング
+========================= */
+
+.loader {
+  margin: 20px auto 0;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #eee;
+  border-top: 3px solid #005bac;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

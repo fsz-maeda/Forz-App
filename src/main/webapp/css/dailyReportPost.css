@@ -1,40 +1,116 @@
-@charset "UTF-8";
 
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:10px 20px;
+/* =========================
+   背景統一
+========================= */
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  font-family: sans-serif;
 }
 
+/* =========================
+   中央配置
+========================= */
 
-
-.daily-post{
-	text-align: center;
+.post-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
-.title{
-	width: 100%;
-	margin-top: 8px;
-	margin-bottom: 20px;
-	padding: 12px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	font-size: 14px;
-	transition: 0.2s;
-	box-sizing: border-box;
-	outline: none;
+/* =========================
+   カード
+========================= */
+
+.post-card {
+  width: 500px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.daily-type{
-	width: 100%;
+/* タイトル */
+.post-card h2 {
+  color: #005bac;
+  margin-bottom: 20px;
 }
 
-.btn{
-	width: 100%;
+/* =========================
+   フォーム
+========================= */
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #333;
 }
 
-.content{
-	width: 100%;
-	resize: vertical;
+input, select, textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #005bac;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  background: #005bac;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #003f7d;
+}
+
+/* =========================
+   エラーメッセージ
+========================= */
+
+.message {
+  width: 500px;
+  margin: 20px auto 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.message.danger {
+  background: #fdecea;
+  border-left: 4px solid #e74c3c;
+}
+
+/* =========================
+   戻るリンク
+========================= */
+
+.back-link {
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.back-link:hover {
+  opacity: 0.8;
 }

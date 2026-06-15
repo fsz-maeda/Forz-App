@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+
+/* =========================
+   全体
+========================= */
+
+body {
+  background: #f4f7fb;
+}
+
+/* =========================
+   カード
+========================= */
+
+.table-card {
+  width: 92%;
+  margin: 20px auto;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* =========================
+   テーブル
+========================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #005bac;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f7fbff;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+.btn-edit {
+  background: #005bac;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-edit:hover {
+  background: #003f7d;
+  transform: scale(1.05);
+}

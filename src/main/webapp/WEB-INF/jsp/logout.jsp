@@ -10,18 +10,31 @@ pageEncoding="UTF-8"%>
 <meta http-equiv="refresh"
       content="3;URL=${pageContext.request.contextPath}/login">
 
-<title>Logout</title>
+<title>ログアウト</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logout.css">
 
 </head>
+
 <body>
 
-<h2> ログアウトしました。</h2>
+<div class="logout-wrapper">
 
-<hr>
+	<div class="logout-card">
 
-<p>ご利用ありがとうございました。</p>
+		<div class="icon">👋</div>
 
-<p>ログイン画面へ移動します...</p>
+		<h2>ログアウトしました</h2>
+
+		<p class="text">ご利用ありがとうございました。</p>
+		<p class="sub">3秒後にログイン画面へ移動します...</p>
+
+		<div class="loader"></div>
+
+	</div>
+
+</div>
 
 </body>
 </html>
