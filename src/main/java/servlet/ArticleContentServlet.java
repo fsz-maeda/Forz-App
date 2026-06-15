@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.MediaCommentDAO;
 import dao.MediaDAO;
+import model.Employee;
 import model.Media;
 import model.MediaComment;
 
@@ -25,34 +25,40 @@ public class ArticleContentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String ID = request.getParameter("id");
-		int id =Integer.parseInt(ID);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
 		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 		
+		int id = Integer.parseInt(request.getParameter("id"));
+
 		MediaDAO dao = new MediaDAO();
 		Media media = dao.articleFind(id);
-		 session.setAttribute("media",media);
-		
 
-		 Media m = (Media)session.getAttribute("media");
-		 MediaCommentDAO daoo = new MediaCommentDAO();
-		 List<MediaComment>commentlist = new ArrayList();
-		 commentlist = daoo.findComment(m);
-		 session.setAttribute("commentlist",commentlist);
+		if(media == null) {
+		    response.sendRedirect("media");
+		    return;
+		}
+
+		MediaCommentDAO commentDao = new MediaCommentDAO();
+		List<MediaComment> commentlist = commentDao.findComment(media);
+
+		session.setAttribute("media", media);
+		session.setAttribute("commentlist", commentlist);
 		 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
-
-		
-
 		dispatcher.forward(request, response);
 	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
 		dispatcher.forward(request, response);

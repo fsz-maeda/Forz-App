@@ -23,7 +23,9 @@
 				<td>${question.employeeId}</td>
 				<td>${question.content}</td>
 			</tr>
-		</c:forEach>}
+		</c:forEach>
 	</table>
+	
+	<a href="admin">戻る</a>
 </body>
 </html>
