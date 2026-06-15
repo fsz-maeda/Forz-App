@@ -212,4 +212,72 @@ public class PaidHolidayDAO {
         
         return usedDays;
 	}
+	
+	public boolean updatePaidHoliday(
+	        int paidHolidayId,
+	        double usedDays,
+	        Date startDate,
+	        Date finishDate,
+	        String holidayType) {
+
+	    try {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    } catch (ClassNotFoundException e) {
+	        throw new IllegalStateException(
+	                "JDBCドライバを読み込めませんでした");
+	    }
+
+	    try (Connection conn =
+	            DriverManager.getConnection(JDBC_URL)) {
+
+	        String sql =
+	                "UPDATE PAIDHOLIDAY "
+	              + "SET USED_DAYS = ?, "
+	              + "STARTDATE = ?, "
+	              + "FINISHDATE = ?, "
+	              + "HOLIDAY_TYPE = ? "
+	              + "WHERE PAIDHOLIDAY_ID = ?";
+
+	        PreparedStatement pStmt =
+	                conn.prepareStatement(sql);
+
+	        pStmt.setDouble(1, usedDays);
+	        pStmt.setDate(2, startDate);
+	        pStmt.setDate(3, finishDate);
+	        pStmt.setString(4, holidayType);
+	        pStmt.setInt(5, paidHolidayId);
+
+	        return pStmt.executeUpdate() == 1;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean deletePaidHoliday(int paidHolidayId) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		}
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+			String sql = "DELETE FROM PAIDHOLIDAY WHERE PAIDHOLIDAY_ID = ?";
+			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, paidHolidayId);
+			
+			int result = pStmt.executeUpdate();
+			
+			if(result != 1) {
+				return false;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
 }

@@ -68,14 +68,16 @@
 				
 				<c:if test="${holiday.status == '申請中'}">
 					<td>
-						<form action="">
+						<form action="updatePaidHoliday" method="post">
+							<input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
 							<input type="submit" value="修正"> 
 						</form>
 					</td>
 					
 					<td>
-						<form action="">
-						<input type="submit" value="削除"> 
+						<form action="deletePaidHoliday" method="post" onsubmit="return confirm('削除しますか？')">
+							<input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
+							<input type="submit" value="削除" > 
 						</form>
 					</td>
 				</c:if>
@@ -86,6 +88,16 @@
 	<c:if test="${insertPaidHolidayMsg != null}">
 		${insertPaidHolidayMsg}
 		<c:remove var="insertPaidHolidayMsg" scope="session"/><br>
+	</c:if>
+	
+	<c:if test="${updatePaidHolidayMsg != null}">
+		${updatePaidHolidayMsg}
+		<c:remove var="updatePaidHolidayMsg" scope="session"/><br>
+	</c:if>
+	
+	<c:if test="${deletePaidHolidayMsg != null}">
+		${deletePaidHolidayMsg}
+		<c:remove var="deletePaidHolidayMsg" scope="session"/><br>
 	</c:if>
 	
 	<a href="Main">戻る</a>
