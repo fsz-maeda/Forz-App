@@ -23,61 +23,58 @@ import model.MediaComment;
 public class MediaCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		String esg1="";
-		String esg2="";
-		
-		 HttpSession session = request.getSession();
-		 session.setAttribute("esg1",esg1);
-		 session.setAttribute("esg2",esg2);
-		 
-		 Media media = (Media)session.getAttribute("media");
-		 MediaCommentDAO dao = new MediaCommentDAO();
-		 List<MediaComment>commentlist = dao.findComment(media);
-		 session.setAttribute("commentlist",commentlist);
-		
+		String esg1 = "";
+		String esg2 = "";
+
+		HttpSession session = request.getSession();
+		session.setAttribute("esg1", esg1);
+		session.setAttribute("esg2", esg2);
+
+		Media media = (Media) session.getAttribute("media");
+		MediaCommentDAO dao = new MediaCommentDAO();
+		List<MediaComment> commentlist = dao.findComment(media);
+		session.setAttribute("commentlist", commentlist);
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
 
 		dispatcher.forward(request, response);
-		
+
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
-		
-		
+
 		String comment = request.getParameter("comment");
 		String a = request.getParameter("IID");
-		int id =Integer.parseInt(a);
-		String esg1="";
-		String esg2="";
-		
-		if(comment.length()!=0) {
-        HttpSession session = request.getSession();
-		Employee loginUser = (Employee)session.getAttribute("loginUser");
-		MediaComment mc = new MediaComment(id,comment);
-		MediaCommentDAO dao = new MediaCommentDAO();
-		
-		
-		dao.postComment(mc,loginUser);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaCommentOK.jsp");
-		dispatcher.forward(request, response);}
-		
-		
-		if(comment.length()==0) {
-			esg2="コメントが入力されていません";
-		}	
-			 HttpSession session = request.getSession();
-			 session.setAttribute("esg1",esg1);
-			 session.setAttribute("esg2",esg2);
+		int id = Integer.parseInt(a);
+		String esg1 = "";
+		String esg2 = "";
+
+		if (comment.length() != 0) {
+			HttpSession session = request.getSession();
+			Employee loginUser = (Employee) session.getAttribute("loginUser");
+			MediaComment mc = new MediaComment(id, comment);
+			MediaCommentDAO dao = new MediaCommentDAO();
+
+			dao.postComment(mc, loginUser);
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
-			dispatcher.forward(request, response);
+			response.sendRedirect("ArticleContentServlet?id=" + id);
+			return;
 		}
+
+		if (comment.length() == 0) {
+			esg2 = "コメントが入力されていません";
+		}
+		HttpSession session = request.getSession();
+		session.setAttribute("esg1", esg1);
+		session.setAttribute("esg2", esg2);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
+		dispatcher.forward(request, response);
 	}
-
-
+}

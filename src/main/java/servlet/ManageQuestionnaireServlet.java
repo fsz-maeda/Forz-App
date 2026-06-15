@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import dao.QuestionnaireDAO;
 import model.Questionnaire;
 
-@WebServlet("/ManageQuestionnaireServlet")
+@WebServlet("/manageQuestionnaire")
 public class ManageQuestionnaireServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

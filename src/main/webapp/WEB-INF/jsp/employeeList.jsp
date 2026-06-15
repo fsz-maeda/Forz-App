@@ -30,8 +30,18 @@
 		<hr>
 		社員ID : ${emp.employeeId}<br>
 		名前 : ${emp.name}<br>
-		部署 :${emp.department}<br>
-		役職 :${emp.position}<br>
+		
+		<c:forEach var="department" items="${departmentDAO}">
+			<c:if test="${department.departmentId == emp.department}">
+				部署 :${department.departmentName}<br>
+			</c:if>
+		</c:forEach>
+		
+		<c:forEach var="position" items="${positionList}">
+			<c:if test="${positionId == emp.position}">
+				役職 :${position.positionName}<br>
+			</c:if>
+		</c:forEach>
 			
 		<a href="ProfileServlet?employeeId=${emp.employeeId}">Profile</a><br>
 		<a href="ChatServlet?receiverId=${emp.employeeId}">Chat</a><br>

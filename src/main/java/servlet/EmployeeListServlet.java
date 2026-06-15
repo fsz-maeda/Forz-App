@@ -10,8 +10,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import dao.DepartmentDAO;
 import dao.EmployeeDAO;
+import dao.PositionDAO;
+import model.Department;
 import model.Employee;
+import model.Position;
 
 @WebServlet("/EmployeeListServlet")
 public class EmployeeListServlet extends HttpServlet {
@@ -32,8 +36,16 @@ public class EmployeeListServlet extends HttpServlet {
         } else {
             employeeList = dao.search(keyword);
         }
+        
+        PositionDAO positionDAO = new PositionDAO();
+        List<Position> positionList = positionDAO.findAll();
+        
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        List<Department> departmentList = departmentDAO.findAll();
 
         request.setAttribute("employeeList", employeeList);
+        request.setAttribute("positionList", positionList);
+        request.setAttribute("departmentList", departmentList);
         request.setAttribute("keyword", keyword);
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/employeeList.jsp");
