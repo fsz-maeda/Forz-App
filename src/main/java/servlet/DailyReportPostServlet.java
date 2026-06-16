@@ -32,10 +32,8 @@ public class DailyReportPostServlet extends HttpServlet {
 		}
 		
 		
-	    RequestDispatcher dispatcher =
-		        request.getRequestDispatcher("//WEB-INF/jsp/dailyReportPost.jsp");
-
-		    dispatcher.forward(request, response);
+	    RequestDispatcher dispatcher =request.getRequestDispatcher("//WEB-INF/jsp/dailyReportPost.jsp");
+	    	dispatcher.forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,7 +91,9 @@ public class DailyReportPostServlet extends HttpServlet {
 
 		    boolean result = dao.dailyReportDelete(loginUserId, reportId);
 
-		    if (!result) {
+		    if (result) {
+		        session.setAttribute("deleteMsg", "削除しました");
+		    } else {
 		        session.setAttribute("deleteErrorMsg", "これはあなたの投稿ではありません");
 		    }
 

@@ -33,7 +33,7 @@ public class DailyReportCommentServlet extends HttpServlet {
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/dailyReport.jsp");
-		dispatcher.forward(request, response);
+			dispatcher.forward(request, response);
 		
 	}
 

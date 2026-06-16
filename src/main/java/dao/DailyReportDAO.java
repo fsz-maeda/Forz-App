@@ -343,23 +343,28 @@ public class DailyReportDAO {
         List<DailyReport> list = new ArrayList<>();
 
         String sql =
-            "SELECT dr.*, e.name AS employee_name, " +
-            "(SELECT COUNT(*) FROM FORZDAILYREPORTLIKE l WHERE l.daily_report_id = dr.daily_report_id) AS like_count " +
-            "FROM FORZDAILYREPORTS dr " +
-            "LEFT JOIN EMPLOYEE e ON dr.employee_id = e.id " +
-            "WHERE dr.title LIKE ? OR dr.report_type LIKE ? " +
-            "ORDER BY dr.created_at DESC " +
-            "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        	    "SELECT dr.*, e.name AS employee_name, " +
+        	    "(SELECT COUNT(*) FROM FORZDAILYREPORTLIKE l WHERE l.daily_report_id = dr.daily_report_id) AS like_count " +
+        	    "FROM FORZDAILYREPORTS dr " +
+        	    "LEFT JOIN EMPLOYEE e ON dr.employee_id = e.id " +
+        	    "WHERE dr.title LIKE ? " +
+        	    "OR dr.content LIKE ? " +
+        	    "OR dr.report_type LIKE ? " +
+        	    "OR e.name LIKE ? " +
+        	    "ORDER BY dr.created_at DESC " +
+        	    "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            String likeKeyword = "%" + keyword + "%";
+        	String keywordLike = "%" + keyword + "%";
 
-            ps.setString(1, likeKeyword);
-            ps.setString(2, likeKeyword);
-            ps.setInt(3, offset);
-            ps.setInt(4, limit);
+        	ps.setString(1, keywordLike); // title
+        	ps.setString(2, keywordLike); // content
+        	ps.setString(3, keywordLike); // report_type
+        	ps.setString(4, keywordLike); // employee_name
+        	ps.setInt(5, offset);
+        	ps.setInt(6, limit);
 
             ResultSet rs = ps.executeQuery();
 

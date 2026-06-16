@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,8 +40,8 @@ public class DailyReportEditServlet extends HttpServlet {
 
         request.setAttribute("report", report);
 
-        request.getRequestDispatcher("/WEB-INF/jsp/dailyReportEdit.jsp")
-               .forward(request, response);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/dailyReportEdit.jsp");
+		dispatcher.forward(request, response);
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
