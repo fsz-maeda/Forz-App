@@ -89,4 +89,25 @@ public class CommentDAO {
 
 		return commentList;
 	}
+
+	// コメント削除
+	public boolean delete(int commentId) {
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+
+			String sql = "DELETE FROM EVENT_COMMENTS "
+					+ "WHERE comment_id = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			pStmt.setInt(1, commentId);
+
+			return pStmt.executeUpdate() == 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }

@@ -59,7 +59,12 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT SALARY_ID, EMPLOYEE_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE USER_ID = ?";
+        	String sql = "SELECT SALARY_ID, "
+        			+ "EMPLOYEE_ID, "
+        			+ "AMOUNT, "
+        			+ "SALARY_MONTH "
+        			+ "FROM SALARY "
+        			+ "WHERE EMPLOYEE_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
         	pStmt.setInt(1, employeeId);
