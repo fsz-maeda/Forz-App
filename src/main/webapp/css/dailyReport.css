@@ -56,6 +56,9 @@ body {
   border-top: 1px solid #eee;
   word-break: break-word;
 
+  display: flex;          /* ←追加 */
+  align-items: center;    /* 縦中央揃え */
+  gap: 10px;              /* 文字とボタンの間 */
 }
 
 .comment-form {
@@ -63,6 +66,11 @@ body {
   gap: 5px;
   margin-top: 10px;
 }
+
+.comment form {
+  margin-left: auto;
+}
+
 
 .comment-form input {
   flex: 1;

@@ -28,7 +28,7 @@
 			</form>
 
 			<form action="dailyReportPage" method="get">
-				<input type="text" name="keyword" placeholder="検索">
+				<input type="text" name="keyword" value="${keyword}" placeholder="検索">
 				<button type="submit">検索</button>
 			</form>
 
@@ -39,6 +39,13 @@
 <div class="page-title">
 	<h2>📝 日報フィード</h2>
 </div>
+
+<c:if test="${not empty sessionScope.deleteMsg}">
+	<div class="message success">
+		${sessionScope.deleteMsg}
+	</div>
+	<c:remove var="deleteMsg" scope="session"/>
+</c:if>
 
 <c:if test="${not empty sessionScope.deleteErrorMsg}">
 	<div class="message danger">
@@ -93,7 +100,7 @@
 					<span>${c.commentText}</span>
 
 					<c:if test="${sessionScope.loginUser.employeeId == c.employeeId}">
-						<form action="DailyReportCommentServlet" method="post">
+						<form action="DailyReportCommentServlet" method="post"  onsubmit="return confirm('本当に削除しますか？');">
 							<input type="hidden" name="action" value="delete">
 							<input type="hidden" name="commentId" value="${c.commentId}">
 							<input type="hidden" name="reportId" value="${r.dailyReportId}">
@@ -121,7 +128,7 @@
 					<button>編集</button>
 				</form>
 
-				<form action="DailyReportPostServlet" method="post">
+				<form action="DailyReportPostServlet" method="post"  onsubmit="return confirm('本当に削除しますか？');">
 					<input type="hidden" name="action" value="dailyReportDelete">
 					<input type="hidden" name="reportId" value="${r.dailyReportId}">
 					<button class="danger">削除</button>
@@ -159,6 +166,23 @@
 	</c:if>
 
 </div>
+
+<script>
+  // ページ離脱時にスクロール位置保存
+  window.addEventListener("beforeunload", function () {
+    sessionStorage.setItem("scrollY", window.scrollY);
+  });
+
+  // ページ復帰時に復元
+  window.addEventListener("load", function () {
+    const y = sessionStorage.getItem("scrollY");
+
+    if (y !== null) {
+      window.scrollTo(0, parseInt(y));
+      sessionStorage.removeItem("scrollY");
+    }
+  });
+</script>
 
 </body>
 </html>
