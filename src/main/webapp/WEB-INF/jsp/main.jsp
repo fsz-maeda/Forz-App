@@ -83,15 +83,17 @@
 			</div>
 			
 			<div>
-			<h3>部署情報</h3>
+			<h3>部署コミュニティ</h3>
 				<c:forEach var="media" items="${mediaList}" end="5">
-					<div class="news-infomation">
-						<p>
-							🎉 部署情報 :<b>${media.title}</b><br>
-							著者 : <b>${media.name}</b><br>
-			    			📅 ${media.mediaDate}
-						</p>
-					</div>
+					<c:if test="${media.departmentId == loginUser.department}">
+						<div class="news-infomation">
+							<p>
+								🎉 部署情報 :<b>${media.title}</b><br>
+								著者 : <b>${media.name}</b><br>
+				    			📅 ${media.createdAt}
+							</p>
+						</div>
+					</c:if>
 				</c:forEach>
 			</div>
 			

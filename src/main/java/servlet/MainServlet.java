@@ -66,6 +66,8 @@ public class MainServlet extends HttpServlet {
 		MediaDAO mediaDao = new MediaDAO();
 		List<MediaByEmployeeName> mediaList = mediaDao.findAll();
 		
+		System.out.println(mediaList.size());
+		
 		Random random = new Random();
 		String message =messages[random.nextInt(messages.length)];
 		

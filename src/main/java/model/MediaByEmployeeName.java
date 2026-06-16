@@ -1,5 +1,6 @@
 package model;
 import java.io.Serializable;
+import java.sql.Date;
 
 public class MediaByEmployeeName implements Serializable{
 	private int ID;
@@ -7,16 +8,18 @@ public class MediaByEmployeeName implements Serializable{
 	private String mediaType;
 	private String title;
 	private String content;
-	private String mediaDate;
+	private Date createdAt;
+	private int departmentId;
 	
-	public MediaByEmployeeName(int ID, String name, String mediaType, String title,
-			String content,String mediaDate) {
-		this.ID = ID;
+	public MediaByEmployeeName(int id, String name, String mediaType, String title, String content, 
+			Date createdAt, int departmentId) {
+		this.ID = id;
 		this.name = name;
 		this.mediaType = mediaType;
 		this.title = title;
 		this.content = content;
-		this.mediaDate = mediaDate;
+		this.createdAt = createdAt;
+		this.departmentId = departmentId;
 	}
 	
 	public int getId() {
@@ -38,8 +41,12 @@ public class MediaByEmployeeName implements Serializable{
 	public String getContent() {
 		return content;
 	}
-	
-	public String getMediaDate() {
-		return mediaDate;
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public int getDepartmentId() {
+		return departmentId;
 	}
 }

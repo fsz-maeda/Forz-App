@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +32,9 @@ public class MediaDAO {
 					+ "EMPLOYEE.NAME, "
 					+ "MEDIA_TYPE, "
 					+ "TITLE, "
-					+ "CONTENT,created_at "
+					+ "CONTENT, "
+					+ "created_at, "
+					+ "FORZMEDIA.DEPARTMENT_ID "
 					+ "FROM FORZMEDIA "
 					+ "JOIN EMPLOYEE ON FORZMEDIA.EMPLOYEE_ID = EMPLOYEE.ID "
 					+ "ORDER BY created_at DESC";
@@ -43,12 +46,13 @@ public class MediaDAO {
 			while (rs.next()) {
 				int id = rs.getInt("ID");
 				String employeeName = rs.getString("NAME");
-				String mediaType = rs.getString("media_type");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
-				String created_at = rs.getString("created_at");
-				MediaByEmployeeName media = new MediaByEmployeeName(id, employeeName, mediaType, title, content,
-						created_at);
+				String mediaType = rs.getString("MEDIA_TYPE");
+				String title = rs.getString("TITLE");
+				String content = rs.getString("CONTENT");
+				Date created_at = rs.getDate("created_at");
+				int departmentId = rs.getInt("DEPARTMENT_ID");
+				MediaByEmployeeName media = new MediaByEmployeeName(id, employeeName, mediaType, title, 
+						content, created_at, departmentId);
 				mediaList.add(media);
 			}
 		} catch (SQLException e) {
