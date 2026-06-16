@@ -13,18 +13,16 @@ import jakarta.servlet.http.HttpSession;
 
 import dao.MediaCommentDAO;
 import dao.MediaDAO;
+import dao.MediaLikesDAO;
 import model.Employee;
 import model.Media;
 import model.MediaComment;
+import model.MediaLikeStatus;
 
-/**
- * Servlet implementation class MediaArticleServlet
- */
 @WebServlet("/ArticleContentServlet")
 public class ArticleContentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
@@ -48,9 +46,14 @@ public class ArticleContentServlet extends HttpServlet {
 
 		MediaCommentDAO commentDao = new MediaCommentDAO();
 		List<MediaComment> commentlist = commentDao.findComment(media);
+		
+		MediaLikesDAO likeDao = new MediaLikesDAO();
+		MediaLikeStatus status = likeDao.getStatus(employee.getEmployeeId(), media.getId());
 
-		session.setAttribute("media", media);
-		session.setAttribute("commentlist", commentlist);
+		request.setAttribute("status", status);
+
+		request.setAttribute("media", media);
+		request.setAttribute("commentlist", commentlist);
 		 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
 		dispatcher.forward(request, response);

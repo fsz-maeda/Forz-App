@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.DepartmentDAO;
 import dao.MediaDAO;
+import model.Department;
 import model.Employee;
 import model.Media;
 
@@ -19,15 +23,14 @@ public class MediaPostServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		DepartmentDAO departmentDao = new DepartmentDAO();
+		List<Department> departmentList = departmentDao.findAll();
 
-		HttpSession session = request.getSession();
+		request.setAttribute("departmentList", departmentList);
 
-		session.removeAttribute("errorMsg");
-		session.removeAttribute("errorMsg2");
-		session.removeAttribute("errorMsg3");
-
-		request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp")
-				.forward(request, response);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -35,12 +38,10 @@ public class MediaPostServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
+		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 		String category = request.getParameter("category");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-
-		HttpSession session = request.getSession();
 
 		String errorMsg = "";
 		String errorMsg2 = "";
@@ -61,12 +62,12 @@ public class MediaPostServlet extends HttpServlet {
 		// エラーあり
 		if (!errorMsg.isEmpty() || !errorMsg2.isEmpty() || !errorMsg3.isEmpty()) {
 
-			session.setAttribute("errorMsg", errorMsg);
-			session.setAttribute("errorMsg2", errorMsg2);
-			session.setAttribute("errorMsg3", errorMsg3);
+			request.getSession().setAttribute("errorMsg", errorMsg);
+			request.getSession().setAttribute("errorMsg2", errorMsg2);
+			request.getSession().setAttribute("errorMsg3", errorMsg3);
 
-			request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp")
-					.forward(request, response);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp");
+			dispatcher.forward(request, response);
 			return;
 		}
 
@@ -80,6 +81,7 @@ public class MediaPostServlet extends HttpServlet {
 		if (category.equals("others"))
 			category = "その他";
 
+		HttpSession session = request.getSession();
 		Employee employee = (Employee) session.getAttribute("loginUser");
 
 		Media media = new Media(category, title, content);
@@ -94,7 +96,8 @@ public class MediaPostServlet extends HttpServlet {
 		}
 
 		session.setAttribute("errorMsg", "投稿に失敗しました");
-		request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp")
-				.forward(request, response);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mediapost.jsp");
+		dispatcher.forward(request, response);
 	}
 }

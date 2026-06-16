@@ -30,6 +30,8 @@ public class MediaServlet extends HttpServlet {
 		MediaDAO dao = new MediaDAO();
 		List<Media> medialist = dao.findAll(loginUser.getDepartment()); //部署ごとのfindAll
 		
+		System.out.println(loginUser.getDepartment());
+		
 		EmployeeDAO edao = new EmployeeDAO();
 		List<Employee> employeeList = edao.findAll(); //従業員のデータを取得
 

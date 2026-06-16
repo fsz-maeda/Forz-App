@@ -34,11 +34,11 @@ public class ExpensesDAO {
         	
         	while(rs.next()) {
         		int expensesId = rs.getInt("EXPENSES_ID");
-        		int userId = rs.getInt("USER_ID");
+        		int employeeId = rs.getInt("EMPLOYEE_ID");
         		int amount = rs.getInt("AMOUNT");
         		String detail = rs.getString("DETAIL");
         		String approval = rs.getString("APPROVAL");
-        		expenses = new Expenses(expensesId, userId, amount, detail, approval);
+        		expenses = new Expenses(expensesId, employeeId, amount, detail, approval);
         		expensesList.add(expenses);
         	}
         }catch (SQLException e) {
@@ -68,11 +68,11 @@ public class ExpensesDAO {
         	ResultSet rs = pStmt.executeQuery();
         	
         	if(rs.next()) {
-        		int userId = rs.getInt("USER_ID");
+        		int employeeId = rs.getInt("EMPLOYEE_ID");
         		int amount = rs.getInt("AMOUNT");
         		String detail = rs.getString("DETAIL");
         		String approval = rs.getString("APPROVAL");
-        		expenses = new Expenses(expensesId, userId, amount, detail, approval);
+        		expenses = new Expenses(expensesId, employeeId, amount, detail, approval);
         	}
         }catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class ExpensesDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT * FROM EXPENSES WHERE USER_ID = ?";
+        	String sql = "SELECT * FROM EXPENSES WHERE EMPLOYEE_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
         	pStmt.setInt(1, employeeId);
@@ -118,7 +118,7 @@ public class ExpensesDAO {
     }
     
     //承認済みの経費をすべて取得
-    public List<Expenses> expensesOK(int userId, String approval){
+    public List<Expenses> expensesOK(int employeeId, String approval){
     	List<Expenses> expensesList = new ArrayList<>();
     	Expenses expenses = null;
     	
@@ -129,10 +129,10 @@ public class ExpensesDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT AMOUNT, DETAIL FROM EXPENSES WHERE USER_ID = ? AND APPROVAL = ?";
+        	String sql = "SELECT AMOUNT, DETAIL FROM EXPENSES WHERE EMPLOYEE_ID = ? AND APPROVAL = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
-        	pStmt.setInt(1, userId);
+        	pStmt.setInt(1, employeeId);
         	pStmt.setString(2, approval);
         	
         	ResultSet rs = pStmt.executeQuery();
@@ -152,7 +152,7 @@ public class ExpensesDAO {
     }
     
     //新規経費情報を登録
-    public boolean insertExpenses(int userId, int amount, String detail) {
+    public boolean insertExpenses(int employeeId, int amount, String detail) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
@@ -160,10 +160,10 @@ public class ExpensesDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "INSERT INTO EXPENSES(USER_ID, AMOUNT, DETAIL) VALUES(?, ?, ?)";
+        	String sql = "INSERT INTO EXPENSES(EMPLOYEE_ID, AMOUNT, DETAIL) VALUES(?, ?, ?)";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
-        	pStmt.setInt(1, userId);
+        	pStmt.setInt(1, employeeId);
         	pStmt.setInt(2, amount);
         	pStmt.setString(3, detail);
         	

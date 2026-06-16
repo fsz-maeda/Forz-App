@@ -17,7 +17,7 @@
 		<!-- 記事ヘッダー -->
 		<div class="article-header">
 			<h1>${media.title}</h1>
-
+			
 			<c:if test="${loginUser != null && loginUser.employeeId == media.employeeId}">
 				<div class="action-group">
 
@@ -28,28 +28,39 @@
 							この記事を編集する</button>
 					</form>
 
-					<form action="MediaDeleteServlet" method="post"
-						style="display: inline;"
+					<form action="MediaDeleteServlet" method="post" style="display: inline;"
 						onsubmit="return confirm('本当にこの記事を削除しますか？');">
 
 						<input type="hidden" name="id" value="${media.id}">
 
-						<button type="submit" class="btn btn-sm btn-danger">
-							この記事を削除する</button>
+						<button type="submit" class="btn btn-sm btn-danger">この記事を削除する</button>
 					</form>
-
 				</div>
 			</c:if>
 		</div>
 
 		<!-- 記事本文 -->
 		<div class="article-content">${media.content}</div>
-
+		
 		<!-- フッター -->
 		<div class="article-footer">
 			<a href="media" class="btn btn-secondary"> ← メディア画面へ </a> <a
 				href="MediaCommentServlet" class="btn btn-primary"> コメントを書く </a>
 		</div>
+		
+		<h2>いいね</h2>
+		
+		<form action="mediaLikes" method="post">
+			<input type="hidden" name="mediaId" value="${media.id}"/>
+
+			<button type="submit">
+				<c:choose>
+					<c:when test="${status.liked}">❤</c:when>
+					<c:otherwise>♡</c:otherwise>
+				</c:choose>
+				${status.likes}
+			</button>
+		</form>
 
 		<!-- コメント一覧 -->
 		<div class="comment-section">
@@ -64,14 +75,11 @@
 				</thead>
 
 				<tbody>
-
 					<c:choose>
-
 						<c:when test="${not empty commentlist}">
 							<c:forEach var="mc" items="${commentlist}">
 								<tr>
 									<td class="comment-name">${mc.name}</td>
-
 									<td style="white-space: pre-wrap;">${mc.comment}</td>
 								</tr>
 							</c:forEach>

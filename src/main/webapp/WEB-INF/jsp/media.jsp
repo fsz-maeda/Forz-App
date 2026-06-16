@@ -40,6 +40,7 @@
                     <th style="width: 20%;">カテゴリ</th>
                     <th style="width: 20%;">投稿日時</th>
                     <th style="width: 30%;">タイトル</th>
+                    <th style="width: 10%;">いいね</th>
                     <th style="width: 15%;">投稿者</th>
                 </tr>
             </thead>
@@ -62,6 +63,10 @@
                                         ${media.title}
                                     </a>
                                 </td>
+                                
+                                <td>
+								    ❤ ${media.likesCount}
+								</td>
 
                                 <td>
                                     <span class="contributor-name" title="${nameList[status.index]}">

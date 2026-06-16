@@ -8,22 +8,22 @@ public class Employee implements Serializable{
 	private String name;
 	private String pass;
 	private String mail;
-	private int department;
 	private int position;
+	private int department;
 	private String photoPath;
 	private Date enter;
 	private String intro;
 	private boolean management;
 	private int remainPaidHoliday;
 	
-	public Employee(int id, String name, String pass, String mail, int department, int position,
+	public Employee(int id, String name, String pass, String mail, int position, int department,
 			String photoPath, Date enter, String intro, boolean management) {
 		this.employeeId = id;
 		this.name = name;
 		this.pass = pass;
 		this.mail = mail;
-		this.department = department;
 		this.position = position;
+		this.department = department;
 		this.photoPath = photoPath;
 		this.enter = enter;
 		this.intro = intro;

@@ -93,40 +93,51 @@ public class MediaDAO {
 	}
 
 	public List<Media> findAll(int departmentId) {
-		List<Media> mediaList = new ArrayList<>();
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+	    List<Media> mediaList = new ArrayList<>();
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+	    try {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    } catch (ClassNotFoundException e) {
+	        throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	    }
 
-			String sql = "SELECT ID, EMPLOYEE_ID, MEDIA_TYPE, TITLE, CONTENT, created_at "
-					+ "FROM FORZMEDIA "
-					+ "WHERE DEPARTMENT_ID = ? "
-					+ "ORDER BY created_at DESC";
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+	        String sql =
+	            "SELECT F.ID, F.EMPLOYEE_ID, F.MEDIA_TYPE, F.TITLE, " +
+	            "F.CONTENT, F.CREATED_AT, " +
+	            "COUNT(L.LIKE_ID) AS LIKES_COUNT " +
+	            "FROM FORZMEDIA F " +
+	            "LEFT JOIN FORZMEDIALIKES L " +
+	            "ON F.ID = L.FORZMEDIA_ID " +
+	            "WHERE F.DEPARTMENT_ID = ? " +
+	            "GROUP BY F.ID, F.EMPLOYEE_ID, F.MEDIA_TYPE, " +
+	            "F.TITLE, F.CONTENT, F.CREATED_AT " +
+	            "ORDER BY F.CREATED_AT DESC";
 
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, departmentId);
+	        PreparedStatement pStmt = conn.prepareStatement(sql);
+	        pStmt.setInt(1, departmentId);
 
-			ResultSet rs = pStmt.executeQuery();
-			while (rs.next()) {
-				int id = rs.getInt("ID");
-				int userId = rs.getInt("EMPLOYEE_ID");
-				String mediaType = rs.getString("MEDIA_TYPE");
-				String title = rs.getString("TITLE");
-				String content = rs.getString("CONTENT");
-				String created_at = rs.getString("created_at");
-				Media media = new Media(id, userId, mediaType, title, content, created_at);
-				mediaList.add(media);
-			}
+	        ResultSet rs = pStmt.executeQuery();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return mediaList;
+	        while (rs.next()) {
+	            Media media = new Media(
+	                rs.getInt("ID"),
+	                rs.getInt("EMPLOYEE_ID"),
+	                rs.getString("MEDIA_TYPE"),
+	                rs.getString("TITLE"),
+	                rs.getString("CONTENT"),
+	                rs.getString("CREATED_AT")
+	            );
+
+	            media.setLikesCount(rs.getInt("LIKES_COUNT"));
+	            mediaList.add(media);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+
+	    return mediaList;
 	}
 
 	public boolean insert(Media media, int departmentId, int employeeId) {

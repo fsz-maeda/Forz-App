@@ -9,6 +9,7 @@ public class Media implements Serializable{
 	private String title;
 	private String content;
 	private String mediaDate;
+	private int likesCount;
 	
 	public Media(int ID,int employeeId,String mediaType,String title,String content,String mediaDate) {
 		this.ID = ID;
@@ -31,8 +32,6 @@ public class Media implements Serializable{
 		this.employeeId = employeeId; 
 	}
 	
-
-
 	public Media(int id, String mediaType, String title, String content, String created_at, int employeeId) {
 		this.ID = id;
 		this.mediaType = mediaType;
@@ -42,12 +41,35 @@ public class Media implements Serializable{
 		this.employeeId = employeeId; 
 	}
 
+	public int getId() {
+		return ID;
+	}
 	
+	public int getEmployeeId() { 
+		return employeeId; 
+	}
+	
+	public String getMediaType() {
+		return mediaType;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+	
+	public String getMediaDate() {
+		return mediaDate;
+	}
+	
+	public int getLikesCount() {
+	    return likesCount;
+	}
 
-	public int getId() {return ID;}
-	public int getEmployeeId() { return employeeId; }
-	public String getMediaType() {return mediaType;}
-	public String getTitle() {return title;}
-	public String getContent() {return content;}
-	public String getMediaDate() {return mediaDate;}
+	public void setLikesCount(int likesCount) {
+	    this.likesCount = likesCount;
+	}
 }

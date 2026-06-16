@@ -26,7 +26,7 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT SALARY_ID, USER_ID, AMOUNT, SALARY_MONTH FROM SALARY";
+        	String sql = "SELECT SALARY_ID, EMPLOYEE_ID, AMOUNT, SALARY_MONTH FROM SALARY";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
        	 
@@ -34,10 +34,10 @@ public class SalaryDAO {
        	 
        	 	while(rs.next()) {
        	 		int salaryId = rs.getInt("SALARY_ID");
-       	 		int userId = rs.getInt("USER_ID");
+       	 		int employeeId = rs.getInt("EMPLOYEE_ID");
        	 		int amount = rs.getInt("AMOUNT");
        	 		int month = rs.getInt("SALARY_MONTH");
-       	 		salary = new Salary(salaryId, userId, amount, month);
+       	 		salary = new Salary(salaryId, employeeId, amount, month);
        	 		salaryList.add(salary);
        	 	}
         }catch (SQLException e) {
@@ -59,7 +59,7 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT SALARY_ID, USER_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE USER_ID = ?";
+        	String sql = "SELECT SALARY_ID, EMPLOYEE_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE USER_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
         	pStmt.setInt(1, employeeId);
@@ -68,10 +68,9 @@ public class SalaryDAO {
         	
         	while(rs.next()) {
        	 		int salaryId = rs.getInt("SALARY_ID");
-       	 		int userId = rs.getInt("USER_ID");
        	 		int amount = rs.getInt("AMOUNT");
        	 		int month = rs.getInt("SALARY_MONTH");
-       	 		salary = new Salary(salaryId, userId, amount, month);
+       	 		salary = new Salary(salaryId, employeeId, amount, month);
        	 		salaryList.add(salary);
        	 	}
         }catch(SQLException e) {
@@ -93,7 +92,7 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "SELECT SALARY_ID, USER_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE SALARY_ID = ?";
+        	String sql = "SELECT SALARY_ID, EMPLOYEE_ID, AMOUNT, SALARY_MONTH FROM SALARY WHERE SALARY_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
         	pStmt.setInt(1, salaryId);
@@ -101,10 +100,10 @@ public class SalaryDAO {
         	ResultSet rs = pStmt.executeQuery();
         	
         	if(rs.next()) {
-        		int userId = rs.getInt("USER_ID");
+        		int employeeId = rs.getInt("EMPLOYEE_ID");
         		int amount = rs.getInt("AMOUNT");
         		int month = rs.getInt("SALARY_MONTH");
-        		salary = new Salary(salaryId, userId, amount, month);
+        		salary = new Salary(salaryId, employeeId, amount, month);
         	}
         }catch (SQLException e) {
             e.printStackTrace();
@@ -115,7 +114,7 @@ public class SalaryDAO {
     }
     
     //新規給料情報を登録
-    public boolean insertSalary(int userId, int amount, int month) {
+    public boolean insertSalary(int employeeId, int amount, int month) {
     	try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
@@ -123,11 +122,11 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "INSERT INTO SALARY(USER_ID, AMOUNT, SALARY_MONTH) "
+        	String sql = "INSERT INTO SALARY(EMPLOYEE_ID, AMOUNT, SALARY_MONTH) "
         			+ "VALUES(?, ?, ?)";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
-        	pStmt.setInt(1, userId);
+        	pStmt.setInt(1, employeeId);
             pStmt.setInt(2, amount);
             pStmt.setInt(3, month);
             
@@ -152,10 +151,10 @@ public class SalaryDAO {
         }
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-        	String sql = "UPDATE SALARY SET USER_ID = ?, AMOUNT = ?, SALARY_MONTH = ? WHERE SALARY_ID = ?";
+        	String sql = "UPDATE SALARY SET EMPLOYEE_ID = ?, AMOUNT = ?, SALARY_MONTH = ? WHERE SALARY_ID = ?";
         	
         	PreparedStatement pStmt = conn.prepareStatement(sql);
-        	pStmt.setInt(1, salary.getUserId());
+        	pStmt.setInt(1, salary.getEmployeeId());
         	pStmt.setInt(2, salary.getAmount());
         	pStmt.setInt(3, salary.getMonth());
         	pStmt.setInt(4, salary.getSalaryId());

@@ -148,6 +148,16 @@
     <h1>新規投稿</h1>
 
     <form action="MediaPostServlet" method="post">
+    
+    	<select name="departmentId">
+		    <option value="">選んでください</option>
+		
+		    <c:forEach var="department" items="${departmentList}">
+		        <option value="${department.departmentId}">
+		            ${department.departmentName}
+		        </option>
+		    </c:forEach>
+		</select>
 
         <!-- カテゴリー -->
         <div class="form-group">
@@ -201,9 +211,6 @@
         <c:if test="${not empty errorMsg}">
             <div class="error-message">${errorMsg}</div>
         </c:if>
-
-        <!-- hidden -->
-        <input type="hidden" name="departmentId" value="${loginUser.department}" />
 
         <button type="submit">投稿する</button>
         <a href="media">戻る</a>
