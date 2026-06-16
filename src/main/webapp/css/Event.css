@@ -2,6 +2,7 @@
 
 body {
     background: #f4f7fb;
+    font-family: sans-serif;
 }
 
 /* 全体 */
@@ -49,11 +50,24 @@ body {
     border: 1px solid #e6e6e6;
 }
 
-.event-card h2 {
-    color: #333;
+
+/* 共通テキスト折り返し */
+.text-wrap {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
-/* 情報 */
+.comment-item {
+    background: #f8f9fb;
+    padding: 6px;
+    margin: 4px 0;
+    border-radius: 6px;
+
+    word-break: break-word;
+}
+
+/* イベント情報 */
 .event-info {
     display: flex;
     gap: 15px;
@@ -62,7 +76,7 @@ body {
     font-size: 14px;
 }
 
-/* コメント */
+/* コメントフォーム */
 .comment-form {
     display: flex;
     gap: 10px;
@@ -74,24 +88,35 @@ body {
     padding: 6px;
 }
 
-/* ボタン */
+/* ボタン共通 */
 button {
     background: #005bac;
     color: white;
     border: none;
     padding: 6px 12px;
     border-radius: 6px;
+    cursor: pointer;
 }
 
+button:hover {
+    opacity: 0.9;
+}
+
+/* いいね */
 .like-btn.liked {
     background: #ff4d6d;
 }
 
+/* 危険ボタン */
 .danger {
     background: #d9534f;
 }
 
 /* コメント */
+.comment-box {
+    margin-top: 10px;
+}
+
 .comment-item {
     background: #f8f9fb;
     padding: 6px;
