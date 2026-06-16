@@ -15,7 +15,7 @@
 <body>
 	<header>
 		<div class="header-top">
-			<h1>Forz-App</h1>
+			<h1>ForzApp</h1>
 			<div class="header-link">
 				<p>ユーザネーム :<b>${loginUser.name}</b></p>
 				<p>ユーザーID :<b>${loginUser.employeeId}</b></p>
@@ -52,6 +52,7 @@
 				<c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
 					<li><a href="admin">⚙ 管理者ページ</a></li>
 				</c:if>
+				<li><a href="LogoutServlet">ログアウト</a></li>
 			</ul>
 		</div>
 
@@ -107,8 +108,6 @@
 	</div>
 	<hr>
 	
-	<footer>
-		<a href="LogoutServlet">ログアウト</a>
-	</footer>
+
 </body>
 </html>

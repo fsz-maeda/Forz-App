@@ -52,8 +52,9 @@
             </div>
 
             <div class="btn-area">
-                <button type="submit">更新</button>
                 <a href="event" class="back-btn">戻る</a>
+                <button type="submit">更新</button>
+
             </div>
 
         </form>

@@ -49,7 +49,7 @@ label {
   color: #333;
 }
 
-input, select, textarea {
+select, textarea {
   width: 100%;
   margin-top: 5px;
   padding: 10px;
@@ -59,7 +59,6 @@ input, select, textarea {
   font-size: 14px;
 }
 
-input:focus,
 select:focus,
 textarea:focus {
   border-color: #005bac;
@@ -69,10 +68,9 @@ textarea:focus {
    ボタン
 ========================= */
 
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
+form button {
+  margin-top: 19px;
+  padding: 0px 15px;
   background: #005bac;
   color: white;
   border: none;
@@ -99,18 +97,4 @@ button:hover {
 .message.danger {
   background: #fdecea;
   border-left: 4px solid #e74c3c;
-}
-
-/* =========================
-   戻るリンク
-========================= */
-
-.back-link {
-  color: white;
-  text-decoration: none;
-  margin-right: 10px;
-}
-
-.back-link:hover {
-  opacity: 0.8;
 }

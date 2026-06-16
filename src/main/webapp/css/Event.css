@@ -89,7 +89,7 @@ body {
 }
 
 /* ボタン共通 */
-button {
+form button {
     background: #005bac;
     color: white;
     border: none;
@@ -140,7 +140,7 @@ button:hover {
 .pagination a {
     margin: 0 5px;
     padding: 5px 10px;
-    background: #fff;
     border-radius: 6px;
     border: 1px solid #ddd;
 }
+

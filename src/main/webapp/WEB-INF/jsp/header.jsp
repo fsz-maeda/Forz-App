@@ -16,6 +16,7 @@
         <c:if test="${loginUser.employeeId == 1 || loginUser.management == true}">
             <li><a href="admin">⚙ 管理者ページ</a></li>
         </c:if>
+        <li><a href="LogoutServlet">ログアウト</a></li>
     </ul>
 </div>
 
@@ -29,24 +30,22 @@ function toggleMenu() {
 .main-menu {
     position: fixed;
     top: 0;
-    left: -260px; /* 初期は隠す */
+    right: -260px; /* 初期は隠す */
     width: 260px;
     height: 100%;
     background: #fff;
     transition: 0.3s;
     box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-    z-index: 1000;
+    z-index: 800;
+    margin-top: 51px; 
+    color: black;
+    
 }
 
 .main-menu.open {
-    left: 0;
+    right: 0;
 }
 
-.hamburger {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    font-size: 24px;
-    z-index: 1100;
-}
+
+
 </style>

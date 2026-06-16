@@ -55,13 +55,16 @@ textarea {
     margin-top: 15px;
 }
 
-button {
+
+form button {
     background: #005bac;
     color: white;
     border: none;
     padding: 10px 16px;
     border-radius: 8px;
+	margin-top: 18px;
 }
+
 
 .back-btn {
     background: #ddd;

@@ -18,15 +18,17 @@
 	<div class="header-top">
 		<h1><a href="Main">ForzApp</a></h1>
 		<div class="header-link">
-			<a href="Main">← メインへ</a>
-			<a href="MediaPostServlet">＋ 新規投稿</a>
+			<a href="Main">メインへ</a>
+			<a href="MediaPostServlet">新規投稿</a>
+			<button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
 		</div>
 	</div>
 </header>
 
 <div class="page">
 
-	<h2 class="page-title">🏢 部署内メディア一覧</h2>
+	<h2 class="page-title">🏢 部署コミュニティ一覧</h2>
 
 	<!-- フィルター -->
 	<form action="SearchCategoryServlet" method="get" class="filter-box">

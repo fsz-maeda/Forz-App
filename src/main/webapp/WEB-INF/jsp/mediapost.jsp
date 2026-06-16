@@ -78,8 +78,8 @@
         </c:if>
 
         <div class="btn-area">
+        	<a href="media" class="back-btn">戻る</a>
             <button type="submit">投稿する</button>
-            <a href="media" class="back-btn">戻る</a>
         </div>
 
     </form>

@@ -17,7 +17,8 @@
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
-            <a href="dailyReportPage">日報へ</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>
     </div>
 </header>
@@ -38,9 +39,13 @@
     <p>内容</p>
     <textarea name="content" required>${report.content}</textarea>
 
-    <input type="submit" value="更新">
-
+	<div class="foot">
+		<a href="dailyReportPage" class="back-btn">戻る</a>
+	    <input type="submit" value="更新">
+	</div>
 </form>
+
+
 
 </body>
 </html>

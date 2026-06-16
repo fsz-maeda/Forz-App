@@ -18,9 +18,10 @@
         <h1><a href="Main">ForzApp</a></h1>
 
         <div class="header-link">
-            <a href="eventAdd">＋イベント登録</a>
+            <a href="eventAdd">イベント登録</a>
             <a href="calendar">カレンダー</a>
-            <a href="Main">メインへ</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>
     </div>
 </header>
@@ -122,6 +123,7 @@
 
     <!-- ページネーション -->
     <div class="pagination">
+    	<a href="Main">メインへ</a>
         <c:forEach var="i" begin="1" end="${totalPages}">
             <a href="event?page=${i}">${i}</a>
         </c:forEach>

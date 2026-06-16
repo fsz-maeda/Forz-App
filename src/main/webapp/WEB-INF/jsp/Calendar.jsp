@@ -17,7 +17,9 @@
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
-            <a href="event">← イベント一覧</a>
+            <a href="event">イベント一覧</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>
     </div>
 </header>

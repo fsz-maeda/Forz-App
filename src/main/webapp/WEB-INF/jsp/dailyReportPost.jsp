@@ -17,10 +17,13 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="Main">ForzApp</a></h1>
-		<a class="back-link" href="dailyReportPage">← 日報へ戻る</a>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
 
 <c:if test="${not empty sessionScope.dailyReportErrorMsg}">
@@ -52,7 +55,11 @@
 			<label>内容</label>
 			<textarea name="content" rows="12" placeholder="内容を入力してください" required></textarea>
 
-			<button type="submit">投稿する</button>
+			<div class="foot">
+				<a href="dailyReportPage" class="back-btn">戻る</a>
+			    <button type="submit">投稿</button>
+			</div>
+
 
 		</form>
 

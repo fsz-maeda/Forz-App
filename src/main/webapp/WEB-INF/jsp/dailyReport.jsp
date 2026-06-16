@@ -16,8 +16,6 @@
 
 <body>
 
-<button class="hamburger" onclick="toggleMenu()">☰</button>
-<jsp:include page="/WEB-INF/jsp/header.jsp" />
 
 <header>
 	<div class="header-top">
@@ -34,6 +32,9 @@
 				<input type="text" name="keyword" value="${keyword}" placeholder="検索">
 				<button type="submit">検索</button>
 			</form>
+			
+			<button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
 
 		</div>
 	</div>
@@ -42,20 +43,6 @@
 <div class="page-title">
 	<h2>📝 日報フィード</h2>
 </div>
-
-<c:if test="${not empty sessionScope.deleteMsg}">
-	<div class="message success">
-		${sessionScope.deleteMsg}
-	</div>
-	<c:remove var="deleteMsg" scope="session"/>
-</c:if>
-
-<c:if test="${not empty sessionScope.deleteErrorMsg}">
-	<div class="message danger">
-		${sessionScope.deleteErrorMsg}
-	</div>
-	<c:remove var="deleteErrorMsg" scope="session"/>
-</c:if>
 
 <div class="feed">
 
