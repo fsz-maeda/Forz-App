@@ -83,84 +83,101 @@ input[type="text"] {
 	<hr>
 </form>
 
-	<c:forEach var="event" items="${eventList}">
-		<div class="event-card">
-			<h3>${event.title}</h3>
+<c:forEach var="event" items="${eventList}">
+	<div class="event-card">
+		<h3>${event.title}</h3>
 
-			<p>${event.content}</p>
+		<p>${event.content}</p>
 
-			<p>Area : ${event.area}</p>
+		<p>Area : ${event.area}</p>
 
-			<p>Date : ${event.eventDate}</p>
+		<p>Date : ${event.eventDate}</p>
 
-			<p>いいね数：${event.likes}</p>
+		<p>いいね数：${event.likes}</p>
 
-			<c:choose>
-        
-				<c:when test="${event.liked}">
-					<form action="like" method="post">
-						<input type="hidden" name="eventId" value="${event.eventId}">
-						<input type="submit" value="いいね解除">
+		<c:choose>
+
+			<c:when test="${event.liked}">
+				<form action="like" method="post">
+					<input type="hidden" name="eventId" value="${event.eventId}">
+					<input type="submit" value="いいね解除">
+				</form>
+			</c:when>
+
+			<c:otherwise>
+				<form action="like" method="post">
+					<input type="hidden" name="eventId" value="${event.eventId}">
+					<input type="submit" value="いいね">
+				</form>
+			</c:otherwise>
+
+		</c:choose>
+
+		<br>
+
+		<!-- コメント投稿 -->
+		<form action="commentAdd" method="post">
+
+			<input type="hidden" name="eventId" value="${event.eventId}">
+
+			<input type="text" name="comment" placeholder="コメントを入力"> <input
+				type="submit" value="コメント">
+
+		</form>
+
+		<!-- コメント一覧 -->
+		<h4>コメント一覧 （${event.commentList.size()}件）</h4>
+		<c:if test="${empty event.commentList}">
+			<p>まだコメントはありません</p>
+		</c:if>
+		<c:forEach var="comment" items="${event.commentList}">
+
+			<p>
+				${comment.comment}
+
+				<c:if test="${loginUser.employeeId == comment.employeeId}">
+
+					<form action="CommentDeleteServlet" method="post" style="display: inline;"
+						onsubmit="return confirm('このコメントを削除しますか？');">
+
+						<input type="hidden" name="commentId" value="${comment.commentId}">
+
+						<input type="submit" value="削除">
+
 					</form>
-				</c:when>
 
-				<c:otherwise>
-					<form action="like" method="post">
-						<input type="hidden" name="eventId" value="${event.eventId}">
-						<input type="submit" value="いいね">
-					</form>
-				</c:otherwise>
+				</c:if>
 
-			</c:choose>
+			</p>
+		</c:forEach>
+		<c:if test="${loginUser.employeeId == event.employeeId}">
 
-			<br>
+			<form action="eventEdit" method="get">
+				<input type="hidden" name="eventId" value="${event.eventId}">
+				<input type="submit" value="編集">
+			</form>
 
-			<!-- コメント投稿 -->
-			<form action="commentAdd" method="post">
+		</c:if>
+		<c:if test="${loginUser.employeeId == event.userId}">
+			<form action="eventDelete" method="post"
+				onsubmit="return confirm('このイベントを削除しますか？');">
 
 				<input type="hidden" name="eventId" value="${event.eventId}">
 
-				<input type="text" name="comment" placeholder="コメントを入力"> <input
-					type="submit" value="コメント">
+				<input type="submit" value="削除">
 
 			</form>
-            
-			<!-- コメント一覧 -->
-			<h4>コメント一覧 （${event.commentList.size()}件）</h4>
-			<c:if test="${empty event.commentList}">
-				<p>まだコメントはありません</p>
-			</c:if>
-			<c:forEach var="comment" items="${event.commentList}">
+		</c:if>
 
-				<p>${comment.comment}</p>
+	</div>
+</c:forEach>
 
-			</c:forEach>
-			<c:if test="${loginUser.employeeId == event.employeeId}">
 
-				<form action="eventEdit" method="get">
-					<input type="hidden" name="eventId" value="${event.eventId}">
-					<input type="submit" value="編集">
-				</form>
+<!-- ページネーション -->
 
-			</c:if>
-			<c:if test="${loginUser.employeeId == event.userId}">
-				<form action="eventDelete" method="post"
-					onsubmit="return confirm('このイベントを削除しますか？');">
+<c:forEach var="i" begin="1" end="${totalPages}">
 
-					<input type="hidden" name="eventId" value="${event.eventId}">
-
-					<input type="submit" value="削除">
-
-				</form>
-			</c:if>
-		</div>
-	</c:forEach>
-
-	<!-- ページネーション -->
-
-	<c:forEach var="i" begin="1" end="${totalPages}">
-
-		<a class="page-link" href="event?page=${i}"> ${i} </a>
-	</c:forEach>
-	</body>
+	<a class="page-link" href="event?page=${i}"> ${i} </a>
+</c:forEach>
+</body>
 </html>

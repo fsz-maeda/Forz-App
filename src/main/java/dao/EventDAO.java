@@ -54,7 +54,6 @@ public class EventDAO {
 				eventList.add(event);
 			}
 
-			System.out.println("取得件数：" + eventList.size());
 
 		} catch (Exception e) {
 			e.printStackTrace();
