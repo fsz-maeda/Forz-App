@@ -16,27 +16,19 @@ import model.Employee;
 @WebServlet("/commentAdd")
 public class CommentAddServlet extends HttpServlet {
 
-	protected void doPost(
-			HttpServletRequest request,
-			HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
 
 		// JSPから受け取る
-		int eventId =
-				Integer.parseInt(
-						request.getParameter("eventId"));
-
-		String text =
-				request.getParameter("comment");
+		int eventId = Integer.parseInt(request.getParameter("eventId"));
+		String text = request.getParameter("comment");
 
 		// ログインユーザー取得
-		HttpSession session =
-				request.getSession();
+		HttpSession session = request.getSession();
 
-		Employee loginUser =
-				(Employee) session.getAttribute("loginUser");
+		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		// Commentオブジェクト作成
 		Comment comment = new Comment();

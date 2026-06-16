@@ -25,7 +25,12 @@ public class MediaServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
-		Employee loginUser = (Employee) session.getAttribute("loginUser");
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
+		
+		if(loginUser == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
 		MediaDAO dao = new MediaDAO();
 		List<Media> medialist = dao.findAll(loginUser.getDepartment()); //部署ごとのfindAll

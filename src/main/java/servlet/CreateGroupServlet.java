@@ -18,9 +18,16 @@ public class CreateGroupServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // GET request
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
     	request.getRequestDispatcher("WEB-INF/jsp/createGroup.jsp")
         .forward(request, response);

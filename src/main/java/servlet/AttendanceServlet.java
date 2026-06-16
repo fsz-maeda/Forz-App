@@ -37,7 +37,14 @@ public class AttendanceServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
+		
 		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 		
 //		今日の日付取得
 		LocalDate now = LocalDate.now();
@@ -49,15 +56,6 @@ public class AttendanceServlet extends HttpServlet {
 		int month = Optional.ofNullable(request.getParameter("month"))
 		        .map(Integer::parseInt)
 		        .orElse(now.getMonthValue());
-	
-//		ログインユーザー取得確認
-		Employee employee = (Employee) session.getAttribute("loginUser");
-		
-		
-        if (employee == null) {
-            response.sendRedirect("Home");
-            return;
-        }
         
         boolean isAdmin = employee.getManagement();
         int employeeId = employee.getEmployeeId();;

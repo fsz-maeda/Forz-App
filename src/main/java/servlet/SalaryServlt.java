@@ -27,6 +27,11 @@ public class SalaryServlt extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		SalaryDAO dao = new SalaryDAO();
 		List<Salary> salaryList = dao.findByEmployeeId(employee.getEmployeeId());
 		

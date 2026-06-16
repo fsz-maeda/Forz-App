@@ -22,13 +22,14 @@ public class AdminSettingServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		HttpSession session = request.getSession();
-	    Employee emp = (Employee) session.getAttribute("loginUser");
 
-	    if (emp == null || !emp.getManagement()) {
-	        response.sendError(403);
-	        return;
-	    }
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
 	    SystemSettingDAO dao = new SystemSettingDAO();
 	    int closeDay = dao.getCloseDay();

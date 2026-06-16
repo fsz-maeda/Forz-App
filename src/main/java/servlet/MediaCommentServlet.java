@@ -25,11 +25,18 @@ public class MediaCommentServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
 		String esg1 = "";
 		String esg2 = "";
 
-		HttpSession session = request.getSession();
 		session.setAttribute("esg1", esg1);
 		session.setAttribute("esg2", esg2);
 

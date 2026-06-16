@@ -27,6 +27,11 @@ public class InsertExpensesServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		ExpensesDAO dao = new ExpensesDAO();
 		List<Expenses> expensesList = dao.findByEmployeeId(employee.getEmployeeId());
 		

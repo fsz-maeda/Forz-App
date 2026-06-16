@@ -27,6 +27,11 @@ public class InsertPaidHolidayServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		PaidHolidayDAO dao = new PaidHolidayDAO();
 		List<PaidHoliday> holidayList = dao.findByEmployeeId(employee.getEmployeeId());
 		

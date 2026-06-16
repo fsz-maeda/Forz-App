@@ -11,18 +11,27 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.EventDAO;
+import model.Employee;
 import model.Event;
 
 @WebServlet("/calendar")
 public class CalendarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(
-			HttpServletRequest request,
-			HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		String yearStr = request.getParameter("year");
 		String monthStr = request.getParameter("month");
 

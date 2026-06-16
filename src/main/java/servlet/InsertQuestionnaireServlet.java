@@ -27,6 +27,11 @@ public class InsertQuestionnaireServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
 		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		QuestionnaireDAO dao = new QuestionnaireDAO();
 		List<Questionnaire> questionnaireList = dao.findByEmployeeId(employee.getEmployeeId());
 		

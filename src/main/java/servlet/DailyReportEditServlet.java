@@ -21,8 +21,11 @@ import model.Employee;
 public class DailyReportEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
+		
         HttpSession session = request.getSession();
         Employee loginUser = (Employee) session.getAttribute("loginUser");
 

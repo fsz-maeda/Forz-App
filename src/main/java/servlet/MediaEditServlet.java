@@ -19,15 +19,21 @@ public class MediaEditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException {
+    	
+    	HttpSession session = request.getSession();
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
+		
+		if(loginUser == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
         int id = Integer.parseInt(request.getParameter("id"));
         
         MediaDAO dao = new MediaDAO();
         Media media = dao.articleFind(id); 
-
-        HttpSession session = request.getSession();
-        Employee loginUser = (Employee) session.getAttribute("loginUser");
-
         
         if (media != null && loginUser != null && media.getEmployeeId() == loginUser.getEmployeeId()) {
             request.setAttribute("editMedia", media);

@@ -12,11 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.DailyReportDAO;
 import dao.EventDAO;
 import dao.MediaDAO;
 import model.DailyReport;
+import model.Employee;
 import model.Event;
 import model.MediaByEmployeeName;
 
@@ -28,6 +30,14 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 		
 		String[] messages = {
 				"焦らず丁寧に進めましょう！",

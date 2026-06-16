@@ -19,9 +19,17 @@ import model.Event;
 public class EventAddServlet extends HttpServlet {
 
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/EventAdd.jsp");
 		dispatcher.forward(request, response);
 

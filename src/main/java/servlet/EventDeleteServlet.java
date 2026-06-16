@@ -17,28 +17,23 @@ public class EventDeleteServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session =
-                request.getSession();
+    	HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
-        Employee loginUser =
-                (Employee) session.getAttribute("loginUser");
-
-        int eventId =
-                Integer.parseInt(
-                        request.getParameter("eventId"));
+        int eventId = Integer.parseInt(request.getParameter("eventId"));
 
         EventDAO eventdao = new EventDAO();
-
         Event event = eventdao.findById(eventId);
 
-        if (event != null &&
-            event.getEmployeeId() ==
-            loginUser.getEmployeeId()) {
-
+        if (event != null && event.getEmployeeId() == employee.getEmployeeId()) {
             eventdao.delete(eventId);
         }
 

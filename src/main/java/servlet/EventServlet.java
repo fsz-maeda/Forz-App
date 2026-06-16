@@ -21,10 +21,17 @@ import model.Event;
 public class EventServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
+		
+		if(loginUser == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		EventDAO dao = new EventDAO();
 		String keyword = request.getParameter("keyword");
 		String pageStr = request.getParameter("page");
@@ -59,9 +66,6 @@ public class EventServlet extends HttpServlet {
 					(double) totalCount
 							/ pageSize);
 		}
-		HttpSession session = request.getSession();
-
-		Employee loginUser = (Employee) session.getAttribute("loginUser");
 
 		CommentDAO commentDAO = new CommentDAO();
 		LikeDAO likeDAO = new LikeDAO();
