@@ -37,8 +37,6 @@ public class MyProfileServlet extends HttpServlet {
        EmployeePosition employeePosition = dao.showProfile(loginUser.getEmployeeId());
        
        request.setAttribute("employeePosition", employeePosition);
-       
-       System.out.println(employeePosition.getDepartmentName());
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/MyProfile.jsp");
 		dispatcher.forward(request,response);

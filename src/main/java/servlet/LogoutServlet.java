@@ -11,18 +11,17 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(false);
 
-        if (session != null) {
-            session.invalidate();
-        }
-
-        request.getRequestDispatcher("/WEB-INF/jsp/logout.jsp")
-        .forward(request, response);
-    }
+		if (session != null) {
+			session.invalidate();
+		}
+		
+		response.sendRedirect("Home");
+	}
 }
