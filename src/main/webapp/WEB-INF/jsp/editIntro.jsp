@@ -1,20 +1,48 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<h3>自己紹介編集</h3>
 
-<hr>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>自己紹介編集</title>
 
-<form action="${pageContext.request.contextPath}/EditIntroServlet" method="post">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/editIntro.css">
 
-    <p>About yourself:</p>
+</head>
 
-    <textarea name="intro" rows="8" cols="60" style="resize:none;">
-${employee.intro}
-    </textarea>
+<body>
 
-    <br><br>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="MyProfileServlet">← プロフィールへ戻る</a>
+		</div>
+	</div>
+</header>
 
-    <input type="submit" value=" Save Changes">
+<div class="page-title">
+	<h2>📝 自己紹介編集</h2>
+</div>
 
-</form>
+<div class="form-wrapper">
 
-<hr>
+	<div class="form-card">
+
+		<form action="${pageContext.request.contextPath}/EditIntroServlet" method="post">
+
+			<label>About yourself</label>
+
+			<textarea name="intro" rows="8" required>${employee.intro}</textarea>
+
+			<button type="submit">保存する</button>
+
+		</form>
+
+	</div>
+
+</div>
+
+</body>
+</html>

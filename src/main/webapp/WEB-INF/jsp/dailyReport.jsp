@@ -16,6 +16,9 @@
 
 <body>
 
+<button class="hamburger" onclick="toggleMenu()">☰</button>
+<jsp:include page="/WEB-INF/jsp/header.jsp" />
+
 <header>
 	<div class="header-top">
 		<h1><a href="Main">ForzApp</a></h1>

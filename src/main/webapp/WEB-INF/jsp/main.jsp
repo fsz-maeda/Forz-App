@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 </head>
+
+
 <body>
 	<header>
 		<div class="header-top">

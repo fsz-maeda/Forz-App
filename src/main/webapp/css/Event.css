@@ -1,1 +1,121 @@
 @charset "UTF-8";
+
+body {
+    background: #f4f7fb;
+}
+
+/* 全体 */
+.event-container {
+    width: 70%;
+    margin: 30px auto;
+}
+
+/* タイトル */
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* 検索 */
+.search-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 8px;
+    width: 250px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.search-box button {
+    background: #005bac;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+/* カード */
+.event-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #e6e6e6;
+}
+
+.event-card h2 {
+    color: #333;
+}
+
+/* 情報 */
+.event-info {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* コメント */
+.comment-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-form input {
+    flex: 1;
+    padding: 6px;
+}
+
+/* ボタン */
+button {
+    background: #005bac;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.like-btn.liked {
+    background: #ff4d6d;
+}
+
+.danger {
+    background: #d9534f;
+}
+
+/* コメント */
+.comment-item {
+    background: #f8f9fb;
+    padding: 6px;
+    margin: 4px 0;
+    border-radius: 6px;
+}
+
+/* アクション */
+.event-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* ページネーション */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}

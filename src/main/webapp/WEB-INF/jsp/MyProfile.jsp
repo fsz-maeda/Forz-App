@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
@@ -7,64 +7,74 @@
 <head>
 <meta charset="UTF-8">
 <title>Profile</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/MyProfile.css">
+
 </head>
+
 <body>
 
-	<h1>👤 マイプロフィール</h1>
-	<hr>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="Main">🏠 ホームへ</a>
+		</div>
+	</div>
+</header>
 
-	<h3>写真</h3>
-	<img src="${pageContext.request.contextPath}/${employee.photoPath}"
-		width="135" height="150">
+<div class="profile-wrapper">
 
-	<hr>
+	<!-- 上部カード -->
+	<div class="profile-card">
 
-	社員ID : ${employee.employeeId}<br><br>
+		<div class="profile-left">
+			<img src="${pageContext.request.contextPath}/${employee.photoPath}" class="profile-img">
+		</div>
 
-	氏名 : ${employee.name}<br><br>
+		<div class="profile-right">
+			<h2>${employee.name}</h2>
+			<p>社員ID：${employee.employeeId}</p>
+			<p>部署：${employeePosition.departmentName}</p>
+			<p>役職：${employeePosition.positionName}</p>
+		</div>
 
-	部署 : ${employeePosition.departmentName}<br><br>
+	</div>
 
-	役職 : ${employeePosition.positionName}<br><br>
+	<!-- 自己紹介 -->
+	<div class="section-card">
+		<h3>📝 自己紹介</h3>
+		<p>${employee.intro}</p>
+	</div>
 
-	<hr>
+	<!-- アクション -->
+	<div class="action-grid">
 
-	<h3>📝 自己紹介</h3>
-	${employee.intro}
+		<a class="action-card" href="AttendanceServlet">
+			🕒 出勤ページ
+		</a>
 
-	<hr>
+		<a class="action-card" href="salary">
+			💰 給料ページ
+		</a>
 
-	<h3>出勤情報</h3>
-	<a href="${pageContext.request.contextPath}/AttendanceServlet">
-		出勤ページ
-	</a>
+	</div>
 
-	<hr>
+	<!-- 設定 -->
+	<div class="section-card">
 
-	<h3>給料明細</h3>
-	<a href="${pageContext.request.contextPath}/expenses">
-		給料ページ
-	</a>
+		<h3>⚙ 設定</h3>
 
-	<hr>
+		<div class="setting-list">
+			<a href="EditIntroPageServlet">自己紹介編集</a>
+			<a href="ChangePhotoServlet">写真変更</a>
+			<a href="ChangePasswordServlet">パスワード変更</a>
+		</div>
 
-	<h3>設定</h3>
+	</div>
 
-	<a href="${pageContext.request.contextPath}/EditIntroPageServlet">
-		自己紹介編集<br>
-	</a>
-
-	<a href="${pageContext.request.contextPath}/ChangePhotoServlet">
-		プロフィール写真変更<br>
-	</a>
-
-	<a href="${pageContext.request.contextPath}/ChangePasswordServlet">
-		パスワード変更<br>
-	</a>
-
-	<a href="${pageContext.request.contextPath}/Main">
-		🏠 ホームへ<br>
-	</a>
+</div>
 
 </body>
 </html>

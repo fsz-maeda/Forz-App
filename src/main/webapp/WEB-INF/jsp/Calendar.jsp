@@ -7,93 +7,96 @@
 <meta charset="UTF-8">
 <title>Calendar</title>
 
-<style>
-table {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-th, td {
-	border: 1px solid black;
-	width: 14%;
-	height: 120px;
-	vertical-align: top;
-	padding: 5px;
-}
-
-th {
-	background-color: #005bac;
-	color: white;
-}
-</style>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/Calendar.css">
 </head>
+
 <body>
-	<a href="calendar?year=${prevYear}&month=${prevMonth}"> ← 前月 </a>
 
-	&nbsp;&nbsp;
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <a href="event">← イベント一覧</a>
+        </div>
+    </div>
+</header>
 
-	<a href="calendar?year=${nextYear}&month=${nextMonth}"> 翌月 → </a>
-	<h1>${year}年${month}月</h1>
-    <a href="event">イベント一覧へ戻る</a>
+
+<div class="calendar-container">
+
+    <div class="calendar-header">
+
+        <div class="nav">
+            <a href="calendar?year=${prevYear}&month=${prevMonth}">← 前月</a>
+            <a href="calendar?year=${nextYear}&month=${nextMonth}">翌月 →</a>
+        </div>
+
+        <h1>${year}年${month}月</h1>
+    </div>
+
     <hr>
 
-	<table>
+    <table class="calendar-table">
 
-		<tr>
-			<th>日</th>
-			<th>月</th>
-			<th>火</th>
-			<th>水</th>
-			<th>木</th>
-			<th>金</th>
-			<th>土</th>
-		</tr>
-		<c:set var="day" value="1" />
+        <tr>
+            <th>日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+        </tr>
 
-		<c:forEach var="week" begin="1" end="6">
+        <c:set var="day" value="1" />
 
-			<tr>
-			
+        <c:forEach var="week" begin="1" end="6">
 
-				<c:forEach var="col" begin="0" end="6">
+            <tr>
 
-					<td><c:choose>
-							<c:when test="${week == 1 && col < startColumn}">
-							</c:when>
-							<c:when test="${day <= lastDay}">
+                <c:forEach var="col" begin="0" end="6">
 
-								<div>${day}</div>
+                    <td>
+                        <c:choose>
 
-								<c:forEach var="event" items="${eventList}">
+                            <c:when test="${week == 1 && col < startColumn}">
+                            </c:when>
 
-									<c:if
-										test="${event.eventYear == year
-	&& event.eventMonth == month
-	&& event.eventDay == day}">
+                            <c:when test="${day <= lastDay}">
 
-										<div
-											style="font-size: 12px; background: #e8f2ff; margin-top: 3px; padding: 2px; border-radius: 3px;">
+                                <div class="day-number">${day}</div>
 
-											${event.title}</div>
+                                <c:forEach var="event" items="${eventList}">
 
-									</c:if>
+                                    <c:if test="${event.eventYear == year
+                                        && event.eventMonth == month
+                                        && event.eventDay == day}">
 
-								</c:forEach>
+                                        <div class="event-item">
+                                            ${event.title}
+                                        </div>
 
-								<c:set var="day" value="${day + 1}" />
+                                    </c:if>
 
-							</c:when>
+                                </c:forEach>
 
+                                <c:set var="day" value="${day + 1}" />
 
-						</c:choose></td>
+                            </c:when>
 
-				</c:forEach>
+                        </c:choose>
+                    </td>
 
-			</tr>
+                </c:forEach>
 
-		</c:forEach>
-	</table>
+            </tr>
+
+        </c:forEach>
+
+    </table>
+
+</div>
 
 </body>
 </html>

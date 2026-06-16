@@ -1,18 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>日報修正</title>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReportEdit.css">
 </head>
+
 <body>
-<button class="hamburger" onclick="toggleMenu()">☰</button>
-<jsp:include page="/WEB-INF/jsp/header.jsp" />
+
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <a href="dailyReportPage">日報へ</a>
+        </div>
+    </div>
+</header>
 
 <form action="DailyReportEditServlet" method="post">
+
     <input type="hidden" name="reportId" value="${report.dailyReportId}">
 
     <p>タイトル</p>
@@ -25,9 +36,10 @@
     </select>
 
     <p>内容</p>
-    <textarea name="content" rows="50" cols="100" required>${report.content}</textarea>
+    <textarea name="content" required>${report.content}</textarea>
 
     <input type="submit" value="更新">
+
 </form>
 
 </body>

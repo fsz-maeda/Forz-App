@@ -9,154 +9,113 @@
 <meta charset="UTF-8">
 <title>Chat</title>
 
-<style>
-.chat-box {
-	border: 1px solid #ccc;
-	padding: 10px;
-	height: 400px;
-	overflow-y: auto;
-}
-
-.my-message {
-	text-align: right;
-	margin: 10px;
-}
-
-.other-message {
-	text-align: left;
-	margin: 10px;
-}
-
-.time {
-	color: gray;
-	font-size: 12px;
-}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/chat.css">
 
 </head>
+
 <body>
 
-	<h2>💬 チャット</h2>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="Main">🏠 メインへ</a>
+		</div>
+	</div>
+</header>
 
-	<h3>ログインユーザー : ${loginUser.name}</h3>
+<div class="chat-layout">
 
-	<hr>
+	<!-- 左：ユーザー一覧 -->
+	<div class="user-panel">
 
-	<form action="ChatServlet" method="get">
+		<h3>👥 社員一覧</h3>
 
-		<input type="text" name="keyword" placeholder="社員名検索"> <input
-			type="submit" value="検索">
+		<form action="ChatServlet" method="get">
+			<input type="text" name="keyword" placeholder="社員検索">
+			<button type="submit">検索</button>
+		</form>
 
-	</form>
+		<div class="user-list">
 
-	<hr>
-
-	<h3>👥 社員一覧</h3>
-
-	<c:forEach var="emp" items="${employeeList}">
-
-		<c:if test="${emp.employeeId != loginUser.employeeId}">
-
-			<div>
-
-				${emp.name} <a href="ChatServlet?receiverId=${emp.employeeId}">
-					チャット </a>
-
-			</div>
-
-			<br>
-
-		</c:if>
-
-	</c:forEach>
-
-	<hr>
-
-	<c:if test="${receiver != null}">
-
-		<h3>👤 Chat With : ${receiver.name}</h3>
-
-		<img src="${receiver.photoPath}" width="100" height="100">
-
-		<br>
-		<br>
-
-    社員ID :
-    ${receiver.employeeId}
-
-    <hr>
-
-		<h3>📨 Message History</h3>
-
-		<div class="chat-box">
-
-			<c:forEach var="chat" items="${chatList}">
-
-				<c:choose>
-
-					<c:when test="${chat.senderId == loginUser.employeeId}">
-
-						<div class="my-message">
-
-							<b>Me</b> <br>
-
-							<c:out value="${chat.message}" />
-
-							<br> <span class="time"> ${chat.sendTime} </span>
-
-						</div>
-
-					</c:when>
-
-					<c:otherwise>
-
-						<div class="other-message">
-
-							<b> ${receiver.name} </b> <br>
-
-							<c:out value="${chat.message}" />
-
-							<br> <span class="time"> ${chat.sendTime} </span>
-
-						</div>
-
-					</c:otherwise>
-
-				</c:choose>
-
+			<c:forEach var="emp" items="${employeeList}">
+				<c:if test="${emp.employeeId != loginUser.employeeId}">
+					<a class="user-card" href="ChatServlet?receiverId=${emp.employeeId}">
+						${emp.name}
+					</a>
+				</c:if>
 			</c:forEach>
 
 		</div>
 
 		<hr>
 
-		<form action="ChatServlet" method="post">
+		<a href="GroupChatServlet">👥 グループチャット</a>
 
-			<input type="hidden" name="receiverId" value="${receiver.employeeId}">
+	</div>
 
-			<textarea name="message" rows="5" cols="50" required>
-        </textarea>
+	<!-- 右：チャット本体 -->
+	<div class="chat-panel">
 
-			<br>
-			<br> <input type="submit" value="SEND">
+		<c:if test="${receiver != null}">
 
-		</form>
+			<div class="chat-header">
+				<h3>💬 ${receiver.name}</h3>
+				<span>ID: ${receiver.employeeId}</span>
+			</div>
 
-	</c:if>
+			<div class="chat-box">
 
-	<c:if test="${receiver == null}">
+				<c:forEach var="chat" items="${chatList}">
 
-		<h3>
+					<c:choose>
 
-			<a href="GroupChatServlet"> 👥 グループチャット </a>
+						<c:when test="${chat.senderId == loginUser.employeeId}">
+							<div class="msg my">
+								<div class="bubble">
+									${chat.message}
+								</div>
+								<span>${chat.sendTime}</span>
+							</div>
+						</c:when>
 
-		</h3>
+						<c:otherwise>
+							<div class="msg other">
+								<div class="bubble">
+									${chat.message}
+								</div>
+								<span>${chat.sendTime}</span>
+							</div>
+						</c:otherwise>
 
-	</c:if>
+					</c:choose>
 
-	<hr>
+				</c:forEach>
 
-	<a href="Main"> メインへ戻る </a>
+			</div>
+
+			<form action="ChatServlet" method="post" class="chat-form">
+
+				<input type="hidden" name="receiverId" value="${receiver.employeeId}">
+
+				<textarea name="message" placeholder="メッセージ入力..." required></textarea>
+
+				<button type="submit">送信</button>
+
+			</form>
+
+		</c:if>
+
+		<c:if test="${receiver == null}">
+			<div class="empty-chat">
+				<h3>👈 ユーザーを選択してください</h3>
+			</div>
+		</c:if>
+
+	</div>
+
+</div>
 
 </body>
 </html>

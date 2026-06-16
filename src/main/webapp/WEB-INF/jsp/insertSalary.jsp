@@ -1,45 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>給料入力</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/insertSalary.css">
+
 </head>
+
 <body>
-	<h1>給料入力</h1>
-	
-	<form action="insertSalaryCheck" method="post">
-		<ul>
-			<li>給料額<input type="number" name="amount"></li>
-			<li>支給月<input type="number" name="month"></li>
-		</ul>
-		
-		<p>下記のユーザーリストから、給料を入力するユーザーを選択してください</p>
-	
-		<table>
-			<tr>
-				<th></th>
-				<th>ユーザーID</th>
-				<th>ユーザー名</th>
-				<th>メールアドレス</th>
-				<th>役職</th>
-			<tr>
-			
-			<c:forEach var="employee" items="${employeePositionList }">
-				<tr>
-					<td><input type="radio" name="userId" value="${employee.employeeId }" required></td>
-				    <td>${employee.employeeId}</td>
-				    <td>${employee.name}</td>
-				    <td>${employee.mail}</td>
-				    <td>${employee.positionName}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		
-		<input type="submit" value="入力">
-		
-	</form>
+
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<a href="manageSalary">← 戻る</a>
+	</div>
+</header>
+
+
+<h1>💰 給料入力</h1>
+
+<form action="insertSalaryCheck" method="post">
+
+	<!-- 給与入力 -->
+	<div class="salary-form">
+		<label>給料額</label>
+		<input type="number" name="amount" required>
+
+		<label>支給月</label>
+		<input type="number" name="month" required>
+	</div>
+
+
+
+	<div class="user-list">
+		<h2>ユーザー選択</h2>
+
+		<c:forEach var="employee" items="${employeePositionList}">
+
+			<label class="user-card">
+
+				<input type="radio" name="employeeId"
+				       value="${employee.employeeId}" required>
+
+				<div class="user-info">
+					<strong>${employee.name}</strong>
+					<p>ID: ${employee.employeeId}</p>
+					<p>${employee.mail}</p>
+					<p>${employee.positionName}</p>
+				</div>
+
+			</label>
+
+		</c:forEach>
+
+	</div>
+
+	<button type="submit">入力</button>
+
+</form>
+
 </body>
 </html>

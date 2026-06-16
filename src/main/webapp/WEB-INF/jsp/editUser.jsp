@@ -1,56 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>ユーザー修正</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/editUser.css">
+
 </head>
+
 <body>
-	<h1>ユーザー修正</h1>
-	<form action="updateUser" method="post">
-		<input type="hidden" name="employeeId" value="${employee.employeeId }">
-		
-		役職ID<input type="number" name="positionId" value="${employee.position}" required><br>
-		部署ID<input type="number" name="departmentId" value="${employee.department}" required><br>
-		入社日<input type="date" name="enter" value="${employee.enter}" required><br>
-		有給日数<input type="number" name="remainPaidHoliday" value="${employee.remainPaidHoliday}" required><br>
-		管理者権限
-			<input type="radio" name="management" value="true"  ${employee.management ? 'checked' : ''}> 許可
-    		<input type="radio" name="management" value="false" ${!employee.management ? 'checked' : ''}> 未許可<br>
-		
-		<input type="submit" value="更新">
-	</form>
-	
-	<table>
-		<tr>
-			<th>役職ID</th>
-			<th>役職名</th>
-		</tr>
-		
-		<c:forEach var="position" items="${positionList}">
-			<tr>
-				<td>${position.positionId}</td>
-				<td>${position.positionName}</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<table>
-		<tr>
-			<th>部署ID</th>
-			<th>部署名</th>
-		</tr>
-		
-		<c:forEach var="department" items="${departmentList}">
-			<tr>
-				<td>${department.departmentId}</td>
-				<td>${department.departmentId}</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<a href="manageUser">戻る</a>
+
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<a href="manageUser">← 戻る</a>
+	</div>
+</header>
+
+<div class="page-title">
+	<h2>👤 ユーザー修正</h2>
+</div>
+
+<div class="edit-wrapper">
+
+	<!-- 左：フォーム -->
+	<div class="edit-card">
+
+		<form action="updateUser" method="post">
+
+			<input type="hidden" name="employeeId" value="${employee.employeeId}">
+
+			<label>役職ID</label>
+			<input type="number" name="positionId"
+			       value="${employee.position}" required>
+
+			<label>部署ID</label>
+			<input type="number" name="departmentId"
+			       value="${employee.department}" required>
+
+			<label>入社日</label>
+			<input type="date" name="enter"
+			       value="${employee.enter}" required>
+
+			<label>有給日数</label>
+			<input type="number" name="remainPaidHoliday"
+			       value="${employee.remainPaidHoliday}" required>
+
+			<label>管理者権限</label>
+			<div class="radio-group">
+				<label>
+					<input type="radio" name="management" value="true"
+						${employee.management ? 'checked' : ''}>
+					許可
+				</label>
+
+				<label>
+					<input type="radio" name="management" value="false"
+						${!employee.management ? 'checked' : ''}>
+					未許可
+				</label>
+			</div>
+
+			<button type="submit">更新</button>
+
+		</form>
+
+	</div>
+
+	<!-- 右：マスタ情報 -->
+	<div class="master-area">
+
+		<div class="master-card">
+			<h3>📌 役職一覧</h3>
+
+			<c:forEach var="position" items="${positionList}">
+				<div class="master-item">
+					<span>${position.positionId}</span>
+					<span>${position.positionName}</span>
+				</div>
+			</c:forEach>
+
+		</div>
+
+		<div class="master-card">
+			<h3>🏢 部署一覧</h3>
+
+			<c:forEach var="department" items="${departmentList}">
+				<div class="master-item">
+					<span>${department.departmentId}</span>
+					<span>${department.departmentName}</span>
+				</div>
+			</c:forEach>
+
+		</div>
+
+	</div>
+
+</div>
+
 </body>
 </html>
