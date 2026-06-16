@@ -1,45 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="model.Employee" %>
-  <%
-  Employee emp = (Employee)request.getAttribute("employee");
-  %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Profile</title>
+<title>プロフィール</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.css">
+
 </head>
+
 <body>
-<h1> 社員プロフィール</h1>
 
-<h2>
-    ようこそ、<%= emp.getName() %> さん
-</h2>
-<hr>
-<h3>Profile Photo</h3>
-<img src="<%= emp.getPhotoPath() %>"
-			width ="150"
-			height="150">
-<hr>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="Main">🏠 Home</a>
+		</div>
+	</div>
+</header>
 
-<h3>📝 自己紹介</h3>
+<div class="profile-page">
 
-<pre>
-<%= emp.getIntro() == null ? "" : emp.getIntro() %>
-</pre>
+	<h2 class="title">👤 社員プロフィール</h2>
 
-<hr>
+	<div class="profile-card">
 
-社員ID :<%= emp.getEmployeeId() %><br><br>
+		<div class="profile-top">
+			<img src="${employee.photoPath}" class="profile-img">
 
-氏名 :<%= emp.getName() %><br><br>
+			<div class="profile-name">
+				<h3>ようこそ、${employee.name} さん</h3>
+			</div>
+		</div>
 
-部署 :<%= emp.getDepartment() %><br><br>
+		<div class="profile-info">
 
-役職 :<%= emp.getPosition() %><br><br>
+			<p><span>ID</span>${employee.employeeId}</p>
+			<p><span>氏名</span>${employee.name}</p>
+			<p><span>部署</span>${employee.department}</p>
+			<p><span>役職</span>${employee.position}</p>
 
-<a href="Main">🏠 Home</a>
+		</div>
+
+		<div class="profile-intro">
+			<h4>📝 自己紹介</h4>
+			<p>${empty employee.intro ? "まだ自己紹介がありません" : employee.intro}</p>
+		</div>
+
+	</div>
+
+</div>
 
 </body>
 </html>

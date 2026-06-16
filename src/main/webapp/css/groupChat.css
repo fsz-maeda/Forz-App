@@ -1,1 +1,116 @@
 @charset "UTF-8";
+
+.chat-page {
+	display: flex;
+	width: 85%;
+	margin: 20px auto;
+	gap: 20px;
+}
+
+/* 左メニュー */
+.chat-left {
+	width: 240px;
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 12px;
+	padding: 15px;
+}
+
+.create-btn {
+	display: block;
+	padding: 10px;
+	margin: 10px 0;
+	background: #005bac;
+	color: white;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.group-item {
+	display: block;
+	padding: 10px;
+	margin-bottom: 5px;
+	border-radius: 8px;
+}
+
+.group-item:hover {
+	background: #005bac;
+	color: white;
+}
+
+/* 右チャット */
+.chat-right {
+	flex: 1;
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 12px;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ヘッダー */
+.chat-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+/* チャット本体 */
+.chat-box {
+	height: 450px;
+	overflow-y: auto;
+	padding: 10px;
+	background: #fafcff;
+	border-radius: 10px;
+}
+
+/* メッセージ */
+.my-message {
+	text-align: right;
+	margin: 10px;
+	background: #005bac;
+	color: white;
+	padding: 8px;
+	border-radius: 10px;
+}
+
+.other-message {
+	text-align: left;
+	margin: 10px;
+	background: #eee;
+	padding: 8px;
+	border-radius: 10px;
+}
+
+.time {
+	font-size: 11px;
+	color: gray;
+}
+
+/* 入力欄 */
+.chat-form {
+	margin-top: 10px;
+	display: flex;
+	gap: 10px;
+}
+
+.chat-form textarea {
+	flex: 1;
+	resize: none;
+	height: 60px;
+	padding: 8px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+}
+
+.chat-form button {
+	background: #005bac;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 8px;
+	cursor: pointer;
+}

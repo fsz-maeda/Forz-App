@@ -1,1 +1,86 @@
 @charset "UTF-8";
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  font-family: sans-serif;
+}
+
+/* 全体 */
+.profile-wrapper {
+  width: 70%;
+  margin: 30px auto;
+}
+
+/* 上部カード */
+.profile-card {
+  display: flex;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid #005bac;
+  gap: 10px;
+}
+
+.profile-img {
+  width: 120px;
+  height: 140px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* 自己紹介 */
+.section-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #e6e6e6;
+}
+
+/* アクション */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.action-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #e6e6e6;
+  border-left: 5px solid #005bac;
+  transition: 0.2s;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 設定 */
+.setting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setting-list a {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8faff;
+  text-decoration: none;
+  color: #333;
+}
+
+.setting-list a:hover {
+  background: #005bac;
+  color: #fff;
+}

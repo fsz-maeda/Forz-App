@@ -5,184 +5,51 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<style>
-    :root {
-        --primary-color: #2563eb;
-        --primary-hover: #1d4ed8;
-        --bg-color: #f8fafc;
-        --card-bg: #ffffff;
-        --text-main: #1e293b;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --error-color: #ef4444;
-    }
-    
-    body {
-        font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-main);
-        margin: 0;
-        padding: 40px 20px;
-        line-height: 1.6;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: var(--card-bg);
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-top: 0;
-        margin-bottom: 24px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--border-color);
-        color: var(--text-main);
-    }
-
-    .form-group {
-        margin-bottom: 24px;
-    }
-
-    label {
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: var(--text-main);
-    }
-
-    /* 入力フォーム共通 */
-    select,
-    input[type="text"],
-    textarea {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 12px;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        font-family: inherit;
-        font-size: 15px;
-        background-color: #fff;
-        outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    select:focus,
-    input[type="text"]:focus,
-    textarea:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    select {
-        cursor: pointer;
-    }
-
-    textarea {
-        resize: vertical;
-        line-height: 1.6;
-    }
-
-    /* エラーメッセージ */
-    .error-message {
-        color: var(--error-color);
-        font-size: 14px;
-        margin-top: 6px;
-        font-weight: 500;
-    }
-
-    /* ボタンエリア */
-    .btn-group {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-top: 32px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 24px;
-    }
-
-    /* ボタン共通 */
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 24px;
-        font-size: 14px;
-        font-weight: 500;
-        border-radius: 4px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        text-decoration: none;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--primary-hover);
-    }
-
-    .btn-secondary {
-        background-color: #edf2f7;
-        color: #4a5568;
-    }
-
-    .btn-secondary:hover {
-        background-color: #e2e8f0;
-    }
-</style>
 <title>新規投稿</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/mediapost.css">
 </head>
 
 <body>
 
-<div class="container">
-    <h1>新規投稿</h1>
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <a href="media">← 部署メディアへ戻る</a>
+        </div>
+    </div>
+</header>
 
-    <form action="MediaPostServlet" method="post">
-    
-    	<select name="departmentId">
-		    <option value="">選んでください</option>
-		
-		    <c:forEach var="department" items="${departmentList}">
-		        <option value="${department.departmentId}">
-		            ${department.departmentName}
-		        </option>
-		    </c:forEach>
-		</select>
+<div class="post-container">
+
+    <h1 class="page-title">新規投稿</h1>
+
+    <form action="MediaPostServlet" method="post" class="post-form">
+
+        <!-- 部署 -->
+        <div class="form-group">
+            <label>部署</label>
+            <select name="departmentId">
+                <option value="">選んでください</option>
+                <c:forEach var="department" items="${departmentList}">
+                    <option value="${department.departmentId}">
+                        ${department.departmentName}
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
 
         <!-- カテゴリー -->
         <div class="form-group">
             <label>カテゴリー</label>
             <select name="category">
 
-                <option value="businessknowledge"
-                    ${param.category == 'businessknowledge' ? 'selected' : ''}>
-                    業務ナレッジ
-                </option>
-
-                <option value="contact"
-                    ${param.category == 'contact' ? 'selected' : ''}>
-                    部署内連絡・進歩共有
-                </option>
-
-                <option value="membership"
-                    ${param.category == 'membership' ? 'selected' : ''}>
-                    メンバーシップ・相互理解
-                </option>
-
-                <option value="others"
-                    ${param.category == 'others' ? 'selected' : ''}>
-                    その他
-                </option>
+                <option value="businessknowledge">業務ナレッジ</option>
+                <option value="contact">部署内連絡・進歩共有</option>
+                <option value="membership">メンバーシップ・相互理解</option>
+                <option value="others">その他</option>
 
             </select>
         </div>
@@ -191,9 +58,8 @@
         <div class="form-group">
             <label>タイトル</label>
             <input type="text" name="title" value="${param.title}" />
-
             <c:if test="${not empty errorMsg2}">
-                <div class="error-message">${errorMsg2}</div>
+                <div class="error">${errorMsg2}</div>
             </c:if>
         </div>
 
@@ -203,17 +69,19 @@
             <textarea name="content">${param.content}</textarea>
 
             <c:if test="${not empty errorMsg3}">
-                <div class="error-message">${errorMsg3}</div>
+                <div class="error">${errorMsg3}</div>
             </c:if>
         </div>
 
-        <!-- 全体エラー -->
         <c:if test="${not empty errorMsg}">
-            <div class="error-message">${errorMsg}</div>
+            <div class="error">${errorMsg}</div>
         </c:if>
 
-        <button type="submit">投稿する</button>
-        <a href="media">戻る</a>
+        <div class="btn-area">
+            <button type="submit">投稿する</button>
+            <a href="media" class="back-btn">戻る</a>
+        </div>
+
     </form>
 </div>
 

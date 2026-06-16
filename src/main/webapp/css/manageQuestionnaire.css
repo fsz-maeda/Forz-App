@@ -1,1 +1,46 @@
 @charset "UTF-8";
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  font-family: sans-serif;
+}
+
+/* タイトル */
+.page-title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* 全体 */
+.list-wrapper {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* カード */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  padding: 15px;
+  border-left: 5px solid #005bac;
+}
+
+/* ヘッダー */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 10px;
+}
+
+/* 本文 */
+.card-body {
+  font-size: 14px;
+  line-height: 1.5;
+}

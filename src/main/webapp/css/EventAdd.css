@@ -1,1 +1,70 @@
 @charset "UTF-8";
+
+body {
+    background: #f4f7fb;
+}
+
+/* 中央カード */
+.form-container {
+    width: 50%;
+    margin: 40px auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* カード */
+.form-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e6e6e6;
+}
+
+/* 入力 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+/* ボタン */
+.btn-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+button {
+    background: #005bac;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.back-btn {
+    background: #ddd;
+    padding: 10px 16px;
+    border-radius: 8px;
+}

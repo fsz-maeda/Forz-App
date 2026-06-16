@@ -1,1 +1,93 @@
 @charset "UTF-8";
+
+.page {
+	width: 85%;
+	margin: 20px auto;
+}
+
+.page-title {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #005bac;
+}
+
+/* 検索 */
+.search-box {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.search-box input {
+	padding: 8px;
+	width: 250px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+}
+
+.search-box button {
+	padding: 8px 12px;
+	background: #005bac;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+/* 一覧 */
+.employee-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* カード */
+.employee-card {
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 12px;
+	padding: 15px;
+	transition: 0.2s;
+}
+
+.employee-card:hover {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 上部 */
+.emp-header {
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+	color: #005bac;
+}
+
+/* 情報 */
+.emp-info {
+	margin-top: 8px;
+	display: flex;
+	gap: 20px;
+	color: #444;
+}
+
+/* アクション */
+.emp-actions {
+	margin-top: 10px;
+	display: flex;
+	gap: 15px;
+}
+
+.emp-actions a {
+	color: #005bac;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.emp-actions a:hover {
+	text-decoration: underline;
+}
+
+/* ナビ戻る */
+.nav-back {
+	text-align: center;
+	margin-bottom: 10px;
+}

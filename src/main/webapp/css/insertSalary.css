@@ -1,1 +1,74 @@
-@charset "UTF-8";
+body {
+  margin: 0;
+  background: #f4f7fb;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* フォーム上部 */
+.salary-form {
+  width: 50%;
+  margin: 20px auto;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+}
+
+.salary-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+/* ユーザー一覧 */
+.user-list {
+  width: 60%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* カード選択 */
+.user-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.user-card:hover {
+  border-color: #005bac;
+}
+
+/* ラジオ */
+.user-card input {
+  transform: scale(1.2);
+}
+
+/* ユーザー情報 */
+.user-info p {
+  margin: 2px 0;
+  font-size: 12px;
+  color: gray;
+}
+
+/* ボタン */
+button {
+  display: block;
+  width: 60%;
+  margin: 20px auto;
+  padding: 12px;
+  background: #005bac;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}

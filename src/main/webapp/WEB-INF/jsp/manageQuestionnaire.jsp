@@ -1,31 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>アンケート一覧</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/manageQuestion.css">
+
 </head>
+
 <body>
-	<h1>アンケート一覧</h1>
-	
-	<table>
-		<tr>
-			<th>アンケートID</th>
-			<th>ユーザーID</th>
-			<th>アンケート内容</th>
-		</tr>
-		
-		<c:forEach var="question" items="${questionnaireList}">
-			<tr>
-				<td>${question.questionnaireId}</td>
-				<td>${question.employeeId}</td>
-				<td>${question.content}</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<a href="admin">戻る</a>
+
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="admin">← 管理者ページへ戻る</a>
+		</div>
+	</div>
+</header>
+
+<div class="page-title">
+	<h2>📊 アンケート一覧</h2>
+</div>
+
+<div class="list-wrapper">
+
+<c:forEach var="question" items="${questionnaireList}">
+
+	<div class="card">
+
+		<div class="card-header">
+			<span>ID: ${question.questionnaireId}</span>
+			<span>ユーザーID: ${question.employeeId}</span>
+		</div>
+
+		<div class="card-body">
+			<p>${question.content}</p>
+		</div>
+
+	</div>
+
+</c:forEach>
+
+</div>
+
 </body>
 </html>

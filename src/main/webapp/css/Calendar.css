@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+body {
+    background: #f4f7fb;
+}
+
+/* 全体 */
+.calendar-container {
+    width: 90%;
+    margin: 30px auto;
+}
+
+/* ヘッダー */
+.calendar-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.calendar-header h1 {
+    color: #005bac;
+}
+
+/* ナビ */
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.nav a {
+    background: #005bac;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+/* カレンダー */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+	table-layout: fixed; /* ←これが重要 */
+}
+
+.calendar-table th {
+    background: #005bac;
+    color: white;
+    padding: 10px;
+}
+
+.calendar-table td {
+    border: 1px solid #e6e6e6;
+    height: 100px;
+    vertical-align: top;
+    padding: 5px;
+	overflow: hidden;
+	word-break: break-word;
+}
+
+.calendar-table th,
+.calendar-table td {
+    width: calc(100% / 7);
+}
+
+/* 日付 */
+.day-number {
+    font-weight: bold;
+    color: #333;
+}
+
+/* イベント */
+.event-item {
+    font-size: 12px;
+    background: #e8f2ff;
+    margin-top: 3px;
+    padding: 3px;
+    border-radius: 4px;
+}

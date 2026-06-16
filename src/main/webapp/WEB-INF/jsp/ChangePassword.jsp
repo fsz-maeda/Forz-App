@@ -1,79 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%
-String errorMsg = (String)request.getAttribute("errorMsg");
-%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>パスワード変更</title>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChangePassword.css">
+
 </head>
+
 <body>
 
-<h2>パスワード変更</h2>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+		<div class="header-link">
+			<a href="MyProfileServlet">← プロフィールへ戻る</a>
+		</div>
+	</div>
+</header>
 
-<hr>
+<div class="page-title">
+	<h2>🔐 パスワード変更</h2>
+</div>
 
-<%
-if(errorMsg != null){
-%>
+<div class="form-wrapper">
 
-<p style="color:red;">
-<%= errorMsg %>
-</p>
+	<div class="form-card">
 
-<hr>
+		<!-- エラーメッセージ -->
+		<c:if test="${not empty errorMsg}">
+			<div class="error-box">
+				${errorMsg}
+			</div>
+		</c:if>
 
-<%
-}
-%>
+		<form action="${pageContext.request.contextPath}/UpdatePasswordServlet"
+		      method="post">
 
-<form action="${pageContext.request.contextPath}/UpdatePasswordServlet"
-      method="post">
+			<label>現在のパスワード</label>
+			<input type="password" name="oldPass" required>
 
-    <h3>現在のパスワード</h3>
+			<label>新しいパスワード</label>
+			<input type="password" name="newPass" required>
 
-    <input type="password"
-           name="oldPass"
-           required>
+			<label>新しいパスワード（確認）</label>
+			<input type="password" name="confirmPass" required>
 
-    <br><br>
+			<button type="submit">🔄 変更する</button>
 
-    <h3>新しいパスワード</h3>
+		</form>
 
-    <input type="password"
-           name="newPass"
-           required>
+	</div>
 
-    <br><br>
-
-    <h3>新しいパスワード（確認）</h3>
-
-    <input type="password"
-           name="confirmPass"
-           required>
-
-    <br><br>
-
-    <input type="submit"
-           value="🔄 パスワード変更">
-
-</form>
-
-<hr>
-
-<a href="MyProfileServlet">
-    👤 My Profile に戻る
-</a>
-
-<br><br>
-
-<a href="Main">
-    🏠 Home
-</a>
+</div>
 
 </body>
 </html>
