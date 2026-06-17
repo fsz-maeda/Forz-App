@@ -62,6 +62,7 @@
 			<div>
 			<h3>イベント</h3>
 				<c:forEach var="event" items="${eventList}" end="5">
+					<a href="detailEvent?eventId=${event.eventId}">
 					<div class="news-infomation">
 		    			<p>
 		    				🎉 イベント :<b>${event.title}</b><br>
@@ -73,25 +74,29 @@
 		        			📅 ${event.eventDate}
 		    			</p>
 	    			</div>
+	    			</a>
 				</c:forEach>
 			</div>
 			
 			<div>
 				<h3>日報</h3>
 				<c:forEach var="report" items="${reportList}" end="5">
-				<div class="news-infomation">
-					<p>
-						🎉 ${report.reportType} :<b>${report.title}</b><br>
-						👤 著者 : <b>${report.userName}</b><br>
-		    			📅 ${report.createdAt}
-					</p>
-					</div>
+					<a href="detailDailyReport?dailiReportId=${report.dailyReportId}">
+					<div class="news-infomation">
+						<p>
+							🎉 ${report.reportType} :<b>${report.title}</b><br>
+							👤 著者 : <b>${report.userName}</b><br>
+			    			📅 ${report.createdAt}
+						</p>
+						</div>
+					</a>
 				</c:forEach>
 			</div>
 			
 			<div>
 			<h3>部署コミュニティ</h3>
 				<c:forEach var="media" items="${mediaList}" end="5">
+					<a href="ArticleContentServlet?id=${media.ID}">
 					<c:if test="${media.departmentId == loginUser.department}">
 						<div class="news-infomation">
 							<p>
@@ -101,6 +106,7 @@
 							</p>
 						</div>
 					</c:if>
+					</a>
 				</c:forEach>
 			</div>
 			
