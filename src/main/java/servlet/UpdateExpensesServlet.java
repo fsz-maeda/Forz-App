@@ -8,8 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.ExpensesDAO;
+import model.Employee;
 import model.Expenses;
 
 @WebServlet("/updateExpenses")
@@ -20,6 +22,14 @@ public class UpdateExpensesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 		
 		//フォームのデータを取得
 		int expensesId = Integer.parseInt(request.getParameter("expensesId"));

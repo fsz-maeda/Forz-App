@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
 import dao.PaidHolidayDAO;
@@ -22,6 +23,14 @@ public class InsertPaidHolidayCheckServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+        
+        HttpSession session = request.getSession();
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
+		
+		if(loginUser == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         Date startDate = Date.valueOf(request.getParameter("startDate"));

@@ -24,7 +24,12 @@ public class MediaDeleteServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 
         HttpSession session = request.getSession();
-        Employee loginUser = (Employee) session.getAttribute("loginUser");
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
+		
+		if(loginUser == null) {
+			response.sendRedirect("Home");
+			return;
+		}
         
         MediaDAO dao = new MediaDAO();
         Media media = dao.articleFind(id);

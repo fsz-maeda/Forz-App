@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
+import model.Employee;
 import model.EmployeePosition;
 
 @WebServlet("/insertSalary")
@@ -23,12 +24,19 @@ public class InsertSalaryServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
 		//役職・部署IDを名前にした従業員リスト
 		EmployeeDAO dao = new EmployeeDAO();
 		List<EmployeePosition> employeePositionList = dao.findPositionName();
 		
 		//セッションスコープに保存
-		HttpSession session = request.getSession();
 		session.setAttribute("employeePositionList", employeePositionList);
 		
 		//insertSalary.jspにフォワード

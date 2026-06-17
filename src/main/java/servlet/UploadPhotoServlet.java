@@ -20,14 +20,13 @@ import model.Employee;
 public class UploadPhotoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("loginUser") == null) {
-            response.sendRedirect("login");
+            response.sendRedirect("Home");
             return;
         }
 

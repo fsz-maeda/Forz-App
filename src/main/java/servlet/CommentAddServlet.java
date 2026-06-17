@@ -20,13 +20,18 @@ public class CommentAddServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
 		// JSPから受け取る
 		int eventId = Integer.parseInt(request.getParameter("eventId"));
 		String text = request.getParameter("comment");
-
-		// ログインユーザー取得
-		HttpSession session = request.getSession();
 
 		Employee loginUser = (Employee) session.getAttribute("loginUser");
 

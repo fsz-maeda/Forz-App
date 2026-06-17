@@ -18,8 +18,13 @@ public class MediaLikesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        Employee employee = (Employee) session.getAttribute("loginUser");
+    	HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 
         int mediaId = Integer.parseInt(request.getParameter("mediaId"));
 

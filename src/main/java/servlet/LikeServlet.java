@@ -16,14 +16,21 @@ import model.Employee;
 public class LikeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		int eventId = Integer.parseInt(
-				request.getParameter("eventId"));
+		
+		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
+		int eventId = Integer.parseInt(
+				request.getParameter("eventId"));
 
 		Employee loginUser =
 				(Employee) session.getAttribute("loginUser");

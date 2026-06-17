@@ -9,8 +9,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import dao.SalaryDAO;
+import model.Employee;
 import model.Salary;
 
 @WebServlet("/selectUpdateSalary")
@@ -21,6 +23,14 @@ public class SelectUpdateSalaryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
 		
 		SalaryDAO dao = new SalaryDAO();
 		List<Salary> salaryList = dao.findAll();

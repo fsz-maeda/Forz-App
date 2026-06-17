@@ -21,11 +21,16 @@ public class InsertExpensesCheckServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int amount = Integer.parseInt(request.getParameter("amount"));
-		String detail = request.getParameter("detail");
-		
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
+		
+		if(employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+		
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		String detail = request.getParameter("detail");
 		
 		ExpensesDAO dao = new ExpensesDAO();
 		boolean result = dao.insertExpenses(employee.getEmployeeId(), amount, detail);
