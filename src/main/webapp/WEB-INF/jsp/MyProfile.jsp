@@ -16,13 +16,15 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="Main">ForzApp</a></h1>
-		<div class="header-link">
-			<a href="Main">🏠 ホームへ</a>
-		</div>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
+
 
 <div class="profile-wrapper">
 

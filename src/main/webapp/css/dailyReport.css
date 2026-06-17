@@ -93,3 +93,11 @@ body {
   text-align: center;
   margin: 20px;
 }
+
+header form button {
+    background: #005bac;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+}

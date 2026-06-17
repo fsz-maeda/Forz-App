@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.DailyReportDAO;
+import dao.EmployeeDAO;
 import dao.EventDAO;
 import dao.MediaDAO;
 import model.DailyReport;
@@ -66,12 +67,14 @@ public class MainServlet extends HttpServlet {
 		MediaDAO mediaDao = new MediaDAO();
 		List<MediaByEmployeeName> mediaList = mediaDao.findAll();
 		
-		System.out.println(mediaList.size());
+		EmployeeDAO employeedao = new EmployeeDAO();
+		List<Employee> employeeList = employeedao.findAll();
 		
 		Random random = new Random();
 		String message =messages[random.nextInt(messages.length)];
 		
 		request.setAttribute("eventList", eventList);
+		request.setAttribute("employeeList", employeeList);
 		request.setAttribute("reportList", reportList);
 		request.setAttribute("mediaList", mediaList);
 		request.setAttribute("motivation", message);

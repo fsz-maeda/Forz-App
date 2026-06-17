@@ -91,3 +91,64 @@
 	text-align: center;
 	margin-bottom: 10px;
 }
+
+.post-container {
+    width: 70%;
+    margin: 20px auto;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* 入力系統 */
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* エラー */
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* =========================
+   📱 スマホ対応
+========================= */
+@media (max-width: 768px) {
+
+    .post-container {
+        width: 95%;
+        margin: 10px auto;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .btn-area {
+        flex-direction: column; /* 縦並び */
+        align-items: stretch;
+    }
+
+    .btn-area button,
+    .btn-area .back-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+}

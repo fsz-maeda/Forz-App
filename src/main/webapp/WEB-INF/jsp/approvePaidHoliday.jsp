@@ -8,6 +8,17 @@
 <title>有給承認</title>
 </head>
 <body>
+
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
+</header>
+
 	<h1>有給承認</h1>
 	
 	<table>

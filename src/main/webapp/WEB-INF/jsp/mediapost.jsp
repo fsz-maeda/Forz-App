@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>新規投稿</title>
 
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mediapost.css">
 </head>
@@ -17,7 +18,9 @@
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
-            <a href="media">← 部署メディアへ戻る</a>
+        	<a href="media">メディア画面へ</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>
     </div>
 </header>

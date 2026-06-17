@@ -64,6 +64,11 @@
 					<div class="news-infomation">
 		    			<p>
 		    				🎉 イベント :<b>${event.title}</b><br>
+		    				<c:forEach var="employee" items="${employeeList }">
+			    				<c:if test="${event.employeeId == employee.employeeId }">
+			    					👤 著者 : <b>${employee.employeeName }</b>
+			    				</c:if>
+		    				</c:forEach>
 		        			📅 ${event.eventDate}
 		    			</p>
 	    			</div>
@@ -75,8 +80,8 @@
 				<c:forEach var="report" items="${reportList}" end="5">
 				<div class="news-infomation">
 					<p>
-						🎉 日報 :<b>${report.title}</b><br>
-						著者 : <b>${report.userName}</b><br>
+						🎉 ${report.reportType} :<b>${report.title}</b><br>
+						👤 著者 : <b>${report.userName}</b><br>
 		    			📅 ${report.createdAt}
 					</p>
 					</div>
@@ -90,7 +95,7 @@
 						<div class="news-infomation">
 							<p>
 								🎉 部署情報 :<b>${media.title}</b><br>
-								著者 : <b>${media.name}</b><br>
+								👤 著者 : <b>${media.name}</b><br>
 				    			📅 ${media.createdAt}
 							</p>
 						</div>

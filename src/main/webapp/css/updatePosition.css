@@ -1,1 +1,96 @@
 @charset "UTF-8";
+
+.container {
+    width: 60%;
+    margin: 20px auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* カード */
+.form-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* フォーム */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* ボタン配置 */
+.btn-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* リンク */
+.btn-area a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+	margin-top: 15px;
+}
+
+.btn-primary {
+    background: #005bac;
+    color: white;
+}
+
+.btn-secondary {
+    background: #ccc;
+    color: #333;
+}
+
+/* =========================
+   📱 スマホ対応
+========================= */
+@media (max-width: 768px) {
+
+    .container {
+        width: 95%;
+    }
+
+    .btn-area {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .btn-area button,
+    .btn-area a {
+        width: 100%;
+        text-align: center;
+    }
+}

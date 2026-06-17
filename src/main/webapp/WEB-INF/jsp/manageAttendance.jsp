@@ -16,12 +16,14 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="admin">ForzApp</a></h1>
-		<div class="header-link">
-			<p><a href="admin">管理者ページへ</a></p>
-		</div>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+        	<a href="admin">管理者ページへ戻る</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
 
 <div class="word">

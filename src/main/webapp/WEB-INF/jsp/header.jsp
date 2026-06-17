@@ -4,6 +4,7 @@
 <div id="sideMenu" class="main-menu">
     <h2>📋 メニュー</h2>
     <ul>
+        <li><a href="Main">🏠 メイン</a></li>
         <li><a href="event">🎉 社内イベント</a></li>
         <li><a href="dailyReportPage">📝 日報</a></li>
         <li><a href="media">🏢 部署コミュニティ</a></li>

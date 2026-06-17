@@ -86,7 +86,7 @@
 
 			<c:forEach var="c" items="${r.commentList}">
 				<div class="comment">
-					<span>${c.employeeName}</span>
+					<span>${c.employeeName} : </span>
 					<span>${c.commentText}</span>
 
 					<c:if test="${sessionScope.loginUser.employeeId == c.employeeId}">

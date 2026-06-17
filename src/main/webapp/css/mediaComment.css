@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+.container {
+    width: 60%;
+    margin: 30px auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+.form-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* フォーム */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* エラー */
+.error-message {
+    margin-top: 8px;
+    color: red;
+    font-size: 13px;
+}
+
+/* 戻るボタン配置 */
+.back-area {
+    margin-top: 15px;
+}
+
+.btn-row {
+    display: flex;
+    justify-content: space-between; /* 左右に分離 */
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* 戻るリンクをボタン風に（style.css触らない） */
+.back-btn {
+    text-decoration: none;
+    color: #005bac;
+    font-weight: bold;
+}
+
+form button{
+	padding: 15px 15px;
+	margin-top: 30px;
+}
+
+.btn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px; /* 重要：スマホでの余白 */
+}
+
+/* スマホでは縦並びに切り替え */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        margin: 15px auto;
+    }
+
+    .form-card {
+        padding: 15px;
+    }
+
+    .btn-row {
+        flex-direction: column; /* 縦並び */
+        align-items: stretch;
+    }
+
+    .btn-row button,
+    .back-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    form button {
+        margin-top: 10px; /* スマホ用調整 */
+    }
+}
