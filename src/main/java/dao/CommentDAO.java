@@ -43,7 +43,6 @@ public class CommentDAO {
 
 	// イベントごとのコメント一覧取得
 	public List<Comment> findByEventId(int eventId) {
-
 		List<Comment> commentList = new ArrayList<>();
 
 		try {
@@ -54,32 +53,22 @@ public class CommentDAO {
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-
 			String sql = "SELECT * "
 					+ "FROM EVENT_COMMENTS "
 					+ "WHERE event_id = ? "
 					+ "ORDER BY created_at";
+			
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-
 			pStmt.setInt(1, eventId);
 
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-
 				Comment comment = new Comment();
-
-				comment.setCommentId(
-						rs.getInt("comment_id"));
-
-				comment.setEventId(
-						rs.getInt("event_id"));
-
-				comment.setEmployeeId(
-						rs.getInt("employee_id"));
-
-				comment.setComment(
-						rs.getString("comment"));
+				comment.setCommentId(rs.getInt("comment_id"));
+				comment.setEventId(rs.getInt("event_id"));
+				comment.setEmployeeId(rs.getInt("employee_id"));
+				comment.setComment(rs.getString("comment"));
 				commentList.add(comment);
 			}
 

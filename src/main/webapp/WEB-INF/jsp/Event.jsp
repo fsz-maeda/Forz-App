@@ -80,8 +80,13 @@
                 </c:if>
 
                 <c:forEach var="comment" items="${event.commentList}">
-                    <div class="comment-item">
-                        💬 ${comment.comment}
+                	<c:forEach var="employee" items="${employeeList}">
+                		<c:if test="${comment.employeeId == employee.employeeId}">
+                			<div class="comment-item">
+                				👤 ${employee.name} : 
+                        		💬 ${comment.comment}
+                		</c:if>
+                	</c:forEach>
 
                         <c:if test="${loginUser.employeeId == comment.employeeId}">
                             <form action="CommentDeleteServlet"
@@ -123,7 +128,6 @@
 
     <!-- ページネーション -->
     <div class="pagination">
-    	<a href="Main">メインへ</a>
         <c:forEach var="i" begin="1" end="${totalPages}">
             <a href="event?page=${i}">${i}</a>
         </c:forEach>
