@@ -6,8 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>イベント詳細</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/Event.css">
 </head>
 <body>
+
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+
+        <div class="header-link">
+            <a href="eventAdd">イベント登録</a>
+            <a href="calendar">カレンダー</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
+</header>
 	<div class="event-card">
 	
 		<a href="event">イベント一覧へ</a>
