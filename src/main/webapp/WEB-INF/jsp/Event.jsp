@@ -27,7 +27,6 @@
 </header>
 
 <div class="event-container">
-
     <h1 class="page-title">📅 イベント一覧</h1>
 
     <!-- 検索 -->
@@ -35,14 +34,12 @@
         <input type="text" name="keyword" placeholder="タイトル検索">
         <button type="submit">検索</button>
     </form>
-
+    
     <c:forEach var="event" items="${eventList}">
+    	<a href="detailEvent?eventId=${event.eventId}">
         <div class="event-card">
-
             <h2>${event.title}</h2>
-
             <p class="event-content text-wrap">${event.content}</p>
-
             <div class="event-info">
                 <span>📍 ${event.area}</span>
                 <span>📅 ${event.eventDate}</span>
@@ -52,7 +49,6 @@
             <!-- いいね -->
             <form action="like" method="post">
                 <input type="hidden" name="eventId" value="${event.eventId}">
-
                 <c:choose>
                     <c:when test="${event.liked}">
                         <button class="like-btn liked">いいね解除</button>
@@ -72,9 +68,7 @@
 
             <!-- コメント一覧 -->
             <div class="comment-box">
-
                 <h4>コメント（${event.commentList.size()}件）</h4>
-
                 <c:if test="${empty event.commentList}">
                     <p>まだコメントはありません</p>
                 </c:if>
@@ -88,24 +82,19 @@
                 		</c:if>
                 	</c:forEach>
 
-                        <c:if test="${loginUser.employeeId == comment.employeeId}">
-                            <form action="CommentDeleteServlet"
-                                  method="post"
-                                  style="display:inline;"
-                                  onsubmit="return confirm('削除しますか？');">
-
-                                <input type="hidden" name="commentId" value="${comment.commentId}">
-                                <input type="submit" class="danger" value="削除">
-                            </form>
-                        </c:if>
+                    <c:if test="${loginUser.employeeId == comment.employeeId}">
+                    	<form action="CommentDeleteServlet" method="post" style="display:inline;" 
+                    	onsubmit="return confirm('削除しますか？');">
+                    		<input type="hidden" name="commentId" value="${comment.commentId}">
+                    		<input type="submit" class="danger" value="削除">
+                    	</form>
+                    </c:if>
                     </div>
                 </c:forEach>
-
             </div>
 
             <!-- 編集・削除 -->
             <div class="event-actions">
-
                 <c:if test="${loginUser.employeeId == event.employeeId}">
                     <form action="eventEdit" method="get">
                         <input type="hidden" name="eventId" value="${event.eventId}">
@@ -120,10 +109,9 @@
                         <button class="danger">削除</button>
                     </form>
                 </c:if>
-
             </div>
-
         </div>
+        </a>
     </c:forEach>
 
     <!-- ページネーション -->
