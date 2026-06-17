@@ -8,8 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${media.title}</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/articleContent.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/articleContent.css">
 </head>
 
 <body>

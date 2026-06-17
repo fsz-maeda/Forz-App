@@ -6,11 +6,32 @@
 <head>
 <meta charset="UTF-8">
 <title>日報詳細</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReport.css">
 </head>
 <body>
-	<a href="dailyReportPage">日報一覧</a>
-	
-	<h1>${dailyReport.title}</h1>
+<header>
+	<div class="header-top">
+		<h1><a href="Main">ForzApp</a></h1>
+
+		<div class="header-link">
+
+			<form action="DailyReportPostServlet" method="get">
+				<input type="hidden" name="action" value="post">
+				<button type="submit">＋ 新規作成</button>
+			</form>
+
+			<form action="dailyReportPage" method="get">
+				<input type="text" name="keyword" value="${keyword}" placeholder="検索">
+				<button type="submit">検索</button>
+			</form>
+			
+			<button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+
+		</div>
+	</div>
+</header>
 	
 	<div class="post-card">
 

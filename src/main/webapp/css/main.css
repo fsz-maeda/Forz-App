@@ -69,6 +69,11 @@
   transition: 0.2s;
 }
 
+a:hover {
+  background: #005bac;
+  color: black;
+}
+
 .main-menu li a:hover {
   background: #005bac;
   color: #fff;
@@ -76,4 +81,71 @@
 
 .footer-copy{ 
 	text-align: center;
+}
+
+
+/* =========================
+   スマホ対応
+========================= */
+@media screen and (max-width: 1000px) {
+
+  /* 全体余白調整 */
+  .main {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  /* メニューを上に */
+  .main-menu {
+    width: 100%;
+    order: 1;
+  }
+
+  /* ニュース3カラム → 縦並び */
+  .main-news {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .main-news > div {
+    width: 100%;
+  }
+
+  /* プロフィール */
+  .profile {
+    width: 95%;
+  }
+
+
+
+  /* リンクのタップしやすさ */
+  .main-menu li a {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  /* ニュースカードを見やすく */
+  .news-infomation {
+    font-size: 14px;
+  }
+  
+  @media screen and (max-width: 400px) {
+
+    .header-link {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* 左寄せ */
+      gap: 5px; /* 余白 */
+    }
+
+    .header-link p {
+      margin: 0;
+    }
+	
+	body{
+		padding-top: 80px;
+	}
+  }
+	
 }
