@@ -58,6 +58,7 @@
 
 		<div class="main-news">
 
+		
 			<div>
 			<h3>イベント</h3>
 				<c:forEach var="event" items="${eventList}" end="5">

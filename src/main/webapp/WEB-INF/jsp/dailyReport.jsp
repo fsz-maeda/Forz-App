@@ -94,7 +94,7 @@
 							<input type="hidden" name="action" value="delete">
 							<input type="hidden" name="commentId" value="${c.commentId}">
 							<input type="hidden" name="reportId" value="${r.dailyReportId}">
-							<button type="submit">削除</button>
+							<button type="submit" class="delete">削除</button>
 						</form>
 					</c:if>
 
@@ -105,7 +105,7 @@
 				<input type="hidden" name="action" value="insert">
 				<input type="hidden" name="reportId" value="${r.dailyReportId}">
 				<input type="text" name="comment" placeholder="コメント..." required>
-				<button type="submit">送信</button>
+				<button type="submit" class="delete">送信</button>
 			</form>
 
 		</div>

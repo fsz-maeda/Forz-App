@@ -87,7 +87,10 @@
 		</c:if>
 
 		<c:if test="${group == null}">
-			<p class="empty">左からグループを選択してください</p>
+			<div class="empty-chat">
+				<p class="empty">👈 左からグループを選択してください</p>
+			</div>
+
 		</c:if>
 
 	</div>

@@ -84,10 +84,6 @@ body {
   margin-top: 10px;
 }
 
-.owner-actions button {
-  padding: 5px 10px;
-}
-
 /* ページネーション */
 .pagination {
   text-align: center;
@@ -100,4 +96,8 @@ header form button {
     border: none;
     padding: 10px 16px;
     border-radius: 8px;
+}
+
+.delete{
+	padding: 5px 10px;
 }

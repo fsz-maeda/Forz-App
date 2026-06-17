@@ -53,9 +53,6 @@
 	<!-- アクション -->
 	<div class="action-grid">
 
-		<a class="action-card" href="AttendanceServlet">
-			🕒 出勤ページ
-		</a>
 
 		<a class="action-card" href="salary">
 			💰 給料ページ

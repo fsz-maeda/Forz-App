@@ -37,16 +37,6 @@ textarea {
   resize: none;
 }
 
-/* ボタン */
-button {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: #005bac;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
 
 button:hover {
   opacity: 0.9;

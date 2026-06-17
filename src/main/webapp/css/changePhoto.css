@@ -43,18 +43,6 @@ input[type="file"] {
   background: #fafafa;
 }
 
-/* ボタン */
-button {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: #005bac;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-}
-
 button:hover {
   opacity: 0.9;
 }

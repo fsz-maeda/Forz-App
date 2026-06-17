@@ -112,6 +112,19 @@ button:hover {
     background: #d9534f;
 }
 
+input[type="submit"].danger {
+    background: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+	
+}
+
+input[type="submit"].danger:hover {
+    background: #c9302c;
+}
 /* コメント */
 .comment-box {
     margin-top: 10px;

@@ -114,3 +114,12 @@
 	border-radius: 8px;
 	cursor: pointer;
 }
+
+.empty-chat{
+	flex: 1;
+	display: flex;
+	align-items: center;   /* 縦中央 */
+	justify-content: flex-start; /* 左寄せ */
+	padding-left: 30px;    /* 左余白（好み） */
+	color: #666;
+}

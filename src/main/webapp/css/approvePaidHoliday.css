@@ -1,1 +1,72 @@
 @charset "UTF-8";
+
+.container {
+    width: 70%;
+    margin: 20px auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* カード */
+.card,
+.form-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+/* テーブル */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table th {
+    background: #f4f7fb;
+    color: #005bac;
+}
+
+/* フォーム */
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* ボタン（style.css依存） */
+button {
+    cursor: pointer;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .table th,
+    .table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}

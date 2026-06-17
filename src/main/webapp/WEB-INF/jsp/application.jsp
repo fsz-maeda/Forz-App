@@ -30,11 +30,6 @@
 
 <div class="card-container">
 
-	<a class="card" href="AttendanceServlet">
-		<h3>🕒 出勤ページ</h3>
-		<p>勤怠登録・確認</p>
-	</a>
-
 	<a class="card" href="insertExpenses">
 		<h3>💰 経費申請</h3>
 		<p>経費の申請・提出</p>

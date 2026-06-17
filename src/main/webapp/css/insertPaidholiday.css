@@ -1,1 +1,91 @@
 @charset "UTF-8";
+
+@charset "UTF-8";
+
+.container {
+    width: 70%;
+    margin: 20px auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* カード */
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* フォーム */
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="date"],
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* テーブル */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    text-align: left;
+}
+
+/* メッセージ */
+.msg {
+    color: green;
+    margin-top: 10px;
+}
+
+
+/* 戻る */
+.nav-back {
+    text-align: center;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #ccc;
+    color: #333;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+    button, .btn-back {
+        width: 100%;
+    }
+}

@@ -1,1 +1,82 @@
 @charset "UTF-8";
+
+@charset "UTF-8";
+
+/* 全体 */
+.container {
+    width: 60%;
+    margin: 30px auto;
+}
+
+/* タイトル */
+.page-title {
+    text-align: center;
+    color: #005bac;
+    margin-bottom: 20px;
+}
+
+/* フォーム枠 */
+.form-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* 入力 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* ボタンエリア */
+.btn-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 共通ボタン */
+.btn-area a {
+	margin-top: 15px;
+}
+
+/* 戻るリンクをボタン化 */
+.btn-back {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #ccc;
+    color: #333;
+    text-decoration: none;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .btn-area {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button, .btn-back {
+        width: 100%;
+        text-align: center;
+    }
+}
