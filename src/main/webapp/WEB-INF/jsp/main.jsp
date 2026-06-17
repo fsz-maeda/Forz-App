@@ -66,7 +66,7 @@
 		    				🎉 イベント :<b>${event.title}</b><br>
 		    				<c:forEach var="employee" items="${employeeList }">
 			    				<c:if test="${event.employeeId == employee.employeeId }">
-			    					👤 著者 : <b>${employee.employeeName }</b>
+			    					👤 著者 : <b>${employee.name }</b><br>
 			    				</c:if>
 		    				</c:forEach>
 		        			📅 ${event.eventDate}
