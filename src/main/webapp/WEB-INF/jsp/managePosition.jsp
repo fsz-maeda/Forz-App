@@ -24,6 +24,18 @@
 	</div>
 </header>
 
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+        	<p><a href="admin">管理者ページへ</a></p>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
+</header>
+
+
 <div class="word">
 	<h2>👔 役職管理</h2>
 	<p>役職の追加・変更・削除</p>

@@ -70,15 +70,7 @@ input {
 }
 
 /* ボタン */
-button {
+ from button {
   width: 100%;
-  padding: 10px;
-  background: #005bac;
-  color: white;
-  border: none;
-  border-radius: 8px;
 }
 
-button:hover {
-  background: #003f7d;
-}

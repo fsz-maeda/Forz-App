@@ -8,6 +8,16 @@
 </head>
 <body>
 
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
+</header>
+
 
 <h2>${date} の勤怠</h2>
 

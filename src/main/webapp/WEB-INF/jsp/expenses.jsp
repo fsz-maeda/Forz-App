@@ -8,6 +8,16 @@
 <title>経費精算</title>
 </head>
 <body>
+
+<header>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
+</header>
 	<h1>経費精算</h1>
 	
 	<h2>経費申請</h2>

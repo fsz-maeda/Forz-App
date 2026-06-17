@@ -16,11 +16,15 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="Main">ForzApp</a></h1>
-		<a href="Main">← 戻る</a>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
+
 
 <div class="page-title">
 	<h2>💰 給与明細</h2>

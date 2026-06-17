@@ -16,12 +16,13 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="Main">ForzApp</a></h1>
-		<div class="header-link">
-			<a href="Main">🏠 Home</a>
-		</div>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
 
 <div class="profile-page">
@@ -42,8 +43,18 @@
 
 			<p><span>ID</span>${employee.employeeId}</p>
 			<p><span>氏名</span>${employee.name}</p>
-			<p><span>部署</span>${employee.department}</p>
-			<p><span>役職</span>${employee.position}</p>
+			<c:forEach var="position" items="${positionList }">
+				<c:if test="${employee.department == position.positionId }">
+					<p><span>役職</span>${position.positionName}</p>
+				</c:if>
+				
+			</c:forEach>
+			
+			<c:forEach var="department" items="${departmentList }">
+				<c:if test="${employee.department == department.departmentId }">
+					<p><span>部署</span>${department.departmentName}</p>
+				</c:if>
+			</c:forEach>
 
 		</div>
 
