@@ -231,28 +231,33 @@ public class MediaDAO {
 	}
 
 	public boolean mediaDelete(int id) {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+	    try {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    } catch (ClassNotFoundException e) {
+	        throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	    }
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-			String sql = "DELETE FROM FORZMEDIA WHERE ID = ?";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+	        // ★ 先に子テーブル（いいね）を削除
+	        String sql1 = "DELETE FROM FORZMEDIALIKES WHERE FORZMEDIA_ID = ?";
+	        PreparedStatement ps1 = conn.prepareStatement(sql1);
+	        ps1.setInt(1, id);
+	        ps1.executeUpdate();
 
-			pStmt.setInt(1, id);
+	        // ★ 本体削除
+	        String sql2 = "DELETE FROM FORZMEDIA WHERE ID = ?";
+	        PreparedStatement ps2 = conn.prepareStatement(sql2);
+	        ps2.setInt(1, id);
 
-			int result = pStmt.executeUpdate();
-			if (result != 1) {
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+	        int result = ps2.executeUpdate();
+
+	        return result == 1;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	public List<Media> findByCategory(Employee loginUser, String searchType) {

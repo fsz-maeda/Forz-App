@@ -1,4 +1,5 @@
 package servlet;
+
 import java.io.IOException;
 
 import jakarta.servlet.ServletException;
@@ -20,20 +21,25 @@ public class EventDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    	HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
-			return;
-		}
+        HttpSession session = request.getSession();
+        Employee employee = (Employee) session.getAttribute("loginUser");
+
+        if (employee == null) {
+            response.sendRedirect("Home");
+            return;
+        }
 
         int eventId = Integer.parseInt(request.getParameter("eventId"));
 
         EventDAO eventdao = new EventDAO();
         Event event = eventdao.findById(eventId);
 
-        if (event != null && event.getEmployeeId() == employee.getEmployeeId()) {
+        if (event == null) {
+            response.sendRedirect("event");
+            return;
+        }
+
+        if (event.getEmployeeId() == employee.getEmployeeId()) {
             eventdao.delete(eventId);
         }
 

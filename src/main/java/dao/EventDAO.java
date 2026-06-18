@@ -189,23 +189,33 @@ public class EventDAO {
 	// イベント削除
 	public boolean delete(int eventId) {
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
 
-			String sql = "DELETE FROM FORZEVENTS WHERE event_id = ?";
+	        conn.setAutoCommit(false);
 
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+	        // ① 子テーブル削除
+	        String sql1 = "DELETE FROM FORZEVENTSLIKE WHERE event_id = ?";
+	        PreparedStatement ps1 = conn.prepareStatement(sql1);
+	        ps1.setInt(1, eventId);
+	        ps1.executeUpdate();
 
-			pStmt.setInt(1, eventId);
+	        // ② 親削除
+	        String sql2 = "DELETE FROM FORZEVENTS WHERE event_id = ?";
+	        PreparedStatement ps2 = conn.prepareStatement(sql2);
+	        ps2.setInt(1, eventId);
 
-			return pStmt.executeUpdate() == 1;
+	        int result = ps2.executeUpdate();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        conn.commit();
 
-		return false;
+	        return result == 1;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return false;
 	}
-
 	// タイトル検索
 	public List<Event> search(String keyword) {
 

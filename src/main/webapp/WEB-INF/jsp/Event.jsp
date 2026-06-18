@@ -35,84 +35,102 @@
         <button type="submit">検索</button>
     </form>
     
-    <c:forEach var="event" items="${eventList}">
-    	<a href="detailEvent?eventId=${event.eventId}">
-        <div class="event-card">
-            <h2>${event.title}</h2>
-            <p class="event-content text-wrap">${event.content}</p>
-            <div class="event-info">
-                <span>📍 ${event.area}</span>
-                <span>📅 ${event.eventDate}</span>
-                <span>❤ ${event.likes}</span>
-            </div>
-         </a>
+<c:forEach var="event" items="${eventList}">
 
-            <!-- いいね -->
-            <form action="like" method="post">
-                <input type="hidden" name="eventId" value="${event.eventId}">
-                <c:choose>
-                    <c:when test="${event.liked}">
-                        <button class="like-btn liked">いいね解除</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button class="like-btn">いいね</button>
-                    </c:otherwise>
-                </c:choose>
-            </form>
+<div class="event-card">
 
-            <!-- コメント投稿 -->
-            <form action="commentAdd" method="post" class="comment-form">
-                <input type="hidden" name="eventId" value="${event.eventId}">
-                <input type="text" name="comment" placeholder="コメント">
-                <button>送信</button>
-            </form>
+    <!-- 詳細リンク（タイトル部分だけに限定） -->
+    <a href="detailEvent?eventId=${event.eventId}">
+        <h2>${event.title}</h2>
+    </a>
 
-            <!-- コメント一覧 -->
-            <div class="comment-box">
-                <h4>コメント（${event.commentList.size()}件）</h4>
-                <c:if test="${empty event.commentList}">
-                    <p>まだコメントはありません</p>
-                </c:if>
+    <p class="event-content text-wrap">${event.content}</p>
 
-                <c:forEach var="comment" items="${event.commentList}">
-                	<c:forEach var="employee" items="${employeeList}">
-                		<c:if test="${comment.employeeId == employee.employeeId}">
-                			<div class="comment-item">
-                				👤 ${employee.name} : 
-                        		💬 ${comment.comment}
-                		</c:if>
-                	</c:forEach>
+    <div class="event-info">
+        <span>📍 ${event.area}</span>
+        <span>📅 ${event.eventDate}</span>
+        <span>❤ ${event.likes}</span>
+    </div>
 
-                    <c:if test="${loginUser.employeeId == comment.employeeId}">
-                    	<form action="CommentDeleteServlet" method="post" style="display:inline;" 
-                    	onsubmit="return confirm('削除しますか？');">
-                    		<input type="hidden" name="commentId" value="${comment.commentId}">
-                    		<input type="submit" class="danger" value="削除">
-                    	</form>
+    <!-- いいね -->
+    <form action="like" method="post">
+        <input type="hidden" name="eventId" value="${event.eventId}">
+        <c:choose>
+            <c:when test="${event.liked}">
+                <button class="like-btn liked">いいね解除</button>
+            </c:when>
+            <c:otherwise>
+                <button class="like-btn">いいね</button>
+            </c:otherwise>
+        </c:choose>
+    </form>
+
+    <!-- コメント投稿 -->
+    <form action="commentAdd" method="post" class="comment-form">
+        <input type="hidden" name="eventId" value="${event.eventId}">
+        <input type="text" name="comment" placeholder="コメント">
+        <button>送信</button>
+    </form>
+
+    <!-- コメント一覧 -->
+    <div class="comment-box">
+
+        <h4>コメント（${event.commentList.size()}件）</h4>
+
+        <c:if test="${empty event.commentList}">
+            <p>まだコメントはありません</p>
+        </c:if>
+
+        <c:forEach var="comment" items="${event.commentList}">
+
+            <div class="comment-item">
+
+                <c:forEach var="employee" items="${employeeList}">
+                    <c:if test="${comment.employeeId == employee.employeeId}">
+                        👤 ${employee.name} :
                     </c:if>
-                    </div>
                 </c:forEach>
-            </div>
 
-            <!-- 編集・削除 -->
-            <div class="event-actions">
-                <c:if test="${loginUser.employeeId == event.employeeId}">
-                    <form action="eventEdit" method="get">
-                        <input type="hidden" name="eventId" value="${event.eventId}">
-                        <button>編集</button>
-                    </form>
-                </c:if>
+                💬 ${comment.comment}
 
-                <c:if test="${loginUser.employeeId == event.userId}">
-                    <form action="eventDelete" method="post"
+                <!-- コメント削除 -->
+                <c:if test="${loginUser.employeeId == comment.employeeId}">
+                    <form action="CommentDeleteServlet"
+                          method="post"
+                          style="display:inline;"
                           onsubmit="return confirm('削除しますか？');">
-                        <input type="hidden" name="eventId" value="${event.eventId}">
-                        <button class="danger">削除</button>
+                        <input type="hidden" name="commentId" value="${comment.commentId}">
+                        <input type="submit" class="danger" value="削除">
                     </form>
                 </c:if>
+
             </div>
-        </div>
-    </c:forEach>
+
+        </c:forEach>
+    </div>
+
+    <!-- 編集・削除 -->
+    <div class="event-actions">
+
+        <c:if test="${loginUser.employeeId == event.employeeId}">
+            <form action="eventEdit" method="get">
+                <input type="hidden" name="eventId" value="${event.eventId}">
+                <button>編集</button>
+            </form>
+
+            <form action="eventDelete"
+                  method="post"
+                  onsubmit="return confirm('削除しますか？');">
+                <input type="hidden" name="eventId" value="${event.eventId}">
+                <button class="danger">削除</button>
+            </form>
+        </c:if>
+
+    </div>
+
+</div>
+
+</c:forEach>
 
     <!-- ページネーション -->
     <div class="pagination">
