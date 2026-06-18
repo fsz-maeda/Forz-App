@@ -37,7 +37,7 @@
             <div class="action-group">
 
                 <form action="MediaEditServlet" method="get" style="display:inline;">
-                    <input type="hidden" name="id" value="${media.id}">
+                    <input type="hidden" name="id" value="${media.ID}">
                     <button type="submit">この記事を編集する</button>
                 </form>
 
@@ -45,7 +45,7 @@
                       style="display:inline;"
                       onsubmit="return confirm('本当にこの記事を削除しますか？');">
 
-                    <input type="hidden" name="id" value="${media.id}">
+                    <input type="hidden" name="id" value="${media.ID}">
                     <button type="submit">この記事を削除する</button>
                 </form>
 
@@ -64,7 +64,7 @@
     <h2>いいね</h2>
 
     <form action="mediaLikes" method="post">
-        <input type="hidden" name="mediaId" value="${media.id}"/>
+        <input type="hidden" name="mediaId" value="${media.ID}"/>
 
         <button type="submit">
             <c:choose>
@@ -82,7 +82,7 @@
 	           <!-- フッター -->
 	    <div class="article-footer">
 	        <h2>コメント一覧</h2>
-	        <a href="MediaCommentServlet">コメントを書く</a>
+	        <a href="MediaCommentServlet?mediaId=${media.ID}">コメントを書く</a>
 	    </div>
 
 

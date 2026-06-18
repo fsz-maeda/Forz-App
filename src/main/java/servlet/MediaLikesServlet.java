@@ -36,6 +36,6 @@ public class MediaLikesServlet extends HttpServlet {
             dao.addLike(employee.getEmployeeId(), mediaId);
         }
 
-        response.sendRedirect("ArticleContentServlet?id=" + mediaId);
+        response.sendRedirect("ArticleContentServlet?mediaId=" + mediaId);
     }
 }

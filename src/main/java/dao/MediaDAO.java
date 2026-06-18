@@ -217,7 +217,7 @@ public class MediaDAO {
 
 			pStmt.setString(1, media.getTitle());
 			pStmt.setString(2, media.getContent());
-			pStmt.setInt(3, media.getId());
+			pStmt.setInt(3, media.getID());
 
 			int result = pStmt.executeUpdate();
 			if (result != 1) {

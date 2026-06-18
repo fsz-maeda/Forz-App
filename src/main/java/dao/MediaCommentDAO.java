@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Employee;
-import model.Media;
 import model.MediaComment;
 import model.Port;
 
@@ -44,7 +43,7 @@ public class MediaCommentDAO {
        
 }
 
-	public List<MediaComment> findComment(Media media) {
+	public List<MediaComment> findComment(int mediaId) {
 		List<MediaComment>commentlist = new ArrayList();
 		 try {
 	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -57,7 +56,7 @@ public class MediaCommentDAO {
 	        String sql ="SELECT * FROM MEDIACOMMENT WHERE ID = ?";
 	            PreparedStatement pStmt = conn.prepareStatement(sql);
 	            
-	            pStmt.setInt(1,media.getId());
+	            pStmt.setInt(1,mediaId);
 	            
 	          ResultSet rs = pStmt.executeQuery();
 	          while(rs.next()) {

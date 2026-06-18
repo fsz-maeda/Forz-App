@@ -56,7 +56,7 @@ public class Media implements Serializable{
 		this.departmentId = departmentId;
 	}
 
-	public int getId() {
+	public int getID() {
 		return ID;
 	}
 	

@@ -30,7 +30,7 @@ public class InsertSalaryCheckServlet extends HttpServlet {
 		}
 		
 		//フォームのデータを取得
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		int userId = Integer.parseInt(request.getParameter("employeeId"));
 		int amount = Integer.parseInt(request.getParameter("amount"));
 		int month = Integer.parseInt(request.getParameter("month"));
 		

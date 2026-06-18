@@ -34,7 +34,7 @@
         <!-- 部署 -->
         <div class="form-group">
             <label>部署</label>
-            <select name="departmentId">
+            <select name="departmentId" required>
                 <option value="">選んでください</option>
                 <c:forEach var="department" items="${departmentList}">
                     <option value="${department.departmentId}">
@@ -47,7 +47,7 @@
         <!-- カテゴリー -->
         <div class="form-group">
             <label>カテゴリー</label>
-            <select name="category">
+            <select name="category" required>
 
                 <option value="businessknowledge">業務ナレッジ</option>
                 <option value="contact">部署内連絡・進歩共有</option>
@@ -60,24 +60,27 @@
         <!-- タイトル -->
         <div class="form-group">
             <label>タイトル</label>
-            <input type="text" name="title" value="${param.title}" />
+            <input type="text" name="title" value="${param.title}" required />
             <c:if test="${not empty errorMsg2}">
                 <div class="error">${errorMsg2}</div>
+                <c:remove var="errorMsg2" scope="session"/>
             </c:if>
         </div>
 
         <!-- 本文 -->
         <div class="form-group">
             <label>本文</label>
-            <textarea name="content">${param.content}</textarea>
+            <textarea name="content" required>${param.content}</textarea>
 
             <c:if test="${not empty errorMsg3}">
                 <div class="error">${errorMsg3}</div>
+                <c:remove var="errorMsg3" scope="session"/>
             </c:if>
         </div>
 
         <c:if test="${not empty errorMsg}">
             <div class="error">${errorMsg}</div>
+            <c:remove var="errorMsg" scope="session"/>
         </c:if>
 
         <div class="btn-area">

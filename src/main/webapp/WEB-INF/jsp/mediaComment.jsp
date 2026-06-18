@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.MediaComment"%>
-<%@ page import="model.Media"%>
-
-<%
-String s = (String) session.getAttribute("esg1");
-String s2 = (String) session.getAttribute("esg2");
-Media media = (Media) session.getAttribute("media");
-%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -21,7 +14,6 @@ Media media = (Media) session.getAttribute("media");
 
 </head>
 <body>
-
 
 <!-- 共通ヘッダー -->
 <header>
@@ -42,42 +34,45 @@ Media media = (Media) session.getAttribute("media");
 
     <div class="form-card">
 
-<form action="MediaCommentServlet" method="post">
+        <form action="MediaCommentServlet" method="post">
 
-    <div class="form-group">
-        <label>コメント</label>
+            <div class="form-group">
+                <label>コメント</label>
 
-        <textarea name="comment" rows="8"
-            placeholder="コメントを入力してください（改行OK）"><%=request.getParameter("comment") != null ? request.getParameter("comment") : ""%></textarea>
+                <textarea
+                    name="comment"
+                    rows="8"
+                    placeholder="コメントを入力してください（改行OK）">${param.comment}</textarea>
 
-        <% if (s2 != null && !s2.trim().isEmpty()) { %>
-            <div class="error-message"><%=s2%></div>
-        <% } %>
-    </div>
+                <c:if test="${not empty esg2}">
+                    <div class="error-message">
+                        ${esg2}
+                    </div>
+                </c:if>
+            </div>
 
-    <% if (media != null) { %>
-        <input type="hidden" name="IID" value="<%=media.getId()%>">
-    <% } %>
+            <c:if test="${not empty media}">
+                <input type="hidden" name="mediaId" value="${media.ID}">
+            </c:if>
 
-    <!-- ★ここがポイント -->
-    <div class="btn-row">
-            <div class="back-area">
-		         <a href="ArticleContentServlet?id=<%=media.getId()%>" class="back-btn">
-		            戻る
-		        </a>		
-		    </div>
+            <div class="btn-row">
 
-        <button type="submit">投稿する</button>
-    </div>
+                <div class="back-area">
+                    <a href="ArticleContentServlet?mediaId=${media.ID}"
+                       class="back-btn">
+                        戻る
+                    </a>
+                </div>
 
-</form>
+                <button type="submit">投稿する</button>
 
+            </div>
 
+        </form>
 
     </div>
 
 </div>
-
 
 </body>
 </html>

@@ -12,13 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.MediaCommentDAO;
+import dao.MediaDAO;
 import model.Employee;
 import model.Media;
 import model.MediaComment;
 
-/**
- * Servlet implementation class MediaCommentServlet
- */
 @WebServlet("/MediaCommentServlet")
 public class MediaCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,13 +38,18 @@ public class MediaCommentServlet extends HttpServlet {
 		session.setAttribute("esg1", esg1);
 		session.setAttribute("esg2", esg2);
 
-		Media media = (Media) session.getAttribute("media");
+		int mediaId = Integer.parseInt(request.getParameter("mediaId"));
+		
+		MediaDAO mediaDao = new MediaDAO();
+		Media media = mediaDao.articleFind(mediaId);
+		
 		MediaCommentDAO dao = new MediaCommentDAO();
-		List<MediaComment> commentlist = dao.findComment(media);
+		List<MediaComment> commentlist = dao.findComment(mediaId);
+		
+		session.setAttribute("media", media);
 		session.setAttribute("commentlist", commentlist);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mediaComment.jsp");
-
 		dispatcher.forward(request, response);
 
 	}
@@ -57,8 +60,7 @@ public class MediaCommentServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		String comment = request.getParameter("comment");
-		String a = request.getParameter("IID");
-		int id = Integer.parseInt(a);
+		int id = Integer.parseInt(request.getParameter("mediaId"));
 		String esg1 = "";
 		String esg2 = "";
 
@@ -70,7 +72,7 @@ public class MediaCommentServlet extends HttpServlet {
 
 			dao.postComment(mc, loginUser);
 			
-			response.sendRedirect("ArticleContentServlet?id=" + id);
+			response.sendRedirect("ArticleContentServlet?mediaId=" + id);
 			return;
 		}
 

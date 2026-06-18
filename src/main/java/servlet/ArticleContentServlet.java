@@ -34,30 +34,23 @@ public class ArticleContentServlet extends HttpServlet {
 			return;
 		}
 		
-		int id = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("mediaId"));
 
 		MediaDAO dao = new MediaDAO();
 		Media media = dao.articleFind(id);
 
-		if(media == null) {
-		    response.sendRedirect("media");
-		    return;
-		}
-
 		MediaCommentDAO commentDao = new MediaCommentDAO();
-		List<MediaComment> commentlist = commentDao.findComment(media);
+		List<MediaComment> commentlist = commentDao.findComment(id);
 		
 		MediaLikesDAO likeDao = new MediaLikesDAO();
-		MediaLikeStatus status = likeDao.getStatus(employee.getEmployeeId(), media.getId());
+		MediaLikeStatus status = likeDao.getStatus(employee.getEmployeeId(), media.getID());
 
 		request.setAttribute("status", status);
-
 		request.setAttribute("media", media);
 		request.setAttribute("commentlist", commentlist);
 		 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/articleContent.jsp");
 		dispatcher.forward(request, response);
-	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
