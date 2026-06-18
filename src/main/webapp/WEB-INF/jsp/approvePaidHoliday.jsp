@@ -70,7 +70,7 @@
             <label>承認ステータス</label>
 
             <select name="status">
-                <option value="承認済み">承認</option>
+                <option value="承認">承認</option>
                 <option value="却下">却下</option>
             </select>
 
@@ -82,11 +82,6 @@
 
 </div>
 
-<script>
-function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("open");
-}
-</script>
 
 </body>
 </html>

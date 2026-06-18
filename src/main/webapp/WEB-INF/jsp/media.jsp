@@ -30,20 +30,15 @@
 	<h2 class="page-title">🏢 部署コミュニティ一覧</h2>
 
 	<!-- フィルター -->
-	<form action="SearchCategoryServlet" method="get" class="filter-box">
-
-		<select name="searchCategory">
-
-			<option value="all" ${selectedType == 'all' ? 'selected' : ''}>すべて</option>
-			<option value="業務ナレッジ" ${selectedType == '業務ナレッジ' ? 'selected' : ''}>業務ナレッジ</option>
-			<option value="部署内連絡・進歩共有" ${selectedType == '部署内連絡・進歩共有' ? 'selected' : ''}>共有</option>
-			<option value="メンバーシップ・相互理解" ${selectedType == 'メンバーシップ・相互理解' ? 'selected' : ''}>交流</option>
-			<option value="その他" ${selectedType == 'その他' ? 'selected' : ''}>その他</option>
-
-		</select>
-
-		<button type="submit">絞り込み</button>
-
+	<form action="media" method="get" class="filter-box">
+	    <select name="searchType">
+	        <option value="">すべて</option>
+	        <option value="業務ナレッジ">業務ナレッジ</option>
+	        <option value="部署内連絡・進歩共有">部署内連絡・進歩共有</option>
+	        <option value="メンバーシップ・相互理解">メンバーシップ・相互理解</option>
+	        <option value="その他">その他</option>
+	    </select>
+	    <button type="submit">検索</button>
 	</form>
 
 	<!-- 一覧（カード化） -->

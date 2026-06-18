@@ -32,10 +32,16 @@ public class MediaServlet extends HttpServlet {
 			return;
 		}
 
+		String searchType = request.getParameter("searchType");
+
 		MediaDAO dao = new MediaDAO();
-		List<Media> medialist = dao.findAll(loginUser.getDepartment()); //部署ごとのfindAll
-		
-		System.out.println(loginUser.getDepartment());
+		List<Media> medialist;
+
+		if (searchType == null || searchType.isEmpty()) {
+		    medialist = dao.findAll(loginUser.getDepartment());
+		} else {
+		    medialist = dao.findByCategory(loginUser, searchType);
+		}
 		
 		EmployeeDAO edao = new EmployeeDAO();
 		List<Employee> employeeList = edao.findAll(); //従業員のデータを取得

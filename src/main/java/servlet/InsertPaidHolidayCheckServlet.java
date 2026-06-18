@@ -56,9 +56,7 @@ public class InsertPaidHolidayCheckServlet extends HttpServlet {
 	        PaidHolidayDAO dao = new PaidHolidayDAO();
 	        boolean result = dao.insertPaidHoliday(employeeId, usedDays, startDate, finishDate, holidayType);
 	        
-	        boolean decrease = edao.decreaseRemainPaidHoliday(employeeId, usedDays);
-	        
-	        if(result && decrease) {
+	        if(result) {
 	        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請完了");
 	        }else {
 	        	request.getSession().setAttribute("insertPaidHolidayMsg", "申請失敗");

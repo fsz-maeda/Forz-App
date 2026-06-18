@@ -40,6 +40,7 @@
 			<p>社員ID：${employee.employeeId}</p>
 			<p>部署：${employeePosition.departmentName}</p>
 			<p>役職：${employeePosition.positionName}</p>
+			<p>有給残り日数：${employeePosition.remainPaidHoliday} 日</p>
 		</div>
 
 	</div>

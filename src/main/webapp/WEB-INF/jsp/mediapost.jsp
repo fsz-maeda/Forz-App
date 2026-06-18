@@ -78,10 +78,10 @@
             </c:if>
         </div>
 
-        <c:if test="${not empty errorMsg}">
-            <div class="error">${errorMsg}</div>
-            <c:remove var="errorMsg" scope="session"/>
-        </c:if>
+        <c:if test="${not empty successMsg}">
+		    <div class="success">${successMsg}</div>
+		    <c:remove var="successMsg" scope="session"/>
+		</c:if>
 
         <div class="btn-area">
         	<a href="media" class="back-btn">戻る</a>

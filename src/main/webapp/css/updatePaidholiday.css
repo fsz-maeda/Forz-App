@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.container {
+	width: 60%;
+	margin: 30px auto;
+}
+
+.page-title {
+	text-align: center;
+	color: #005bac;
+	margin-bottom: 20px;
+}
+
+/* カード */
+.form-card {
+	background: #fff;
+	padding: 25px;
+	border-radius: 12px;
+	border: 1px solid #ddd;
+}
+
+/* フォーム */
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 6px;
+	font-weight: bold;
+}
+
+input, select {
+	width: 100%;
+	padding: 10px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+/* ボタンエリア */
+.btn-area {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/* 戻るリンク */
+.back-btn {
+	text-decoration: none;
+	color: #005bac;
+	font-weight: bold;
+}
+
+/* =========================
+   スマホ対応
+========================= */
+@media screen and (max-width: 768px) {
+
+	.container {
+		width: 95%;
+	}
+
+	.btn-area {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	input, select {
+		font-size: 16px;
+	}
+	
+}

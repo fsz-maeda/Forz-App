@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.EmployeeDAO;
 import dao.PaidHolidayDAO;
 import model.Employee;
+import model.PaidHoliday;
 
 @WebServlet("/approvePaidHolidayCheck")
 public class ApprovePaidHolidayCheckServlet extends HttpServlet {
@@ -37,6 +39,22 @@ public class ApprovePaidHolidayCheckServlet extends HttpServlet {
 		//有給を承認
 		PaidHolidayDAO dao = new PaidHolidayDAO();
 		boolean result = dao.approvePaidHoliday(paidHolidayId, status);
+
+		if (result && "承認".equals(status)) {
+
+		    PaidHoliday holiday = dao.findByPaidHolidayId(paidHolidayId);
+
+		    // すでに承認済みならスキップ
+		    if (!"承認済み".equals(holiday.getStatus())) {
+
+		        EmployeeDAO edao = new EmployeeDAO();
+
+		        edao.decreaseRemainPaidHoliday(
+		            holiday.getEmployeeId(),
+		            holiday.getUsedDays()
+		        );
+		    }
+		}
 		
 		//実行結果
 		if(result) {

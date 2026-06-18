@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import dao.EmployeeDAO;
 import dao.PaidHolidayDAO;
 import model.Employee;
 import model.PaidHoliday;
@@ -33,10 +34,23 @@ public class ApprovePaidHolidayServlet extends HttpServlet {
 		
 		//フォームのデータを取得
 		int paidHolidayId = Integer.parseInt(request.getParameter("paidHolidayId"));
+		String status = request.getParameter("status");
 		
 		//指定した有給IDで有給を取得
 		PaidHolidayDAO dao = new PaidHolidayDAO();
 		PaidHoliday holiday = dao.findByPaidHolidayId(paidHolidayId);
+		
+		// 状態更新（これが必須）
+		dao.approvePaidHoliday(paidHolidayId, status);
+
+		// 承認された場合のみ減算
+		if ("承認".equals(status)) {
+		    EmployeeDAO edao = new EmployeeDAO();
+		    edao.decreaseRemainPaidHoliday(
+		        holiday.getEmployeeId(),
+		        holiday.getUsedDays()
+		    );
+		}
 		
 		//リクエストスコープに保存
 		request.setAttribute("holiday", holiday);

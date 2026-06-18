@@ -55,7 +55,6 @@
 			<h3>📋 業務管理</h3>
 
 			<a class="card-link" href="manageExpenses">経費管理</a>
-			<a class="card-link" href="AttendanceServlet">勤怠管理</a>
 			<a class="card-link" href="managePaidHoliday">有給管理</a>
 			<a class="card-link" href="manageQuestionnaire">アンケート管理</a>
 		</div>

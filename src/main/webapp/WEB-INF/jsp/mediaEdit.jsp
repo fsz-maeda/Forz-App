@@ -38,17 +38,17 @@ Media editMedia = (Media) request.getAttribute("editMedia");
 
     <form action="MediaEditServlet" method="post" class="edit-form">
 
-        <input type="hidden" name="id" value="<%= editMedia.getId() %>">
+        <input type="hidden" name="id" value="<%= editMedia.getID() %>">
 
         <div class="form-group">
             <label for="title">タイトル</label>
             <input type="text" id="title" name="title"
-                   value="<%= editMedia.getTitle() %>">
+                   value="<%= editMedia.getTitle() %>" required>
         </div>
 
         <div class="form-group">
             <label for="content">本文</label>
-            <textarea id="content" name="content" rows="12"><%= editMedia.getContent() %></textarea>
+            <textarea id="content" name="content" rows="12" required><%= editMedia.getContent() %></textarea>
         </div>
 
         <div class="btn-area">
@@ -58,11 +58,6 @@ Media editMedia = (Media) request.getAttribute("editMedia");
     </form>
 </div>
 
-<script>
-function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("open");
-}
-</script>
 
 </body>
 </html>

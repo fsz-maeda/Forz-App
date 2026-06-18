@@ -98,8 +98,8 @@ public class MediaPostServlet extends HttpServlet {
 		boolean result = dao.insert(media, departmentId, employee.getEmployeeId());
 
 		if (result) {
-			session.setAttribute("errorMsg", "成功");
-			response.sendRedirect("media"); // ← PRGパターン
+			session.setAttribute("successMsg", "投稿しました");
+			response.sendRedirect("media");
 			return;
 		}
 
