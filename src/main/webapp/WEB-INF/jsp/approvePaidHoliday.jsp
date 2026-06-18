@@ -21,6 +21,7 @@
         <h1><a href="Main">ForzApp</a></h1>
 
         <div class="header-link">
+        <a href="managePaidHoliday">戻る</a>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
             <jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>

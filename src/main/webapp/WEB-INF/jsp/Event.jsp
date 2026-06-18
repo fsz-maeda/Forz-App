@@ -45,6 +45,7 @@
                 <span>📅 ${event.eventDate}</span>
                 <span>❤ ${event.likes}</span>
             </div>
+         </a>
 
             <!-- いいね -->
             <form action="like" method="post">
@@ -111,7 +112,6 @@
                 </c:if>
             </div>
         </div>
-        </a>
     </c:forEach>
 
     <!-- ページネーション -->
