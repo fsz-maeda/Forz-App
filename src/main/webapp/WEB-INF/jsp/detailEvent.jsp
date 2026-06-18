@@ -23,6 +23,8 @@
         </div>
     </div>
 </header>
+
+<div class="event-container">
 	<div class="event-card">
 	
 		<a href="event">イベント一覧へ</a>
@@ -105,5 +107,6 @@
 		</c:if>
 
 	</div>
+</div>
 </body>
 </html>

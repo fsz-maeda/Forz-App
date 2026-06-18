@@ -157,3 +157,9 @@ input[type="submit"].danger:hover {
     border: 1px solid #ddd;
 }
 
+
+.event-container a:hover{
+	color: black;
+}
+
+
