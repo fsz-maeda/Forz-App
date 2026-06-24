@@ -34,16 +34,14 @@ public class DeletePositionServlet extends HttpServlet {
 		int positionId = Integer.parseInt(request.getParameter("positionId"));
 		
 		//指定した役職IDをもつデータがあるか確認
-		DeletePositionService check = new DeletePositionService();
-		boolean checkResult = check.deletePositionCheck(positionId);
+		DeletePositionService service = new DeletePositionService();
+		boolean canDelete = service.canDeletePosition(positionId);
 		
 		//確認結果
-		if(!checkResult) {
-			request.getSession().setAttribute("deletePositionMsg", "この役職IDに属しているユーザーがいるため、"
-					+ "削除できません");
-			
-			response.sendRedirect("managePosition");
-			return;
+		if(!canDelete) {
+		    request.getSession().setAttribute("deletePositionMsg", "この役職IDに属しているユーザーがいるため、削除できません");
+		    response.sendRedirect("managePosition");
+		    return;
 		}
 		
 		//指定した役職IDをもつデータを削除

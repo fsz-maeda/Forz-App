@@ -9,8 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
+import dao.EmployeeDAO;
 import dao.SalaryDAO;
 import model.Employee;
 import model.Salary;
@@ -21,28 +21,20 @@ public class ManageSalaryServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		//ログインチェック
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("home");
-			return;
-		}
-		
-		//給料テーブルをすべて取得
-		SalaryDAO dao = new SalaryDAO();
-		List<Salary> salaryList = dao.findAll();
-		
-		//リクエストスコープに保存
+
+		SalaryDAO salaryDAO = new SalaryDAO();
+		List<Salary> salaryList = salaryDAO.findAll();
+
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<Employee> employeeList = employeeDAO.findAll();
+
 		request.setAttribute("salaryList", salaryList);
-		
-		//manageSalary.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageSalary.jsp");
+		request.setAttribute("employeeList", employeeList);
+
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/manageSalary.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

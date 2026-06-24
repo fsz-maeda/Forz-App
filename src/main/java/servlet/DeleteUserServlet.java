@@ -21,19 +21,35 @@ public class DeleteUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
+		//フォームのデータを取得
+		int employeeId;
+		
+		try {
+		    employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		} catch(NumberFormatException e) {
+		    response.sendRedirect("manageUser");
+		    return;
+		}
+		
+		EmployeeDAO dao = new EmployeeDAO();
+		Employee target = dao.findByUserId(employeeId);
+		
 		HttpSession session = request.getSession();
 		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		if(target == null) {
+			session.setAttribute("deleteUserMsg", "対象社員が存在しません");
+			response.sendRedirect("manageUser");
 			return;
 		}
 		
-		//フォームのデータを取得
-		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		if(employee.getEmployeeId() == employeeId) {
+			session.setAttribute("deleteUserMsg", "自分自身は削除できません");
+			response.sendRedirect("manageUser");
+			return;
+		}
 		
 		//指定した従業員IDをもつデータを削除
-		EmployeeDAO dao = new EmployeeDAO();
 		boolean result = dao.deleteEmployee(employeeId);
 		
 		//実行結果

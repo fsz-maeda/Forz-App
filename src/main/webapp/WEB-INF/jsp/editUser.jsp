@@ -39,13 +39,29 @@
 
 			<input type="hidden" name="employeeId" value="${employee.employeeId}">
 
-			<label>役職ID</label>
-			<input type="number" name="positionId"
-			       value="${employee.position}" required>
+			<label>役職ID</label><br>
+			<select name="positionId">
+				<c:forEach var="position" items="${positionList}">
+					<option value="${position.positionId}"
+						${employee.position == position.positionId ? 'selected' : ''}>
+						${position.positionName}
+					</option>
+				</c:forEach>
+			</select>
+			
+			<br>
 
-			<label>部署ID</label>
-			<input type="number" name="departmentId"
-			       value="${employee.department}" required>
+			<label>部署ID</label><br>
+			<select name="departmentId">
+				<c:forEach var="department" items="${departmentList}">
+					<option value="${department.departmentId}"
+						${employee.department == department.departmentId ? 'selected' : ''}>
+						${department.departmentName}
+					</option>
+				</c:forEach>
+			</select>
+			
+			<br>
 
 			<label>入社日</label>
 			<input type="date" name="enter"
@@ -59,14 +75,12 @@
 			<div class="radio-group">
 				<label>
 					<input type="radio" name="management" value="true"
-						${employee.management ? 'checked' : ''}>
-					許可
+						${employee.management ? 'checked' : ''}>許可
 				</label>
 
 				<label>
 					<input type="radio" name="management" value="false"
-						${!employee.management ? 'checked' : ''}>
-					未許可
+						${!employee.management ? 'checked' : ''}>未許可
 				</label>
 			</div>
 

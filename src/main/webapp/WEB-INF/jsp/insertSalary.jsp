@@ -37,7 +37,7 @@
 		<input type="number" name="amount" required>
 
 		<label>支給月</label>
-		<input type="number" name="month" required>
+		<input type="number" name="month" min="1" max="12" required>
 	</div>
 
 

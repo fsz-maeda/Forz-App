@@ -10,41 +10,52 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import dao.SalaryDAO;
-import model.Employee;
+import model.Salary;
 
 @WebServlet("/deleteSalary")
 public class DeleteSalaryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
+
 		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		// パラメータ取得
+		int salaryId;
+
+		try {
+			salaryId = Integer.parseInt(request.getParameter("salaryId"));
+			
+		} catch (NumberFormatException e) {
+			session.setAttribute("deleteSalaryMsg", "不正なデータです");
+			response.sendRedirect("manageSalary");
 			return;
 		}
-		
-		//フォームのデータを取得
-		int salaryId = Integer.parseInt(request.getParameter("salaryId"));
-		
-		//指定した給料IDをもつデータを削除
+
 		SalaryDAO dao = new SalaryDAO();
-		boolean result = dao.deleteSalary(salaryId);
-		
-		//実行結果
-		if(result) {
-			request.getSession().setAttribute("deleteSalaryMsg", "削除成功");
-		}else {
-			request.getSession().setAttribute("deleteSalaryMsg", "削除失敗");
+		Salary salary = dao.findBySalaryId(salaryId);
+
+		// 対象データ存在確認
+		if (salary == null) {
+			session.setAttribute("deleteSalaryMsg", "対象データが存在しません");
+			response.sendRedirect("manageSalary");
+			return;
 		}
-		
-		//manageSalaryにリダイレクト
+
+		// 削除実行
+		boolean result = dao.deleteSalary(salaryId);
+
+		// 結果メッセージ
+		if (result) {
+			session.setAttribute("deleteSalaryMsg", "削除成功");
+		} else {
+			session.setAttribute("deleteSalaryMsg", "削除失敗");
+		}
+
 		response.sendRedirect("manageSalary");
 	}
-
 }

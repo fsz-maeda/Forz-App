@@ -12,16 +12,22 @@
 		<form action="updateSalaryCheck" method="post">
 			<input type="hidden" name="salaryId" value="${salary.salaryId}">
 			
-			<label>ユーザーID
-				<input type="number" name="userId" value="${salary.userId}">
-			</label>
+			<label>ユーザー</label>
+			<select name="employeeId">
+				<c:forEach var="employee" items="${employeeList}">
+					<option value="${employee.employeeId}"
+						${salary.employeeId == employee.employeeId ? 'selected' : ''}>
+						${employee.name}
+					</option>
+				</c:forEach>
+			</select>
 			
 			<label>支給額
-				<input type="number" name="amount" value="${salary.amount}">
+				<input type="number" name="amount" value="${salary.amount}" required>
 			</label>
 			
 			<label>支給月
-				<input type="number" name="month" value="${salary.month}">
+				<input type="number" name="month" value="${salary.month}" min="1" max="12" required>
 			</label>
 			
 			<input type="submit" value="更新">

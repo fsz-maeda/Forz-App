@@ -9,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.DepartmentDAO;
 import dao.EmployeeDAO;
@@ -27,20 +26,24 @@ public class EditUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		HttpSession session = request.getSession();
-		Employee loginUser = (Employee)session.getAttribute("loginUser");
-		
-		if(loginUser == null) {
-			response.sendRedirect("Home");
-			return;
-		}
-		
 		//フォームのデータを取得
-		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		int employeeId;
+
+		try {
+		    employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		} catch (NumberFormatException e) {
+		    response.sendRedirect("manageUser");
+		    return;
+		}
 		
 		//指定した従業員IDをもつデータを取得
 		EmployeeDAO edao = new EmployeeDAO();
 		Employee employee = edao.findByUserId(employeeId);
+		
+		if(employee == null) {
+		    response.sendRedirect("manageUser");
+		    return;
+		}
 		
 		//役職テーブルをすべて取得
 		PositionDAO pdao = new PositionDAO();

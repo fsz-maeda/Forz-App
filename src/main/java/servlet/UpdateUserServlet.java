@@ -21,24 +21,44 @@ public class UpdateUserServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+		//フォームのデータを取得
+		int employeeId;
+		int positionId;
+		int departmentId;
+		int remainPaidHoliday;
+
+		try {
+			employeeId =Integer.parseInt(request.getParameter("employeeId"));
+			positionId =Integer.parseInt(request.getParameter("positionId"));
+			departmentId =Integer.parseInt(request.getParameter("departmentId"));
+			remainPaidHoliday =Integer.parseInt(request.getParameter("remainPaidHoliday"));
+			
+		} catch(NumberFormatException e) {
+			response.sendRedirect("manageUser");
 			return;
 		}
 		
-		//フォームのデータを取得
-		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-		int positionId = Integer.parseInt(request.getParameter("positionId"));
-		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 		String enter = request.getParameter("enter");
-		int remainPaidHoliday = Integer.parseInt(request.getParameter("remainPaidHoliday"));
 		boolean management = Boolean.parseBoolean(request.getParameter("management"));
 		
-		//指定したデータで従業員を更新
+		HttpSession session = request.getSession();
+		
+		if(remainPaidHoliday < 0) {
+			session.setAttribute("updateUserMsg", "有給日数は0以上を入力してください");
+			response.sendRedirect("manageUser");
+			return;
+		}
+		
 		EmployeeDAO dao = new EmployeeDAO();
+		Employee target = dao.findByUserId(employeeId);
+
+		if(target == null) {
+			session.setAttribute("updateUserMsg", "対象社員が存在しません");
+			response.sendRedirect("manageUser");
+			return;
+		}
+		
+		//指定したデータで従業員を更新
 		boolean result = dao.updateEmployee(employeeId, positionId, departmentId, enter, remainPaidHoliday, management);
 		
 		//実行結果
