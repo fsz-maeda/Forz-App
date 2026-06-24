@@ -19,7 +19,7 @@ public class DailyReportDAO {
     String JDBC_URL = Port.JDBC_URL;
 
 //  日報保存処理
-    public boolean insertDaylyReport(int employeeId, String reportType, String title, String content) {
+    public boolean insertDailyReport(int employeeId, String reportType, String title, String content) {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dailyReport.css">
 </head>
 <body>
+
 <header>
 	<div class="header-top">
 		<h1><a href="Main">ForzApp</a></h1>

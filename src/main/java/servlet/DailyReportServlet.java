@@ -18,95 +18,116 @@ import model.DailyReport;
 import model.Employee;
 import service.DailyReportService;
 
-
 @WebServlet("/dailyReportPage")
 public class DailyReportServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
 
-		HttpSession session = request.getSession();
-		Employee loginUser = (Employee) session.getAttribute("loginUser");
+        Employee loginUser = (Employee) session.getAttribute("loginUser");
 
-		if (loginUser == null) {
-			response.sendRedirect("Home");
-			return;
-		}
+        if (loginUser == null) {
+            response.sendRedirect("Home");
+            return;
+        }
 
-		// =========================
-		// 検索キーワード取得
-		// =========================
-		String keyword = request.getParameter("keyword");
+        // =========================
+        // 検索キーワード取得
+        // =========================
+        String keyword = request.getParameter("keyword");
+        
+        if (keyword != null) {
+            keyword = keyword.trim();
 
-		// =========================
-		// ページング
-		// =========================
-		int page = 1;
-		int limit = 10;
+            if (keyword.length() > 50) {
+                keyword = keyword.substring(0, 50);
+            }
 
-		String pageStr = request.getParameter("page");
-		if (pageStr != null) {
-			page = Integer.parseInt(pageStr);
-		}
+            keyword = keyword.replace("\\", "\\\\")
+                             .replace("%", "\\%")
+                             .replace("_", "\\_");
+        }
 
-		int offset = (page - 1) * limit;
+        // =========================
+        // ページング
+        // =========================
+        int page = 1;
+        int limit = 10;
 
-		DailyReportDAO dao = new DailyReportDAO();
-		DailyReportLikeDAO likeDao = new DailyReportLikeDAO();
+        String pageStr = request.getParameter("page");
+        try {
+            page = Integer.parseInt(pageStr);
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
 
-		// いいね情報
-		Set<Integer> likedSet =
-				likeDao.findLikedReportIds(loginUser.getEmployeeId());
+        if (page < 1) {
+            page = 1;
+        }
 
-		List<DailyReport> list;
-		int totalCount;
+        if (page > 100000) {
+            page = 1;
+        }
+        page = Math.max(page, 1);
 
-		// =========================
-		// 検索分岐
-		// =========================
-		if (keyword != null && !keyword.trim().isEmpty()) {
+        int offset = (page - 1) * limit;
 
-			list = dao.searchReports(keyword, offset, limit);
+        DailyReportDAO dao = new DailyReportDAO();
+        DailyReportLikeDAO likeDao = new DailyReportLikeDAO();
 
-			// 本当はCOUNT用SQLが必要（簡易版）
-			totalCount = list.size();
+        // いいね情報
+        Set<Integer> likedSet = likeDao.findLikedReportIds(loginUser.getEmployeeId());
 
-			request.setAttribute("keyword", keyword);
+        List<DailyReport> list;
+        int totalCount;
 
-		} else {
+        // =========================
+        // 検索分岐
+        // =========================
+        if (keyword != null && !keyword.trim().isEmpty()) {
 
-			DailyReportService service = new DailyReportService();
+            list = dao.searchReports(keyword, offset, limit);
 
-			list = service.getPagedReports(offset, limit, likedSet);
+            // 本当はCOUNT用SQLが必要（簡易版）
+            totalCount = list.size();
 
-			totalCount = dao.countAllReports();
-		}
+            request.setAttribute("keyword", keyword);
 
-		// =========================
-		// ページ数計算
-		// =========================
-		int totalPage = (int) Math.ceil((double) totalCount / limit);
+        } else {
 
-		boolean hasNext = page < totalPage;
-		boolean hasPrev = page > 1;
+            DailyReportService service = new DailyReportService();
 
-		request.setAttribute("currentPage", page);
-		request.setAttribute("totalPage", totalPage);
-		request.setAttribute("hasNext", hasNext);
-		request.setAttribute("hasPrev", hasPrev);
+            list = service.getPagedReports(offset, limit, likedSet);
 
-		// =========================
-		// 共通データ
-		// =========================
-		request.setAttribute("reportList", list);
-		request.setAttribute("loginUser", loginUser);
+            totalCount = dao.countAllReports();
+        }
 
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("/WEB-INF/jsp/dailyReport.jsp");
+        // =========================
+        // ページ数計算
+        // =========================
+        int totalPage = (int) Math.ceil((double) totalCount / limit);
 
-		dispatcher.forward(request, response);
-	}
+        boolean hasNext = page < totalPage;
+        boolean hasPrev = page > 1;
+
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("hasNext", hasNext);
+        request.setAttribute("hasPrev", hasPrev);
+
+        // =========================
+        // 共通データ
+        // =========================
+        request.setAttribute("reportList", list);
+        request.setAttribute("loginUser", loginUser);
+
+        RequestDispatcher dispatcher =
+                request.getRequestDispatcher("/WEB-INF/jsp/dailyReport.jsp");
+
+        dispatcher.forward(request, response);
+    }
 }

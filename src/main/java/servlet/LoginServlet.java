@@ -43,6 +43,9 @@ public class LoginServlet extends HttpServlet {
 	        HttpSession session = request.getSession();
 
 	        session.setAttribute("loginUser", employee);
+	        
+	        String csrfToken = java.util.UUID.randomUUID().toString();
+	        session.setAttribute("csrfToken", csrfToken);
 
 	        response.sendRedirect("MyProfileServlet");
 

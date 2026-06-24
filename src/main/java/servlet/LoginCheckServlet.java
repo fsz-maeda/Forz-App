@@ -33,6 +33,9 @@ public class LoginCheckServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
+			String csrfToken = java.util.UUID.randomUUID().toString();
+			session.setAttribute("csrfToken", csrfToken);
+			
 			response.sendRedirect("Main");
 		}else {
 			request.getSession().setAttribute("loginMsg", "ログイン失敗");

@@ -9,27 +9,28 @@ import model.DailyReport;
 
 public class DailyReportService {
 
-    private DailyReportDAO dao = new DailyReportDAO();
+    private DailyReportDAO reportDao = new DailyReportDAO();
+    private DailyReportCommentDAO commentDao = new DailyReportCommentDAO();
 
-    DailyReportCommentDAO commentDao = new DailyReportCommentDAO(); 
-    
     public List<DailyReport> getPagedReports(int offset, int limit, Set<Integer> likedSet) {
 
-//    	日報を１件づつとってくる
-        List<DailyReport> list = dao.findPagedReports(offset, limit);
-        
-//      日報にあるコメントの取得といいねしているかの判定
-        for (DailyReport r : list) {
-        	r.setCommentList(
-        		    commentDao.findByReportId(r.getDailyReportId())
-        	);
-            
-//          いいねした日報のID一覧からそのユーザーがいいねを押しているのかの取得
-            r.setLiked(
-                likedSet != null && likedSet.contains(r.getDailyReportId())
-            );
+        List<DailyReport> reports = reportDao.findPagedReports(offset, limit);
+
+        for (DailyReport report : reports) {
+            enrichReport(report, likedSet);
         }
 
-        return list;
+        return reports;
+    }
+
+    private void enrichReport(DailyReport report, Set<Integer> likedSet) {
+
+        report.setCommentList(
+                commentDao.findByReportId(report.getDailyReportId())
+        );
+
+        report.setLiked(
+                likedSet != null && likedSet.contains(report.getDailyReportId())
+        );
     }
 }

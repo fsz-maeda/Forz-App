@@ -24,6 +24,7 @@
 </header>
 
 <form action="DailyReportEditServlet" method="post">
+<input type="hidden" name="csrf" value="${sessionScope.csrfToken }">
 
     <input type="hidden" name="reportId" value="${report.dailyReportId}">
 
