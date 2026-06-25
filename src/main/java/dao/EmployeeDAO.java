@@ -548,4 +548,59 @@ public class EmployeeDAO {
 
 		return true;
 	}
+	
+	public boolean existsByPositionId(int positionId) {
+
+	    try {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    } catch (ClassNotFoundException e) {
+	        throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	    }
+
+	    String sql = "SELECT 1 FROM EMPLOYEE WHERE POSITION_ID = ?";
+
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL);
+	         PreparedStatement pStmt = conn.prepareStatement(sql)) {
+
+	        pStmt.setInt(1, positionId);
+
+	        ResultSet rs = pStmt.executeQuery();
+
+	        return rs.next();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public int countByDepartmentId(int departmentId) {
+
+	    String sql =
+	        "SELECT COUNT(*) " +
+	        "FROM EMPLOYEE " +
+	        "WHERE DEPARTMENT_ID = ?";
+
+	    try (
+	        Connection conn =
+	            DriverManager.getConnection(JDBC_URL);
+
+	        PreparedStatement pStmt =
+	            conn.prepareStatement(sql)
+	    ) {
+
+	        pStmt.setInt(1, departmentId);
+
+	        ResultSet rs = pStmt.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getInt(1);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return 0;
+	}
 }

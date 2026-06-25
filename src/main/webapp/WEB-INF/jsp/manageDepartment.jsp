@@ -61,34 +61,46 @@
 			</thead>
 
 			<tbody>
-				<c:forEach var="department" items="${departmentList}">
-					<tr>
-						<td>${department.departmentId}</td>
-						<td>${department.departmentName}</td>
-
-						<td>
-							<form action="updateDepartment" method="post">
-								<input type="hidden" name="departmentId" value="${department.departmentId}">
-								<button type="submit" class="btn-edit">修正</button>
-							</form>
-						</td>
-
-						<td>
-							<form action="deleteDepartment" method="post"
-							      onsubmit="return confirm('削除しますか？')">
-								<input type="hidden" name="departmentId" value="${department.departmentId}">
-								<button type="submit" class="btn-delete">削除</button>
-							</form>
-						</td>
-
-					</tr>
-				</c:forEach>
+				<c:choose>
+				    <c:when test="${empty departmentList}">
+				        <tr>
+				            <td colspan="4">
+				                部署が登録されていません
+				            </td>
+				        </tr>
+				    </c:when>
+				
+				    <c:otherwise>
+				        <c:forEach var="department"
+				                   items="${departmentList}">
+				            <tr>
+				                <td>${department.departmentId}</td>
+				                <td>${department.departmentName}</td>
+				
+				                <td>
+				                    <form action="updateDepartment" method="post">
+				                        <input type="hidden" name="departmentId" value="${department.departmentId}">
+				                        <button type="submit" class="btn-edit">
+				                            修正
+				                        </button>
+				                    </form>
+				                </td>
+				
+				                <td>
+				                    <form action="deleteDepartment" method="post" onsubmit="return confirm('削除しますか？')">
+				                        <input type="hidden" name="departmentId" value="${department.departmentId}">
+				                        <button type="submit" class="btn-delete">
+				                            削除
+				                        </button>
+				                    </form>
+				                </td>
+				            </tr>
+				        </c:forEach>
+				    </c:otherwise>
+				</c:choose>
 			</tbody>
-
 		</table>
-
 	</div>
-
 </div>
 
 <!-- メッセージ -->

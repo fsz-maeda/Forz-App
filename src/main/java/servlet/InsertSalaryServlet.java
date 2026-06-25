@@ -9,39 +9,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
-import model.Employee;
 import model.EmployeePosition;
 
 @WebServlet("/insertSalary")
 public class InsertSalaryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
-			return;
-		}
-		
-		//役職・部署IDを名前にした従業員リスト
+
+		// 役職名・部署名付き社員一覧取得
 		EmployeeDAO dao = new EmployeeDAO();
 		List<EmployeePosition> employeePositionList = dao.findPositionName();
-		
-		//セッションスコープに保存
-		session.setAttribute("employeePositionList", employeePositionList);
-		
-		//insertSalary.jspにフォワード
+
+		// リクエストスコープに保存
+		request.setAttribute("employeePositionList", employeePositionList);
+
+		// JSPへフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertSalary.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

@@ -9,62 +9,43 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.EmployeeDAO;
-import dao.PaidHolidayDAO;
-import model.Employee;
-import model.PaidHoliday;
+import service.PaidHolidayService;
 
 @WebServlet("/approvePaidHolidayCheck")
 public class ApprovePaidHolidayCheckServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
+
 		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		String idParam = request.getParameter("paidHolidayId");
+		String status = request.getParameter("status");
+
+		if (idParam == null || status == null) {
+			session.setAttribute("approvePaidHolidayMsg", "入力エラー");
+			response.sendRedirect("managePaidHoliday");
 			return;
 		}
-		
-		//フォームのデータを取得
-		int paidHolidayId = Integer.parseInt(request.getParameter("paidHolidayId"));
-		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-		String status = request.getParameter("status");
-		
-		//有給を承認
-		PaidHolidayDAO dao = new PaidHolidayDAO();
-		boolean result = dao.approvePaidHoliday(paidHolidayId, status);
 
-		if (result && "承認".equals(status)) {
+		int paidHolidayId;
 
-		    PaidHoliday holiday = dao.findByPaidHolidayId(paidHolidayId);
-
-		    // すでに承認済みならスキップ
-		    if (!"承認済み".equals(holiday.getStatus())) {
-
-		        EmployeeDAO edao = new EmployeeDAO();
-
-		        edao.decreaseRemainPaidHoliday(
-		            holiday.getEmployeeId(),
-		            holiday.getUsedDays()
-		        );
-		    }
+		try {
+			paidHolidayId = Integer.parseInt(idParam);
+		} catch (NumberFormatException e) {
+			session.setAttribute("approvePaidHolidayMsg", "ID不正");
+			response.sendRedirect("managePaidHoliday");
+			return;
 		}
-		
-		//実行結果
-		if(result) {
-			request.getSession().setAttribute("approvePaidHolidayMsg", "登録しました");
-		}else {
-			request.getSession().setAttribute("approvePaidHolidayMsg", "登録失敗しました");
-		}
-		
-		//managePaidHolidayにリダイレクト
+
+		PaidHolidayService service = new PaidHolidayService();
+		boolean result = service.approvePaidHoliday(paidHolidayId, status);
+
+		session.setAttribute("approvePaidHolidayMsg", result ? "登録しました" : "登録失敗しました");
+
 		response.sendRedirect("managePaidHoliday");
 	}
-
 }

@@ -16,15 +16,6 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="admin">ForzApp</a></h1>
-		<div class="header-link">
-			<p><a href="admin">管理者ページへ</a></p>
-		</div>
-	</div>
-</header>
-
-<header>
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
@@ -50,9 +41,9 @@
 
 		<h3>➕ 新規役職追加</h3>
 
-		<form action="insertPosition" method="post">
-			<button type="submit" class="btn-primary">＋ 追加</button>
-		</form>
+		<a href="insertPosition" class="btn-primary">
+   			＋追加
+		</a>
 
 	</div>
 

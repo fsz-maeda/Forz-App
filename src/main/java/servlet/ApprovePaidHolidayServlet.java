@@ -8,56 +8,45 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-import dao.EmployeeDAO;
-import dao.PaidHolidayDAO;
-import model.Employee;
 import model.PaidHoliday;
+import service.PaidHolidayService;
 
 @WebServlet("/approvePaidHoliday")
 public class ApprovePaidHolidayServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		String idParam = request.getParameter("paidHolidayId");
+
+		if (idParam == null || idParam.isEmpty()) {
+			response.sendRedirect("managePaidHoliday");
 			return;
 		}
-		
-		//フォームのデータを取得
-		int paidHolidayId = Integer.parseInt(request.getParameter("paidHolidayId"));
-		String status = request.getParameter("status");
-		
-		//指定した有給IDで有給を取得
-		PaidHolidayDAO dao = new PaidHolidayDAO();
-		PaidHoliday holiday = dao.findByPaidHolidayId(paidHolidayId);
-		
-		// 状態更新（これが必須）
-		dao.approvePaidHoliday(paidHolidayId, status);
 
-		// 承認された場合のみ減算
-		if ("承認".equals(status)) {
-		    EmployeeDAO edao = new EmployeeDAO();
-		    edao.decreaseRemainPaidHoliday(
-		        holiday.getEmployeeId(),
-		        holiday.getUsedDays()
-		    );
+		int paidHolidayId;
+
+		try {
+			paidHolidayId = Integer.parseInt(idParam);
+		} catch (NumberFormatException e) {
+			response.sendRedirect("managePaidHoliday");
+			return;
 		}
-		
-		//リクエストスコープに保存
+
+		PaidHolidayService service = new PaidHolidayService();
+		PaidHoliday holiday = service.getById(paidHolidayId);
+
+		if (holiday == null) {
+			response.sendRedirect("managePaidHoliday");
+			return;
+		}
+
 		request.setAttribute("holiday", holiday);
-		
-		//approvalPaidHoliday.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/approvePaidHoliday.jsp");
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/approvePaidHoliday.jsp");
+
 		dispatcher.forward(request, response);
 	}
-
 }

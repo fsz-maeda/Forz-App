@@ -8,10 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.PositionDAO;
-import model.Employee;
 import model.Position;
 
 @WebServlet("/updatePosition")
@@ -20,30 +18,36 @@ public class UpdatePositionServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		int positionId;
+
+		// パラメータチェック
+		try {
+			positionId = Integer.parseInt(request.getParameter("positionId"));
+			
+		} catch (NumberFormatException e) {
+			request.getSession().setAttribute("updatePositionMsg", "不正な役職IDです");
+			response.sendRedirect("managePosition");
 			return;
 		}
-		
-		//フォームのデータを取得
-		int positionId = Integer.parseInt(request.getParameter("positionId"));
 
-		//指定したデータで役職を取得
+		// 役職取得
 		PositionDAO dao = new PositionDAO();
 		Position position = dao.findByPositionId(positionId);
-		
-		//リクエストスコープに保存
+
+		// 存在チェック
+		if (position == null) {
+			request.getSession().setAttribute("updatePositionMsg", "対象の役職が存在しません");
+			response.sendRedirect("managePosition");
+			return;
+		}
+
+		// JSPへ渡す
 		request.setAttribute("position", position);
-		
-		//updatePosition.jspにフォワード
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updatePosition.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

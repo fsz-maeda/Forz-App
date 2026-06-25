@@ -16,21 +16,23 @@ import model.Employee;
 public class ApplicationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
+
+		HttpSession session = request.getSession(false);
+		Employee employee = (Employee) session.getAttribute("loginUser");
+
+		if (employee == null) {
 			response.sendRedirect("Home");
 			return;
 		}
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/application.jsp");
+
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/application.jsp");
+
 		dispatcher.forward(request, response);
 	}
-
 }

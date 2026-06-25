@@ -9,40 +9,31 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.DepartmentDAO;
 import model.Department;
-import model.Employee;
 
 @WebServlet("/manageDepartment")
 public class ManageDepartmentServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		//ログインチェック
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("home");
-			return;
-		}
-		
-		//部署テーブルをすべて取得
-		DepartmentDAO dao = new DepartmentDAO();
-		List<Department> departmentList = dao.findAll();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	
+        // 部署一覧取得
+        DepartmentDAO dao = new DepartmentDAO();
+        List<Department> departmentList = dao.findAll();
 
-		//リクエストスコープに保存
-		request.setAttribute("departmentList", departmentList);
-		
-		//manageDepartment.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageDepartment.jsp");
-		dispatcher.forward(request, response);
-	}
+        // DAO異常対策
+        if (departmentList == null) {
+            request.setAttribute("errorMessage", "部署一覧の取得に失敗しました。");
+        } else {
+            request.setAttribute("departmentList", departmentList);
+        }
 
+        // JSPへフォワード
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageDepartment.jsp");
+        dispatcher.forward(request, response);
+    }
 }

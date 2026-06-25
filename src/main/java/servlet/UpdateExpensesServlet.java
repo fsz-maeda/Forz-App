@@ -8,42 +8,47 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-import dao.ExpensesDAO;
-import model.Employee;
 import model.Expenses;
+import service.ExpensesService;
 
 @WebServlet("/updateExpenses")
 public class UpdateExpensesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
+
+		String idParam = request.getParameter("expensesId");
+
+		if (idParam == null || idParam.isEmpty()) {
+			response.sendRedirect("manageExpenses");
 			return;
 		}
-		
-		//フォームのデータを取得
-		int expensesId = Integer.parseInt(request.getParameter("expensesId"));
-		
-		//指定したデータで給料を取得
-		ExpensesDAO dao = new ExpensesDAO();
-		Expenses expenses = dao.findByExpensesId(expensesId);
-		
-		//リクエストスコープに保存
+
+		int expensesId;
+
+		try {
+			expensesId = Integer.parseInt(idParam);
+		} catch (NumberFormatException e) {
+			response.sendRedirect("manageExpenses");
+			return;
+		}
+
+		ExpensesService service = new ExpensesService();
+		Expenses expenses = service.getExpensesById(expensesId);
+
+		if (expenses == null) {
+			response.sendRedirect("manageExpenses");
+			return;
+		}
+
 		request.setAttribute("expenses", expenses);
-		
-		//updateExpenses.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateExpenses.jsp");
+
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/updateExpenses.jsp");
+
 		dispatcher.forward(request, response);
 	}
-
 }

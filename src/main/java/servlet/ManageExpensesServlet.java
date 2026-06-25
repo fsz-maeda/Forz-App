@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
@@ -10,11 +9,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-import dao.ExpensesDAO;
-import model.Employee;
 import model.Expenses;
+import service.ExpensesService;
 
 @WebServlet("/manageExpenses")
 public class ManageExpensesServlet extends HttpServlet {
@@ -23,43 +20,17 @@ public class ManageExpensesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
+		ExpensesService service = new ExpensesService();
 
-		//ログインチェック
-		HttpSession session = request.getSession();
-		Employee employee = (Employee) session.getAttribute("loginUser");
+		List<Expenses> approvedList = service.getApprovedExpenses();
+		List<Expenses> unapprovedList = service.getUnapprovedExpenses();
 
-		if (!((employee != null && employee.getManagement() == true) || employee.getEmployeeId() == 1)) {
-			response.sendRedirect("Home");
-			return;
-		}
+		request.setAttribute("approvedList", approvedList);
+		request.setAttribute("unapprovedList", unapprovedList);
 
-		//経費テーブルをすべて取得
-		ExpensesDAO dao = new ExpensesDAO();
-		List<Expenses> expensesList = dao.findAll();
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/manageExpenses.jsp");
 
-		List<Expenses> approvaledList = new ArrayList<>();
-		List<Expenses> unapprovaledList = new ArrayList<>();
-
-		if (expensesList != null) {
-			for (Expenses expenses : expensesList) {
-				if (expenses.getApproval() != null) {
-					//承認済みの経費リスト
-					approvaledList.add(expenses);
-				} else {
-					//未承認の経費リスト
-					unapprovaledList.add(expenses);
-				}
-			}
-		}
-
-		//各リストをリクエストスコープに保存
-		request.setAttribute("approvaledList", approvaledList);
-		request.setAttribute("unapprovaledList", unapprovaledList);
-
-		//manageExpenses.jspにフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageExpenses.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

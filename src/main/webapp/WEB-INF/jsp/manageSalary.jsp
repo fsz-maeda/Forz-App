@@ -16,15 +16,6 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="admin">ForzApp</a></h1>
-		<div class="header-link">
-			
-		</div>
-	</div>
-</header>
-
-<header>
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
@@ -50,9 +41,7 @@
 
 		<h3>➕ 新規給料入力</h3>
 
-		<form action="insertSalary" method="post">
-			<button type="submit" class="btn-primary">入力</button>
-		</form>
+		<a href="insertSalary" class="btn-primary">入力</a>
 
 	</div>
 
@@ -79,7 +68,12 @@
 				<c:forEach var="salary" items="${salaryList}">
 					<tr>
 						<td>${salary.salaryId}</td>
-						<td>${salary.employeeId}</td>
+						
+						<c:forEach var="employee" items="${employeeList}">
+							<c:if test="${employee.employeeId == salary.employeeId}">
+								<td>${employee.name}</td>
+							</c:if>
+						</c:forEach>
 						<td class="amount">¥ ${salary.amount}</td>
 						<td>${salary.month}</td>
 

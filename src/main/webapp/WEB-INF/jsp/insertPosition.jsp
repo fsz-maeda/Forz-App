@@ -18,7 +18,7 @@
     <div class="header-top">
         <h1><a href="Main">ForzApp</a></h1>
         <div class="header-link">
-        	<a href="manageDepartment">役職管理ページへ</a>
+        	<a href="managePosition">役職管理ページへ</a>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
 			<jsp:include page="/WEB-INF/jsp/header.jsp" />
         </div>

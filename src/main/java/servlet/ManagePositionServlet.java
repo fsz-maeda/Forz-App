@@ -9,10 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.PositionDAO;
-import model.Employee;
 import model.Position;
 
 @WebServlet("/managePosition")
@@ -23,15 +21,6 @@ public class ManagePositionServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-		
-		//ログインチェック
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("home");
-			return;
-		}
 
 		//役職テーブルをすべて取得
 		PositionDAO dao = new PositionDAO();

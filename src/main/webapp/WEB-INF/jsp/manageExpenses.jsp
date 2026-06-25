@@ -53,7 +53,7 @@
 			</thead>
 
 			<tbody>
-				<c:forEach var="unapproval" items="${unapprovaledList}">
+				<c:forEach var="unapproval" items="${unapprovedList}">
 					<tr>
 						<td>${unapproval.expensesId}</td>
 						<td>${unapproval.employeeId}</td>
@@ -91,7 +91,7 @@
 			</thead>
 
 			<tbody>
-				<c:forEach var="approval" items="${approvaledList}">
+				<c:forEach var="approval" items="${approvedList}">
 					<tr>
 						<td>${approval.expensesId}</td>
 						<td>${approval.employeeId}</td>
