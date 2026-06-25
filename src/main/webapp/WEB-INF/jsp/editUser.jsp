@@ -39,7 +39,7 @@
 
 			<input type="hidden" name="employeeId" value="${employee.employeeId}">
 
-			<label>役職ID</label><br>
+			<label>役職ID</label>
 			<select name="positionId">
 				<c:forEach var="position" items="${positionList}">
 					<option value="${position.positionId}"
@@ -51,7 +51,7 @@
 			
 			<br>
 
-			<label>部署ID</label><br>
+			<label>部署ID</label>
 			<select name="departmentId">
 				<c:forEach var="department" items="${departmentList}">
 					<option value="${department.departmentId}"

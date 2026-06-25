@@ -1,76 +1,115 @@
 @charset "UTF-8";
 
 body {
-  margin: 0;
-  background: #f4f7fb;
-  font-family: sans-serif;
+margin: 0;
+background: #f4f7fb;
+font-family: sans-serif;
 }
 
 /* タイトル */
 .page-title {
-  text-align: center;
-  margin: 20px 0;
+text-align: center;
+margin: 20px 0;
 }
 
 /* 全体2カラム */
 .edit-wrapper {
-  display: flex;
-  gap: 20px;
-  width: 80%;
-  margin: 0 auto;
-  align-items: flex-start;
+display: flex;
+gap: 20px;
+width: 80%;
+margin: 0 auto;
+align-items: flex-start;
 }
 
 /* フォーム */
 .edit-card {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #e6e6e6;
+flex: 1;
+background: white;
+padding: 20px;
+border-radius: 12px;
+border: 1px solid #e6e6e6;
 }
 
 /* マスタ */
 .master-area {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+width: 300px;
+display: flex;
+flex-direction: column;
+gap: 15px;
 }
 
 .master-card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #e6e6e6;
+background: white;
+padding: 15px;
+border-radius: 12px;
+border: 1px solid #e6e6e6;
+}
+
+.master-card h3 {
+margin-bottom: 10px;
 }
 
 /* 各項目 */
 .master-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
+display: flex;
+justify-content: space-between;
+padding: 5px 0;
+border-bottom: 1px solid #eee;
 }
 
-/* 入力 */
-input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+/* ラベル */
+.edit-card label {
+display: block;
+margin-top: 12px;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+/* 入力欄 */
+.edit-card input[type="date"],
+.edit-card input[type="number"],
+.edit-card select {
+width: 100%;
+padding: 8px;
+border: 1px solid #ddd;
+border-radius: 6px;
+margin-bottom: 10px;
 }
 
 /* ラジオ */
 .radio-group {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
+display: flex;
+gap: 20px;
+margin-top: 5px;
+margin-bottom: 15px;
+}
+
+.radio-group label {
+display: flex;
+align-items: center;
+gap: 5px;
+margin: 0;
+font-weight: normal;
+}
+
+.radio-group input[type="radio"] {
+width: auto;
+margin: 0;
 }
 
 /* ボタン */
- from button {
-  width: 100%;
+form button {
+width: 100%;
+background: #005bac;
+color: white;
+border: none;
+padding: 12px;
+border-radius: 8px;
+margin-top: 10px;
+cursor: pointer;
+}
+
+form button:hover {
+background: #004a94;
 }
 
