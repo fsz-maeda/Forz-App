@@ -8,42 +8,52 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import dao.DepartmentDAO;
 import model.Department;
-import model.Employee;
 
 @WebServlet("/updateDepartment")
-public class UpdateDepartmentSerlet extends HttpServlet {
+public class UpdateDepartmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
-			response.sendRedirect("Home");
-			return;
+
+		// パラメータ取得
+		String departmentIdStr = request.getParameter("departmentId");
+
+		if (departmentIdStr == null || departmentIdStr.isBlank()) {
+		    response.sendRedirect("manageDepartment");
+		    return;
 		}
-		
-		//フォームのデータを取得
-		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-		
-		//指定した部署IDで部署を取得
+
+		int departmentId;
+
+		try {
+		    departmentId = Integer.parseInt(departmentIdStr);
+		} catch (NumberFormatException e) {
+		    response.sendRedirect("manageDepartment");
+		    return;
+		}
+
+		// 部署取得
 		DepartmentDAO dao = new DepartmentDAO();
 		Department department = dao.findByDepartmentId(departmentId);
-		
-		//リクエストスコープに保存
+
+		// 存在しない部署対策
+		if (department == null) {
+			response.sendRedirect("manageDepartment");
+			return;
+		}
+
+		// リクエストスコープへ保存
 		request.setAttribute("department", department);
-		
-		//updateDepartment.jspにフォワード
+
+		// 修正画面へ遷移
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateDepartment.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

@@ -17,7 +17,7 @@
 
 <header>
 	<div class="header-top">
-		<h1><a href="admin">ForzApp</a></h1>
+		<h1><a href="Main">ForzApp</a></h1>
 		<div class="header-link">
 			<p><a href="admin">管理者ページへ</a></p>
 		</div>

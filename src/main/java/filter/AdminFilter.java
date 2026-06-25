@@ -30,6 +30,18 @@ import model.Employee;
     "/updatePosition",
     "/updatePositionCheck",
     "/deletePosition",
+    "/manageDepartment",
+    "/insertDepartment",
+    "/insertDepartmentCheck",
+    "/updateDepartment",
+    "/updateDepartmentCheck",
+    "/deleteDepartment",
+    "/manageExpenses",
+    "/updateExpenses",
+    "/updateExpensesCheck",
+    "/managePaidHoliday",
+    "/approvePaidHoliday",
+    "/approvePaidHolidayCheck"
 })
 
 public class AdminFilter extends HttpFilter {

@@ -65,8 +65,8 @@
 						</td>
 						<td>
 							<form action="approvePaidHoliday" method="post">
-								<input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
-								<button type="submit" class="btn-approve">承認</button>
+							    <input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
+							    <button type="submit" class="btn-approve">承認</button>
 							</form>
 						</td>
 					</tr>

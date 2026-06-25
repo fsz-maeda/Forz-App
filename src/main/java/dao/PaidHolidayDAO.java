@@ -13,271 +13,224 @@ import model.PaidHoliday;
 import model.Port;
 
 public class PaidHolidayDAO {
-	String JDBC_URL = Port.JDBC_URL;
 
-	//有給情報をすべて取得
+	private final String JDBC_URL = Port.JDBC_URL;
+
+	// =========================
+	// 全件取得
+	// =========================
 	public List<PaidHoliday> findAll() {
-		List<PaidHoliday> holidayList = new ArrayList<>();
-		PaidHoliday holiday = null;
 
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+		List<PaidHoliday> list = new ArrayList<>();
+
+		String sql = "SELECT PAIDHOLIDAY_ID, EMPLOYEE_ID, USED_DAYS, STARTDATE, FINISHDATE, HOLIDAY_TYPE, STATUS "
+				+ "FROM PAIDHOLIDAY";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				list.add(map(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT * FROM PAIDHOLIDAY";
-			
-			PreparedStatement pStmt = conn.prepareCall(sql);
-			
-			ResultSet rs = pStmt.executeQuery();
-			
-			while(rs.next()) {
-				int paidHolidayId = rs.getInt("PAIDHOLIDAY_ID");
-				int employeeId = rs.getInt("EMPLOYEE_ID");
-				double usedDays = rs.getDouble("USED_DAYS");
-				Date startDate = rs.getDate("STARTDATE");
-				Date finishDate = rs.getDate("FINISHDATE");
-				String holidayType = rs.getString("HOLIDAY_TYPE");
-				String status = rs.getString("STATUS");
-				holiday = new PaidHoliday(paidHolidayId, employeeId, usedDays, startDate, finishDate, holidayType, status);
-				holidayList.add(holiday);
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        
-        return holidayList;
+		return list;
 	}
-	
-	//指定した有給IDをもつデータを取得
+
+	// =========================
+	// 1件取得
+	// =========================
 	public PaidHoliday findByPaidHolidayId(int paidHolidayId) {
-		PaidHoliday holiday = null;
-		
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+
+		String sql = "SELECT PAIDHOLIDAY_ID, EMPLOYEE_ID, USED_DAYS, STARTDATE, FINISHDATE, HOLIDAY_TYPE, STATUS "
+				+ "FROM PAIDHOLIDAY WHERE PAIDHOLIDAY_ID = ?";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, paidHolidayId);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return map(rs);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT * FROM PAIDHOLIDAY WHERE PAIDHOLIDAY_ID = ?";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, paidHolidayId);
-			
-			ResultSet rs = pStmt.executeQuery();
-			
-			while(rs.next()) {
-				int employeeId = rs.getInt("EMPLOYEE_ID");
-				double usedDays = rs.getDouble("USED_DAYS");
-				Date startDate = rs.getDate("STARTDATE");
-				Date finishDate = rs.getDate("FINISHDATE");
-				String holidayType = rs.getString("HOLIDAY_TYPE");
-				String status = rs.getString("STATUS");
-				holiday = new PaidHoliday(paidHolidayId, employeeId, usedDays, startDate, finishDate, holidayType, status);
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        
-        return holiday;
+		return null;
 	}
-	
-	//指定した従業員IDをもつデータをすべて取得する
-	public List<PaidHoliday> findByEmployeeId(int employeeId){
-		List<PaidHoliday> holidayList = new ArrayList<>();
-		PaidHoliday holiday = null;
 
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+	// =========================
+	// 従業員別取得
+	// =========================
+	public List<PaidHoliday> findByEmployeeId(int employeeId) {
+
+		List<PaidHoliday> list = new ArrayList<>();
+
+		String sql = "SELECT PAIDHOLIDAY_ID, EMPLOYEE_ID, USED_DAYS, STARTDATE, FINISHDATE, HOLIDAY_TYPE, STATUS "
+				+ "FROM PAIDHOLIDAY WHERE EMPLOYEE_ID = ? ORDER BY STARTDATE DESC";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, employeeId);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					list.add(map(rs));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT * FROM PAIDHOLIDAY WHERE EMPLOYEE_ID = ? ORDER BY STARTDATE DESC";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, employeeId);
-			
-			ResultSet rs = pStmt.executeQuery();
-			
-			while(rs.next()) {
-				int paidHolidayId = rs.getInt("PAIDHOLIDAY_ID");
-				double usedDays = rs.getDouble("USED_DAYS");
-				Date startDate = rs.getDate("STARTDATE");
-				Date finishDate = rs.getDate("FINISHDATE");
-				String holidayType = rs.getString("HOLIDAY_TYPE");
-				String status = rs.getString("STATUS");
-				holiday = new PaidHoliday(paidHolidayId, employeeId, usedDays, startDate, finishDate, holidayType, status);
-				holidayList.add(holiday);
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        
-        return holidayList;
+		return list;
 	}
-	
-	//新規有給情報を登録する
-	public boolean insertPaidHoliday(int employeeId, double usedDays, Date startDate, Date finishDate, String holidayType) {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "INSERT INTO PAIDHOLIDAY "
-                    + "(EMPLOYEE_ID, USED_DAYS, STARTDATE, FINISHDATE, HOLIDAY_TYPE) "
-                    + "VALUES (?, ?, ?, ?, ?)";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, employeeId);
-			pStmt.setDouble(2, usedDays);
-			pStmt.setDate(3, startDate);
-			pStmt.setDate(4, finishDate);
-			pStmt.setString(5, holidayType);
-			
-			int result = pStmt.executeUpdate();
-			if(result != 1) {
-				return false;
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        
-        return true;
-	}
-	
-	//指定した有給IDをもつデータを承認済みにする
-	public boolean approvePaidHoliday(int paidHolidayId, String status) {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+	// =========================
+	// 新規登録
+	// =========================
+	public boolean insertPaidHoliday(int employeeId, double usedDays,
+			Date startDate, Date finishDate, String holidayType) {
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "UPDATE PAIDHOLIDAY SET STATUS = ? WHERE PAIDHOLIDAY_ID = ?";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, status);
-			pStmt.setInt(2, paidHolidayId);
-			
-			int result = pStmt.executeUpdate();
-			
-			if(result != 1) {
-				return false;
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        
-        return true;
-	}
-	
-	//指定した従業員の残り有給日数を確認
-	public double checkUsedDays(int employeeId) {
-		double usedDays = 0;
-		
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+		String sql = "INSERT INTO PAIDHOLIDAY "
+				+ "(EMPLOYEE_ID, USED_DAYS, STARTDATE, FINISHDATE, HOLIDAY_TYPE) "
+				+ "VALUES (?, ?, ?, ?, ?)";
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "SELECT SUM(USED_DAYS) AS USEDDAYS FROM PAIDHOLIDAY WHERE EMPLOYEE_ID = ?";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, employeeId);
-			
-			ResultSet rs = pStmt.executeQuery();
-			
-			if(rs.next()) {
-				usedDays = rs.getDouble("USEDDAYS");
-			}
-		}catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
-        
-        return usedDays;
-	}
-	
-	public boolean updatePaidHoliday(
-	        int paidHolidayId,
-	        double usedDays,
-	        Date startDate,
-	        Date finishDate,
-	        String holidayType) {
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	    try {
-	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	    } catch (ClassNotFoundException e) {
-	        throw new IllegalStateException(
-	                "JDBCドライバを読み込めませんでした");
-	    }
+			ps.setInt(1, employeeId);
+			ps.setDouble(2, usedDays);
+			ps.setDate(3, startDate);
+			ps.setDate(4, finishDate);
+			ps.setString(5, holidayType);
 
-	    try (Connection conn =
-	            DriverManager.getConnection(JDBC_URL)) {
+			return ps.executeUpdate() == 1;
 
-	        String sql =
-	                "UPDATE PAIDHOLIDAY "
-	              + "SET USED_DAYS = ?, "
-	              + "STARTDATE = ?, "
-	              + "FINISHDATE = ?, "
-	              + "HOLIDAY_TYPE = ? "
-	              + "WHERE PAIDHOLIDAY_ID = ?";
-
-	        PreparedStatement pStmt =
-	                conn.prepareStatement(sql);
-
-	        pStmt.setDouble(1, usedDays);
-	        pStmt.setDate(2, startDate);
-	        pStmt.setDate(3, finishDate);
-	        pStmt.setString(4, holidayType);
-	        pStmt.setInt(5, paidHolidayId);
-
-	        return pStmt.executeUpdate() == 1;
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
-	
-	public boolean deletePaidHoliday(int paidHolidayId) {
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
-
-		try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-			String sql = "DELETE FROM PAIDHOLIDAY WHERE PAIDHOLIDAY_ID = ?";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, paidHolidayId);
-			
-			int result = pStmt.executeUpdate();
-			
-			if(result != 1) {
-				return false;
-			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
-		return true;
+	}
+
+	// =========================
+	// ステータス更新（承認など）
+	// =========================
+	public boolean updateStatus(int paidHolidayId, String status) {
+
+		String sql = "UPDATE PAIDHOLIDAY SET STATUS = ? WHERE PAIDHOLIDAY_ID = ?";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, status);
+			ps.setInt(2, paidHolidayId);
+
+			return ps.executeUpdate() == 1;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// =========================
+	// 使用日数合計
+	// =========================
+	public double sumUsedDays(int employeeId) {
+
+		String sql = "SELECT SUM(USED_DAYS) AS TOTAL FROM PAIDHOLIDAY WHERE EMPLOYEE_ID = ?";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, employeeId);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getDouble("TOTAL");
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	// =========================
+	// 更新
+	// =========================
+	public boolean updatePaidHoliday(int paidHolidayId,
+			double usedDays,
+			Date startDate,
+			Date finishDate,
+			String holidayType) {
+
+		String sql = "UPDATE PAIDHOLIDAY "
+				+ "SET USED_DAYS = ?, STARTDATE = ?, FINISHDATE = ?, HOLIDAY_TYPE = ? "
+				+ "WHERE PAIDHOLIDAY_ID = ?";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setDouble(1, usedDays);
+			ps.setDate(2, startDate);
+			ps.setDate(3, finishDate);
+			ps.setString(4, holidayType);
+			ps.setInt(5, paidHolidayId);
+
+			return ps.executeUpdate() == 1;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// =========================
+	// 削除
+	// =========================
+	public boolean deletePaidHoliday(int paidHolidayId) {
+
+		String sql = "DELETE FROM PAIDHOLIDAY WHERE PAIDHOLIDAY_ID = ?";
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, paidHolidayId);
+
+			return ps.executeUpdate() == 1;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// =========================
+	// ResultSet → Entity変換
+	// =========================
+	private PaidHoliday map(ResultSet rs) throws SQLException {
+
+		return new PaidHoliday(
+				rs.getInt("PAIDHOLIDAY_ID"),
+				rs.getInt("EMPLOYEE_ID"),
+				rs.getDouble("USED_DAYS"),
+				rs.getDate("STARTDATE"),
+				rs.getDate("FINISHDATE"),
+				rs.getString("HOLIDAY_TYPE"),
+				rs.getString("STATUS")
+		);
 	}
 }

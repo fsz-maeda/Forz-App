@@ -97,38 +97,38 @@
             </tr>
 
             <c:forEach var="holiday" items="${holidayList}">
-                <tr>
-                    <td>${holiday.paidHolidayId}</td>
-                    <td>${holiday.usedDays}</td>
-                    <td>${holiday.startDate}</td>
-                    <td>${holiday.finishDate}</td>
-
-                    <td>${holiday.holidayType}</td>
-                    <td>${holiday.status}</td>
-
-                    <c:if test="${holiday.status == '申請中'}">
-                        <td>
-                            <form action="updatePaidHoliday" method="post">
-                                <input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
-                                <button type="submit">修正</button>
-                            </form>
-                        </td>
-
-                        <td>
-                            <form action="deletePaidHoliday" method="post"
-                                  onsubmit="return confirm('削除しますか？')">
-                                <input type="hidden" name="paidHolidayId" value="${holiday.paidHolidayId}">
-                                <button type="submit">削除</button>
-                            </form>
-                        </td>
-                    </c:if>
-
-                    <c:if test="${holiday.status != '申請中'}">
-                        <td colspan="2">-</td>
-                    </c:if>
-
-                </tr>
-            </c:forEach>
+				<tr>
+					<td>${holiday.paidHolidayId}</td>
+					<td>${holiday.usedDays}</td>
+					<td>${holiday.startDate}</td>
+					<td>${holiday.finishDate}</td>
+					<td>${holiday.holidayType}</td>
+					<td>${holiday.status}</td>
+				
+					<c:if test="${holiday.status == '申請中'}">
+						<td>
+							<form action="updatePaidHoliday" method="post">
+								<input type="hidden" name="paidHolidayId"
+								       value="${holiday.paidHolidayId}">
+								<button type="submit">修正</button>
+							</form>
+						</td>
+				
+						<td>
+							<form action="deletePaidHoliday" method="post"
+							      onsubmit="return confirm('削除しますか？')">
+								<input type="hidden" name="paidHolidayId"
+								       value="${holiday.paidHolidayId}">
+								<button type="submit">削除</button>
+							</form>
+						</td>
+					</c:if>
+				
+					<c:if test="${holiday.status != '申請中'}">
+						<td colspan="2">-</td>
+					</c:if>
+				</tr>
+				</c:forEach>
 
         </table>
 

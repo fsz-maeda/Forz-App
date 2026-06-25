@@ -11,34 +11,42 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.PaidHolidayDAO;
 import model.Employee;
 import model.PaidHoliday;
+import service.PaidHolidayService;
 
 @WebServlet("/insertPaidHoliday")
 public class InsertPaidHolidayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = request.getSession();
-		Employee employee = (Employee)session.getAttribute("loginUser");
-		
-		if(employee == null) {
+
+		HttpSession session = request.getSession(false);
+		if (session == null) {
 			response.sendRedirect("Home");
 			return;
 		}
-		
-		PaidHolidayDAO dao = new PaidHolidayDAO();
-		List<PaidHoliday> holidayList = dao.findByEmployeeId(employee.getEmployeeId());
-		
+
+		Employee employee = (Employee) session.getAttribute("loginUser");
+		if (employee == null) {
+			response.sendRedirect("Home");
+			return;
+		}
+
+		PaidHolidayService service = new PaidHolidayService();
+
+		List<PaidHoliday> holidayList =
+				service.getByEmployeeId(employee.getEmployeeId());
+
 		request.setAttribute("holidayList", holidayList);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/insertPaidHoliday.jsp");
+
+		RequestDispatcher dispatcher =
+				request.getRequestDispatcher("/WEB-INF/jsp/insertPaidHoliday.jsp");
+
 		dispatcher.forward(request, response);
 	}
-
 }
