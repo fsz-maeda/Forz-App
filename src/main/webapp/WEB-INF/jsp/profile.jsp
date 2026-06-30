@@ -44,7 +44,7 @@
 			<p><span>ID</span>${employee.employeeId}</p>
 			<p><span>氏名</span>${employee.name}</p>
 			<c:forEach var="position" items="${positionList }">
-				<c:if test="${employee.department == position.positionId }">
+				<c:if test="${employee.position == position.positionId }">
 					<p><span>役職</span>${position.positionName}</p>
 				</c:if>
 				
