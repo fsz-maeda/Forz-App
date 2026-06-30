@@ -72,7 +72,7 @@ public class MediaCommentServlet extends HttpServlet {
 
 			dao.postComment(mc, loginUser);
 			
-			response.sendRedirect("ArticleContentServlet?mediaId=" + id);
+			response.sendRedirect("ArticleContentServlet?id=" + id);
 			return;
 		}
 

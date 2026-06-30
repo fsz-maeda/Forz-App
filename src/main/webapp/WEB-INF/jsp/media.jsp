@@ -60,7 +60,7 @@
 						</div>
 
 						<div class="media-title">
-							<a href="ArticleContentServlet?mediaId=${media.ID}">
+							<a href="ArticleContentServlet?id=${media.ID}">
 								${media.title}
 							</a>
 						</div>
