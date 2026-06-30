@@ -34,6 +34,7 @@
 	</div>
 </header>
 	
+	<div class="feed">
 	<div class="post-card">
 
 		<div class="post-header">
@@ -113,6 +114,7 @@
 			</div>
 		</c:if>
 
+	</div>
 	</div>
 </body>
 </html>

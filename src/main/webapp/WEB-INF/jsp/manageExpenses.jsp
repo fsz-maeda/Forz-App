@@ -56,7 +56,13 @@
 				<c:forEach var="unapproval" items="${unapprovedList}">
 					<tr>
 						<td>${unapproval.expensesId}</td>
-						<td>${unapproval.employeeId}</td>
+						
+						<c:forEach var="employee" items="${employeeList}">
+							<c:if test="${unapproval.employeeId == employee.employeeId}">
+								<td>${employee.name}</td>
+							</c:if>
+						</c:forEach>
+						
 						<td>${unapproval.amount}</td>
 						<td>${unapproval.detail}</td>
 						<td><span class="status pending">未承認</span></td>
@@ -94,7 +100,13 @@
 				<c:forEach var="approval" items="${approvedList}">
 					<tr>
 						<td>${approval.expensesId}</td>
-						<td>${approval.employeeId}</td>
+						
+						<c:forEach var="employee" items="${employeeList}">
+							<c:if test="${approval.employeeId == employee.employeeId}">
+								<td>${employee.name}</td>
+							</c:if>
+						</c:forEach>
+						
 						<td>${approval.amount}</td>
 						<td>${approval.detail}</td>
 						<td><span class="status approved">${approval.approval}</span></td>

@@ -41,7 +41,7 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>ユーザーID</th>
+					<th>ユーザー</th>
 					<th>区分</th>
 					<th>日数</th>
 					<th>開始日</th>
@@ -55,7 +55,13 @@
 				<c:forEach var="holiday" items="${paidHolidayList}">
 					<tr>
 						<td>${holiday.paidHolidayId}</td>
-						<td>${holiday.employeeId}</td>
+						
+						<c:forEach var="employee" items="${employeeList}">
+							<c:if test="${holiday.employeeId == employee.employeeId}">
+								<td>${employee.name}</td>
+							</c:if>
+						</c:forEach>
+						
 						<td>${holiday.holidayType}</td>
 						<td>${holiday.usedDays}</td>
 						<td>${holiday.startDate}</td>

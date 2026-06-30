@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import dao.EmployeeDAO;
+import model.Employee;
 import model.PaidHoliday;
 import service.PaidHolidayService;
 
@@ -24,11 +26,14 @@ public class ManagePaidHolidayServlet extends HttpServlet {
 		PaidHolidayService service = new PaidHolidayService();
 
 		List<PaidHoliday> paidHolidayList = service.getAllPaidHoliday();
+		
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<Employee> employeeList = employeeDAO.findAll();
 
 		request.setAttribute("paidHolidayList", paidHolidayList);
+		request.setAttribute("employeeList", employeeList);
 
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("/WEB-INF/jsp/managePaidHoliday.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/managePaidHoliday.jsp");
 
 		dispatcher.forward(request, response);
 	}

@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import dao.EmployeeDAO;
+import model.Employee;
 import model.Expenses;
 import service.ExpensesService;
 
@@ -24,12 +26,15 @@ public class ManageExpensesServlet extends HttpServlet {
 
 		List<Expenses> approvedList = service.getApprovedExpenses();
 		List<Expenses> unapprovedList = service.getUnapprovedExpenses();
+		
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<Employee> employeeList = employeeDAO.findAll();
 
 		request.setAttribute("approvedList", approvedList);
 		request.setAttribute("unapprovedList", unapprovedList);
+		request.setAttribute("employeeList", employeeList);
 
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("/WEB-INF/jsp/manageExpenses.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/manageExpenses.jsp");
 
 		dispatcher.forward(request, response);
 	}
