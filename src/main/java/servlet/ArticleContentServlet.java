@@ -34,7 +34,7 @@ public class ArticleContentServlet extends HttpServlet {
 			return;
 		}
 		
-		int id = Integer.parseInt(request.getParameter("mediaId"));
+		int id = Integer.parseInt(request.getParameter("id"));
 
 		MediaDAO dao = new MediaDAO();
 		Media media = dao.articleFind(id);

@@ -87,6 +87,7 @@ tr:hover {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 1000px;
 }
 
 .btn-primary:hover {
@@ -133,4 +134,8 @@ tr:hover {
 .message.danger {
   background: #fdecea;
   border-left: 4px solid #e74c3c;
+}
+
+.card h3{
+	margin-bottom: 20px;
 }

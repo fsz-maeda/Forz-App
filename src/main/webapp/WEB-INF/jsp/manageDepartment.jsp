@@ -16,12 +16,14 @@
 <body>
 
 <header>
-	<div class="header-top">
-		<h1><a href="admin">ForzApp</a></h1>
-		<div class="header-link">
-			<p><a href="admin">管理者ページへ</a></p>
-		</div>
-	</div>
+    <div class="header-top">
+        <h1><a href="Main">ForzApp</a></h1>
+        <div class="header-link">
+        	<a href="admin">管理者ページへ戻る</a>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+			<jsp:include page="/WEB-INF/jsp/header.jsp" />
+        </div>
+    </div>
 </header>
 
 <div class="word">
@@ -38,9 +40,7 @@
 
 		<h3>➕ 新規部署追加</h3>
 
-		<form action="insertDepartment" method="post">
-			<button type="submit" class="btn-primary">＋ 追加</button>
-		</form>
+		<a href="insertDepartment" class="btn-primary">+入力</a>
 
 	</div>
 

@@ -41,9 +41,7 @@
 
 		<h3>➕ 新規役職追加</h3>
 
-		<a href="insertPosition" class="btn-primary">
-   			＋追加
-		</a>
+		<a href="insertPosition" class="btn-primary">＋追加</a>
 
 	</div>
 
